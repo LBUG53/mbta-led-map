@@ -53,4 +53,4 @@ for one personal, non-commercial display. Turn them off with `sox`, `bruins` and
 
 ## How it was made
 
-Friends, so much iteration and so many false starts. I designed the display and built the hardware, but I relied heavily on Claude Code for the code. Claude was especially helpful for creating the 3d printed pieces and for getting the distances between stations large enough to look good when lit, but still fit on a 24x24 wooden panel.
+Friends, so much iteration and so many false starts. I designed the display and built the hardware, but I relied heavily on Claude Code for the code. Claude was especially helpful for creating the 3d printed pieces and for getting the distances between stations large enough to look good when lit, but still fit on a 24x24 wooden panel. Claude also helped write the instruction markdown files.
