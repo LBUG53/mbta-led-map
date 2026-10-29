@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>T Map</title>
+<style>
+:root{--bg:#14161a;--card:#1f2228;--line:#333842;--text:#eef0f3;--dim:#9aa3b0;--hot:#f5b400}
+*{box-sizing:border-box}
+body{margin:0;padding:14px 16px 40px;background:var(--bg);color:var(--text);font:16px/1.35 system-ui,sans-serif;max-width:560px;margin:auto}
+h1{font-size:19px;margin:2px 0 12px}
+h2{font-size:13px;margin:0 0 10px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:0 0 12px}
+button,select,input[type=text],input[type=number]{font:inherit;color:var(--text);background:#2a2e36;border:1px solid var(--line);border-radius:9px;padding:11px 12px;min-height:46px}
+button{cursor:pointer}button:active{background:#3a3f4a}
+button.on{background:var(--hot);color:#111;border-color:var(--hot);font-weight:600}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>*{flex:1 1 0}
+.modes button{padding:11px 4px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.p{border:2px solid;border-radius:12px;padding:10px;text-align:center}
+.p b{display:block;font-size:44px;line-height:1.1}.p small{color:var(--dim)}
+.p .row{margin-top:8px;gap:6px}.p button{padding:8px 0;min-height:42px}
+input[type=range]{width:100%;height:36px}
+label{display:block;color:var(--dim);font-size:14px;margin:8px 0 2px}
+.note{color:var(--dim);font-size:14px;margin:8px 0 0}
+#big{font-size:30px;font-weight:600;margin:0 0 8px}
+#err{color:#ff8a80;font-size:14px;min-height:18px;margin:0 0 8px}
+[hidden]{display:none!important}
+</style></head><body>
+<h1>T Map remote</h1><p id="err"></p>
+<section><h2>Mode</h2><div class="row modes" id="modes"></div><p class="note" id="modenote"></p></section>
+
+<section id="game" hidden><h2>Life totals</h2><div class="grid" id="players"></div>
+<div class="row" style="margin-top:12px"><button id="pick">Who goes first?</button><button id="reset">Reset life</button></div>
+<p id="big"></p>
+<div class="row"><select id="np"><option>2<option>3<option selected>4<option>5<option>6</select>
+<input id="start" type="number" value="40" min="1" max="999" aria-label="Starting life"><button id="setup">New game</button></div></section>
+
+<section id="music" hidden><h2>Music</h2><div class="row" id="fx" style="flex-wrap:wrap"></div>
+<p class="note">The map dances to what the Sparkle Motion's microphone hears. Pick another mode to bring the trains back.</p></section>
+
+<section id="bruins" hidden><h2>Bruins</h2><p id="big2" style="font-size:26px;font-weight:600;margin:0"></p><p class="note" id="gnote"></p></section>
+
+<section><h2>Rides</h2><div id="rides"></div>
+<label for="rname">Your name</label><input id="rname" type="text" maxlength="8" placeholder="Up to 8 letters" style="width:100%">
+<label for="rline">Line</label><select id="rline" style="width:100%"></select>
+<div class="row"><div><label for="rfrom">Getting on at</label><select id="rfrom" style="width:100%"></select></div>
+<div><label for="rto">Getting off at</label><select id="rto" style="width:100%"></select></div></div>
+<div class="row" style="margin-top:10px"><button id="rgo">Start ride</button><button id="rend">End ride</button></div>
+<p class="note">Tap Start when you get on. Your train turns purple on the map, and your name and arrival time go on the sign.
+Change trains by choosing the new one and tapping Start again.</p></section>
+
+<section><h2>Korok</h2><div class="row"><button id="korok">Yahaha!</button></div>
+<p class="note">A korok pops up on the sign for a few seconds, then the sign goes back to what it was showing.</p></section>
+
+<section><h2>Line up the sign</h2><div class="row"><button id="align"></button></div>
+<p class="note">Lights the sign's outermost ring of LEDs white and the next ring yellow. When the sign sits square
+behind the bezel, an even half-row of white shows on all four sides; where it's off, you see all of the white or
+some yellow.</p></section>
+
+<section><h2>Costume</h2><div class="row"><button id="costume"></button></div>
+<p class="note">Sample trains on the map, sample departures on the sign, and HAPPY HALLOWEEN going by.
+Nothing is fetched, so it keeps going without the internet once the clock is set.</p></section>
+
+<section><h2>Brightness</h2>
+<label for="sb">Sign <span id="sbv"></span></label><input id="sb" type="range" min="1" max="100">
+<div class="row"><button id="sauto">Sign: automatic</button></div>
+<label for="mb">Map lights <span id="mbv"></span></label><input id="mb" type="range" min="1" max="60" value="6"></section>
+
+<section><h2>Timer</h2><p id="tleft" style="font-size:26px;font-weight:600;margin:0 0 8px"></p>
+<div class="row"><button data-t="60">1 min</button><button data-t="300">5</button><button data-t="600">10</button><button data-t="1800">30</button></div>
+<div class="row" style="margin-top:8px"><input id="tmin" type="number" min="1" max="999" placeholder="Minutes"><button id="tgo">Start</button><button id="tstop">Stop</button></div></section>
+
+<section><h2>Message</h2><div class="row"><input id="msg" type="text" maxlength="120" placeholder="Shows on the sign" style="flex:3"><button id="msgo">Show</button></div>
+<div class="row" style="margin-top:8px"><button id="msclear">Clear message</button></div><p class="note" id="msnote"></p></section>
+
+<section><h2>Find a station</h2><div class="row"><select id="st" style="flex:3"></select><button id="find">Blink</button></div></section>
+
+<section><h2>Off</h2><div class="row"><button id="off">Off</button><button id="off7">Off until 7 am</button><button id="on">On</button></div><p class="note" id="offnote"></p></section>
+
+<section><h2>Status</h2><p class="note" id="status" style="margin:0;white-space:pre-line"></p></section>
+<script>
+const B=location.pathname.startsWith('/remote')?'/remote/':'/';
+const $=id=>document.getElementById(id);
+const NAMES={transit:'Transit',game:'Game night',bruins:'Bruins',music:'Music',off:'Off'};
+let S=null,drag={};
+// The board only obeys requests carrying X-Remote, which another website's page cannot add to
+// a request without the board's say-so. If the board has a code (REMOTE_TOKEN), it is asked for once.
+let code='';
+try{code=localStorage.getItem('remote-code')||''}catch(e){}
+async function api(path,body,again){
+  try{
+    const h={'X-Remote':'1','X-Remote-Token':code};
+    const r=await fetch(B+path,body?{method:'POST',headers:Object.assign({'Content-Type':'application/json'},h),body:JSON.stringify(body)}:{headers:h,cache:'no-store'});
+    if(r.status===401&&!again){
+      const c=prompt('Code for the sign:');
+      if(c===null){$('err').textContent='The sign needs its code.';return null}
+      code=c;try{localStorage.setItem('remote-code',c)}catch(e){}
+      return api(path,body,true);
+    }
+    if(!r.ok)throw new Error('The sign answered '+r.status);
+    $('err').textContent='';return await r.json();
+  }catch(e){$('err').textContent="Can't reach the sign. Trying again.";return null}
+}
+async function cmd(c){const s=await api('api/cmd',c);if(s){S=s;draw()}}
+function rgb(c){return 'rgb('+c.join(',')+')'}
+function draw(){
+  const m=$('modes');m.innerHTML='';
+  for(const k of ['transit','game','bruins','music']){const b=document.createElement('button');b.textContent=NAMES[k];if(S.mode===k)b.className='on';b.onclick=()=>cmd({cmd:'mode',mode:k});m.append(b)}
+  $('costume').textContent=S.costume?'Costume mode: on':'Costume mode: off';$('costume').className=S.costume?'on':'';
+  $('align').textContent=S.align?'Alignment rings: on':'Alignment rings: off';$('align').className=S.align?'on':'';
+  $('modenote').textContent=S.mode==='off'?'The display is off'+(S.wake?' until '+S.wake:'')+'.':'Sign clock '+S.clock+'.';
+  $('game').hidden=S.mode!=='game';$('bruins').hidden=S.mode!=='bruins';$('music').hidden=S.mode!=='music';
+  const fx=$('fx');fx.innerHTML='';
+  S.music.forEach((n,i)=>{const b=document.createElement('button');b.textContent=n;if(S.music_fx===i)b.className='on';b.onclick=()=>cmd({cmd:'music_fx',i:i});fx.append(b)});
+  if(S.mode==='game'){
+    const g=$('players');g.innerHTML='';
+    S.life.forEach((v,i)=>{const d=document.createElement('div');d.className='p';d.style.borderColor=rgb(S.colors[i]);
+      d.innerHTML='<small>'+S.players[i]+'</small><b style="color:'+rgb(S.colors[i])+'">'+v+'</b><div class="row"></div>';
+      for(const n of [-5,-1,1,5]){const b=document.createElement('button');b.textContent=(n>0?'+':'')+n;b.onclick=()=>cmd({cmd:'life',p:i,d:n});d.lastChild.append(b)}
+      g.append(d)});
+    $('big').textContent=S.spinning?'Picking...':S.pick===null?'':S.players[S.pick]+' goes first';
+  }
+  if(S.mode==='bruins'){const g=S.game;
+    $('big2').textContent=!g?'No game today':g.state==='pre'?'Bruins '+(g.home?'vs ':'at ')+g.opp:'BOS '+g.us+' - '+g.them+' '+g.opp;
+    $('gnote').textContent=!g?'':g.state==='in'?'Period '+g.period+', '+g.clock+'. Score checked every 15 seconds.':g.state==='post'?'Final.':'Not started yet.'}
+  if(!drag.sb){$('sb').value=S.sign_bri||S.sign_default;$('sbv').textContent=S.sign_bri?S.sign_bri+'%':'(automatic)'}
+  if(!drag.mb&&S.map_bri){$('mb').value=S.map_bri}$('mbv').textContent=(S.map_bri||$('mb').value)+'%';
+  const t=S.timer;$('tleft').textContent=t?Math.floor(t/60)+':'+String(t%60).padStart(2,'0'):'';
+  $('msnote').textContent=S.message?'On the sign in every mode: '+S.message:'';
+  $('offnote').textContent=S.mode==='off'?(S.wake?'Back on at '+S.wake+'.':'Off until you turn it on.'):'';
+  ridesDraw();
+  const x=S.status;$('status').textContent='Trains lit: '+x.lit+'\nFree memory: '+(x.free===null?'not reported yet':Math.round(x.free/1024)+' KB')+
+    '\nData: '+x.sources.map(s=>s[0]+' '+s[1]+' ok'+(s[2]?', '+s[2]+' failed':'')).join('; ')+(x.error?'\nLast problem: '+x.error:'');
+}
+const key=s=>s.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8);
+let R=null;
+function fill(id,names){const e=$(id);e.innerHTML='';for(const n of names)e.append(new Option(n))}
+function lineChanged(){fill('rfrom',R.stops[$('rline').value]);fill('rto',R.stops[$('rline').value]);$('rto').selectedIndex=1}
+function ridesDraw(){
+  const box=$('rides');box.innerHTML='';
+  for(const [n,line,eta] of S.rides){const d=document.createElement('div');d.className='row';d.style.marginBottom='8px';
+    const t=document.createElement('span');t.textContent=n+' on '+line+(eta?', arriving '+eta:', finding the train');
+    const b=document.createElement('button');b.textContent='End';b.style.flex='0 0 70px';b.onclick=()=>cmd({cmd:'ride',text:n+';DONE'});
+    d.append(t,b);box.append(d)}
+  $('rgo').textContent=S.rides.some(r=>r[0]===key($('rname').value))?'Change train':'Start ride';
+}
+async function loadRides(){R=await api('api/rides');if(!R)return;fill('rline',R.lines);lineChanged()}
+try{$('rname').value=localStorage.getItem('ride-name')||''}catch(e){}
+$('rname').oninput=()=>{try{localStorage.setItem('ride-name',$('rname').value)}catch(e){}if(S)ridesDraw()};
+$('rline').onchange=lineChanged;
+$('rgo').onclick=()=>{const n=key($('rname').value);if(!n){$('err').textContent='Type your name first.';return}
+  cmd({cmd:'ride',text:[n,$('rline').value,$('rfrom').value,$('rto').value].join(';')})};
+$('rend').onclick=()=>{const n=key($('rname').value);if(n)cmd({cmd:'ride',text:n+';DONE'})};
+async function poll(){const s=await api('api/state');if(s){S=s;draw()}}
+$('costume').onclick=()=>cmd({cmd:'costume',on:!S.costume});
+$('align').onclick=()=>cmd({cmd:'align',on:!S.align});
+$('pick').onclick=()=>cmd({cmd:'pick'});$('reset').onclick=()=>cmd({cmd:'reset'});
+$('setup').onclick=()=>cmd({cmd:'players',n:+$('np').value,start:+$('start').value||40});
+for(const id of ['sb','mb']){const e=$(id);
+  e.oninput=()=>{drag[id]=1;$(id+'v').textContent=e.value+'%'};
+  e.onchange=()=>{cmd({cmd:id==='sb'?'sign_bri':'map_bri',pct:+e.value}).then(()=>{drag[id]=0})}}
+$('sauto').onclick=()=>cmd({cmd:'sign_bri',pct:null});
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>cmd({cmd:'timer',seconds:+b.dataset.t}));
+$('tgo').onclick=()=>{const v=+$('tmin').value;if(v>0)cmd({cmd:'timer',seconds:v*60})};
+$('tstop').onclick=()=>cmd({cmd:'timer_stop'});
+$('msgo').onclick=()=>cmd({cmd:'message',text:$('msg').value});
+$('korok').onclick=()=>cmd({cmd:'korok'});
+$('msclear').onclick=()=>{$('msg').value='';cmd({cmd:'message',text:''})};
+$('find').onclick=()=>cmd({cmd:'find',i:+$('st').value});
+$('off').onclick=()=>cmd({cmd:'off'});$('off7').onclick=()=>cmd({cmd:'off',wake:'7:00'});$('on').onclick=()=>cmd({cmd:'on'});
+api('api/stations').then(list=>{if(!list)return;const L={RL:'Red',M:'Mattapan',OL:'Orange',BL:'Blue',GL:'Green'};
+  list.map((s,i)=>[L[s[0]]+': '+s[1],i]).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([n,i])=>{const o=document.createElement('option');o.value=i;o.textContent=n;$('st').append(o)})});
+poll();loadRides();setInterval(poll,2000);
+</script></body></html>

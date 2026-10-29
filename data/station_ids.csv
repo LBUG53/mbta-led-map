@@ -1,0 +1,133 @@
+line,station,stop_id,mbta_name,match
+OL,Oak Grove,place-ogmnl,Oak Grove,exact
+OL,Malden Center,place-mlmnl,Malden Center,exact
+OL,Wellington,place-welln,Wellington,exact
+OL,Assembly,place-astao,Assembly,exact
+OL,Sullivan Sq,place-sull,Sullivan Square,abbreviation
+OL,Community College,place-ccmnl,Community College,exact
+OL,North Station,place-north,North Station,exact
+OL,Haymarket,place-haecl,Haymarket,exact
+OL,State,place-state,State,exact
+OL,Downtown Crossing,place-dwnxg,Downtown Crossing,exact
+OL,Chinatown,place-chncl,Chinatown,exact
+OL,Tufts Medical Ctr,place-tumnl,Tufts Medical Center,abbreviation
+OL,Back Bay,place-bbsta,Back Bay,exact
+OL,Mass. Ave,place-masta,Massachusetts Avenue,abbreviation
+OL,Ruggles,place-rugg,Ruggles,exact
+OL,Roxbury Crossing,place-rcmnl,Roxbury Crossing,exact
+OL,Jackson Sq,place-jaksn,Jackson Square,abbreviation
+OL,Stony Brook,place-sbmnl,Stony Brook,exact
+OL,Green St,place-grnst,Green Street,abbreviation
+OL,Forest Hills,place-forhl,Forest Hills,exact
+GL,Medford/Tufts,place-mdftf,Medford/Tufts,exact
+GL,Ball Sq,place-balsq,Ball Square,abbreviation
+GL,Magoun Sq,place-mgngl,Magoun Square,abbreviation
+GL,Gilman Sq,place-gilmn,Gilman Square,abbreviation
+GL,East Somerville,place-esomr,East Somerville,exact
+GL,Lechmere,place-lech,Lechmere,exact
+GL,Science Park/West End,place-spmnl,Science Park/West End,exact
+GL,North Station,place-north,North Station,exact
+GL,Haymarket,place-haecl,Haymarket,exact
+GL,Gov't Center,place-gover,Government Center,abbreviation
+GL,Park Street,place-pktrm,Park Street,exact
+GL,Boylston,place-boyls,Boylston,exact
+GL,Arlington,place-armnl,Arlington,exact
+GL,Copley,place-coecl,Copley,exact
+GL,Hynes Convention Ctr,place-hymnl,Hynes Convention Center,abbreviation
+GL,Kenmore,place-kencl,Kenmore,exact
+GL,St. Mary's St,place-smary,Saint Mary's Street,abbreviation
+GL,Hawes St,place-hwsst,Hawes Street,abbreviation
+GL,Kent St,place-kntst,Kent Street,abbreviation
+GL,St. Paul St,place-stpul,Saint Paul Street,abbreviation
+GL,Coolidge Corner,place-cool,Coolidge Corner,exact
+GL,Summit Ave,place-sumav,Summit Avenue,abbreviation
+GL,Brandon Hall,place-bndhl,Brandon Hall,exact
+GL,Fairbanks St,place-fbkst,Fairbanks Street,abbreviation
+GL,Washington Sq,place-bcnwa,Washington Square,abbreviation
+GL,Tappan St,place-tapst,Tappan Street,abbreviation
+GL,Dean Rd,place-denrd,Dean Road,abbreviation
+GL,Englewood Ave,place-engav,Englewood Avenue,abbreviation
+GL,Cleveland Circle,place-clmnl,Cleveland Circle,exact
+GL,Union Sq,place-unsqu,Union Square,abbreviation
+GL,Blandford St,place-bland,Blandford Street,abbreviation
+GL,BU East,place-buest,Boston University East,abbreviation
+GL,BU Central,place-bucen,Boston University Central,abbreviation
+GL,Amory St,place-amory,Amory Street,abbreviation
+GL,Babcock St,place-babck,Babcock Street,abbreviation
+GL,Packard's Corner,place-brico,Packard's Corner,exact
+GL,Harvard Ave,place-harvd,Harvard Avenue,abbreviation
+GL,Griggs St,place-grigg,Griggs Street,abbreviation
+GL,Allston St,place-alsgr,Allston Street,abbreviation
+GL,Warren St,place-wrnst,Warren Street,abbreviation
+GL,Washington St,place-wascm,Washington Street,abbreviation
+GL,Sutherland Rd,place-sthld,Sutherland Road,abbreviation
+GL,Chiswick Rd,place-chswk,Chiswick Road,abbreviation
+GL,Chestnut Hill Ave,place-chill,Chestnut Hill Avenue,abbreviation
+GL,South St,place-sougr,South Street,abbreviation
+GL,Boston College,place-lake,Boston College,exact
+GL,Fenway,place-fenwy,Fenway,exact
+GL,Longwood,place-longw,Longwood,exact
+GL,Brookline Village,place-bvmnl,Brookline Village,exact
+GL,Brookline Hills,place-brkhl,Brookline Hills,exact
+GL,Beaconsfield,place-bcnfd,Beaconsfield,exact
+GL,Reservoir,place-rsmnl,Reservoir,exact
+GL,Chestnut Hill,place-chhil,Chestnut Hill,exact
+GL,Newton Centre,place-newto,Newton Centre,exact
+GL,Newton Highlands,place-newtn,Newton Highlands,exact
+GL,Eliot,place-eliot,Eliot,exact
+GL,Waban,place-waban,Waban,exact
+GL,Woodland,place-woodl,Woodland,exact
+GL,Riverside,place-river,Riverside,exact
+GL,Prudential,place-prmnl,Prudential,exact
+GL,Symphony,place-symcl,Symphony,exact
+GL,Northeastern,place-nuniv,Northeastern University,uncertain (one name starts with the other)
+GL,Museum of Fine Arts,place-mfa,Museum of Fine Arts,exact
+GL,Longwood Medical Area,place-lngmd,Longwood Medical Area,exact
+GL,Brigham Circle,place-brmnl,Brigham Circle,exact
+GL,Fenwood Rd,place-fenwd,Fenwood Road,abbreviation
+GL,Mission Park,place-mispk,Mission Park,exact
+GL,Riverway,place-rvrwy,Riverway,exact
+GL,Back of the Hill,place-bckhl,Back of the Hill,exact
+GL,Heath St,place-hsmnl,Heath Street,abbreviation
+BL,Bowdoin,place-bomnl,Bowdoin,exact
+BL,Gov't Center,place-gover,Government Center,abbreviation
+BL,State,place-state,State,exact
+BL,Aquarium,place-aqucl,Aquarium,exact
+BL,Maverick,place-mvbcl,Maverick,exact
+BL,Airport,place-aport,Airport,exact
+BL,Wood Island,place-wimnl,Wood Island,exact
+BL,Orient Heights,place-orhte,Orient Heights,exact
+BL,Suffolk Downs,place-sdmnl,Suffolk Downs,exact
+BL,Beachmont,place-bmmnl,Beachmont,exact
+BL,Revere Beach,place-rbmnl,Revere Beach,exact
+BL,Wonderland,place-wondl,Wonderland,exact
+RL,Alewife,place-alfcl,Alewife,exact
+RL,Davis,place-davis,Davis,exact
+RL,Porter,place-portr,Porter,exact
+RL,Harvard,place-harsq,Harvard,exact
+RL,Central,place-cntsq,Central,exact
+RL,Kendall/MIT,place-knncl,Kendall/MIT,exact
+RL,Charles/MGH,place-chmnl,Charles/MGH,exact
+RL,Park Street,place-pktrm,Park Street,exact
+RL,Downtown Crossing,place-dwnxg,Downtown Crossing,exact
+RL,South Station,place-sstat,South Station,exact
+RL,Broadway,place-brdwy,Broadway,exact
+RL,Andrew,place-andrw,Andrew,exact
+RL,JFK/UMass,place-jfk,JFK/UMass,exact
+RL,North Quincy,place-nqncy,North Quincy,exact
+RL,Wollaston,place-wlsta,Wollaston,exact
+RL,Quincy Center,place-qnctr,Quincy Center,exact
+RL,Quincy Adams,place-qamnl,Quincy Adams,exact
+RL,Braintree,place-brntn,Braintree,exact
+RL,Savin Hill,place-shmnl,Savin Hill,exact
+RL,Fields Corner,place-fldcr,Fields Corner,exact
+RL,Shawmut,place-smmnl,Shawmut,exact
+RL,Ashmont,place-asmnl,Ashmont,exact
+M,Ashmont,place-asmnl,Ashmont,exact
+M,Cedar Grove,place-cedgr,Cedar Grove,exact
+M,Butler,place-butlr,Butler,exact
+M,Milton,place-miltt,Milton,exact
+M,Central Ave,place-cenav,Central Avenue,abbreviation
+M,Valley Rd,place-valrd,Valley Road,abbreviation
+M,Capen St,place-capst,Capen Street,abbreviation
+M,Mattapan,place-matt,Mattapan,exact

@@ -1,0 +1,133 @@
+line,station,x_mm,y_mm,light_A_x,light_A_y,light_B_x,light_B_y,light_A_lights_for_trains_heading_toward,branch
+OL,Oak Grove,378.00,50.00,371.00,50.00,385.00,50.00,Forest Hills (southbound),Orange
+OL,Malden Center,378.00,70.00,371.00,70.00,385.00,70.00,Forest Hills (southbound),Orange
+OL,Wellington,378.00,90.00,371.00,90.00,385.00,90.00,Forest Hills (southbound),Orange
+OL,Assembly,378.00,110.00,371.00,110.00,385.00,110.00,Forest Hills (southbound),Orange
+OL,Sullivan Sq,378.00,130.00,371.00,130.00,385.00,130.00,Forest Hills (southbound),Orange
+OL,Community College,378.00,150.00,371.00,150.00,385.00,150.00,Forest Hills (southbound),Orange
+OL,North Station,378.00,170.00,371.00,170.00,385.00,170.00,Forest Hills (southbound),Orange
+OL,Haymarket,378.00,194.00,371.00,194.00,385.00,194.00,Forest Hills (southbound),Orange
+OL,State,378.00,218.00,371.00,218.00,385.00,218.00,Forest Hills (southbound),Orange
+OL,Downtown Crossing,378.00,242.00,371.00,242.00,385.00,242.00,Forest Hills (southbound),Orange
+OL,Chinatown,354.00,277.00,349.05,272.05,358.95,281.95,Forest Hills (southbound),Orange
+OL,Tufts Medical Ctr,339.86,291.14,334.91,286.19,344.81,296.09,Forest Hills (southbound),Orange
+OL,Back Bay,325.72,305.28,320.77,300.33,330.67,310.23,Forest Hills (southbound),Orange
+OL,Mass. Ave,311.57,319.43,306.62,314.48,316.52,324.38,Forest Hills (southbound),Orange
+OL,Ruggles,297.43,333.57,292.48,328.62,302.38,338.52,Forest Hills (southbound),Orange
+OL,Roxbury Crossing,283.29,347.71,278.34,342.76,288.24,352.66,Forest Hills (southbound),Orange
+OL,Jackson Sq,269.15,361.85,264.20,356.90,274.10,366.80,Forest Hills (southbound),Orange
+OL,Stony Brook,255.01,375.99,250.06,371.05,259.95,380.94,Forest Hills (southbound),Orange
+OL,Green St,240.86,390.14,235.91,385.19,245.81,395.09,Forest Hills (southbound),Orange
+OL,Forest Hills,226.72,404.28,221.77,399.33,231.67,409.23,Forest Hills (southbound),Orange
+GL,Medford/Tufts,271.53,52.53,266.58,57.48,276.48,47.58,Kenmore and the branches (westbound),Green trunk
+GL,Ball Sq,285.67,66.67,280.72,71.62,290.62,61.72,Kenmore and the branches (westbound),Green trunk
+GL,Magoun Sq,299.82,80.82,294.87,85.77,304.77,75.87,Kenmore and the branches (westbound),Green trunk
+GL,Gilman Sq,313.96,94.96,309.01,99.91,318.91,90.01,Kenmore and the branches (westbound),Green trunk
+GL,East Somerville,328.10,109.10,323.15,114.05,333.05,104.15,Kenmore and the branches (westbound),Green trunk
+GL,Lechmere,338.00,130.00,331.00,130.00,345.00,130.00,Kenmore and the branches (westbound),Green trunk
+GL,Science Park/West End,338.00,150.00,331.00,150.00,345.00,150.00,Kenmore and the branches (westbound),Green trunk
+GL,North Station,338.00,170.00,331.00,170.00,345.00,170.00,Kenmore and the branches (westbound),Green trunk
+GL,Haymarket,338.00,194.00,331.00,194.00,345.00,194.00,Kenmore and the branches (westbound),Green trunk
+GL,Gov't Center,338.00,218.00,331.00,218.00,345.00,218.00,Kenmore and the branches (westbound),Green trunk
+GL,Park Street,338.00,242.00,331.00,242.00,345.00,242.00,Kenmore and the branches (westbound),Green trunk
+GL,Boylston,284.00,294.00,284.00,287.00,284.00,301.00,Kenmore and the branches (westbound),Green trunk
+GL,Arlington,262.00,294.00,262.00,287.00,262.00,301.00,Kenmore and the branches (westbound),Green trunk
+GL,Copley,240.00,294.00,240.00,287.00,240.00,301.00,Kenmore and the branches (westbound),Green trunk
+GL,Hynes Convention Ctr,214.00,294.00,214.00,287.00,214.00,301.00,Kenmore and the branches (westbound),Green trunk
+GL,Kenmore,192.00,294.00,192.00,287.00,192.00,301.00,Kenmore and the branches (westbound),Green trunk
+GL,St. Mary's St,152.00,294.00,152.00,287.00,152.00,301.00,Cleveland Circle (westbound),Green C
+GL,Hawes St,132.00,294.00,132.00,287.00,132.00,301.00,Cleveland Circle (westbound),Green C
+GL,Kent St,100.00,316.00,95.05,311.05,104.95,320.95,Cleveland Circle (westbound),Green C
+GL,St. Paul St,78.00,370.00,71.00,370.00,85.00,370.00,Cleveland Circle (westbound),Green C
+GL,Coolidge Corner,78.00,390.00,71.00,390.00,85.00,390.00,Cleveland Circle (westbound),Green C
+GL,Summit Ave,78.00,410.00,71.00,410.00,85.00,410.00,Cleveland Circle (westbound),Green C
+GL,Brandon Hall,78.00,430.00,71.00,430.00,85.00,430.00,Cleveland Circle (westbound),Green C
+GL,Fairbanks St,78.00,450.00,71.00,450.00,85.00,450.00,Cleveland Circle (westbound),Green C
+GL,Washington Sq,78.00,470.00,71.00,470.00,85.00,470.00,Cleveland Circle (westbound),Green C
+GL,Tappan St,78.00,490.00,71.00,490.00,85.00,490.00,Cleveland Circle (westbound),Green C
+GL,Dean Rd,78.00,510.00,71.00,510.00,85.00,510.00,Cleveland Circle (westbound),Green C
+GL,Englewood Ave,78.00,530.00,71.00,530.00,85.00,530.00,Cleveland Circle (westbound),Green C
+GL,Cleveland Circle,78.00,550.00,71.00,550.00,85.00,550.00,Cleveland Circle (westbound),Green C
+GL,Union Sq,298.00,124.00,298.00,131.00,298.00,117.00,Lechmere and downtown (westbound),Green Union Sq
+GL,Blandford St,176.44,278.44,181.39,273.49,171.49,283.39,Boston College (westbound),Green B
+GL,BU East,161.59,263.59,166.54,258.64,156.64,268.54,Boston College (westbound),Green B
+GL,BU Central,146.75,248.75,151.69,243.80,141.80,253.69,Boston College (westbound),Green B
+GL,Amory St,131.90,233.90,136.85,228.95,126.95,238.85,Boston College (westbound),Green B
+GL,Babcock St,117.05,219.05,122.00,214.10,112.10,224.00,Boston College (westbound),Green B
+GL,Packard's Corner,102.20,204.20,107.15,199.25,97.25,209.15,Boston College (westbound),Green B
+GL,Harvard Ave,54.00,172.00,47.00,172.00,61.00,172.00,Boston College (westbound),Green B
+GL,Griggs St,54.00,192.00,47.00,192.00,61.00,192.00,Boston College (westbound),Green B
+GL,Allston St,54.00,212.00,47.00,212.00,61.00,212.00,Boston College (westbound),Green B
+GL,Warren St,54.00,232.00,47.00,232.00,61.00,232.00,Boston College (westbound),Green B
+GL,Washington St,54.00,252.00,47.00,252.00,61.00,252.00,Boston College (westbound),Green B
+GL,Sutherland Rd,54.00,272.00,47.00,272.00,61.00,272.00,Boston College (westbound),Green B
+GL,Chiswick Rd,54.00,292.00,47.00,292.00,61.00,292.00,Boston College (westbound),Green B
+GL,Chestnut Hill Ave,54.00,312.00,47.00,312.00,61.00,312.00,Boston College (westbound),Green B
+GL,South St,54.00,332.00,47.00,332.00,61.00,332.00,Boston College (westbound),Green B
+GL,Boston College,54.00,352.00,47.00,352.00,61.00,352.00,Boston College (westbound),Green B
+GL,Fenway,167.25,318.75,162.30,313.80,172.20,323.70,Riverside (westbound),Green D
+GL,Longwood,153.11,332.89,148.16,327.94,158.06,337.84,Riverside (westbound),Green D
+GL,Brookline Village,138.97,347.03,134.02,342.08,143.92,351.98,Riverside (westbound),Green D
+GL,Brookline Hills,131.00,366.00,124.00,366.00,138.00,366.00,Riverside (westbound),Green D
+GL,Beaconsfield,131.00,386.00,124.00,386.00,138.00,386.00,Riverside (westbound),Green D
+GL,Reservoir,131.00,406.00,124.00,406.00,138.00,406.00,Riverside (westbound),Green D
+GL,Chestnut Hill,131.00,426.00,124.00,426.00,138.00,426.00,Riverside (westbound),Green D
+GL,Newton Centre,131.00,446.00,124.00,446.00,138.00,446.00,Riverside (westbound),Green D
+GL,Newton Highlands,131.00,466.00,124.00,466.00,138.00,466.00,Riverside (westbound),Green D
+GL,Eliot,131.00,486.00,124.00,486.00,138.00,486.00,Riverside (westbound),Green D
+GL,Waban,131.00,506.00,124.00,506.00,138.00,506.00,Riverside (westbound),Green D
+GL,Woodland,131.00,526.00,124.00,526.00,138.00,526.00,Riverside (westbound),Green D
+GL,Riverside,131.00,546.00,124.00,546.00,138.00,546.00,Riverside (westbound),Green D
+GL,Prudential,213.13,320.87,208.18,315.92,218.08,325.82,Heath St (westbound),Green E
+GL,Symphony,198.99,335.01,194.04,330.06,203.94,339.96,Heath St (westbound),Green E
+GL,Northeastern,184.85,349.15,179.90,344.20,189.80,354.10,Heath St (westbound),Green E
+GL,Museum of Fine Arts,170.70,363.30,165.75,358.35,175.65,368.25,Heath St (westbound),Green E
+GL,Longwood Medical Area,160.00,386.00,153.00,386.00,167.00,386.00,Heath St (westbound),Green E
+GL,Brigham Circle,160.00,411.00,153.00,411.00,167.00,411.00,Heath St (westbound),Green E
+GL,Fenwood Rd,160.00,431.00,153.00,431.00,167.00,431.00,Heath St (westbound),Green E
+GL,Mission Park,160.00,451.00,153.00,451.00,167.00,451.00,Heath St (westbound),Green E
+GL,Riverway,160.00,471.00,153.00,471.00,167.00,471.00,Heath St (westbound),Green E
+GL,Back of the Hill,160.00,491.00,153.00,491.00,167.00,491.00,Heath St (westbound),Green E
+GL,Heath St,160.00,511.00,153.00,511.00,167.00,511.00,Heath St (westbound),Green E
+BL,Bowdoin,288.00,230.00,288.00,237.00,288.00,223.00,Wonderland (eastbound),Blue
+BL,Gov't Center,314.00,230.00,314.00,237.00,314.00,223.00,Wonderland (eastbound),Blue
+BL,State,398.00,230.00,398.00,237.00,398.00,223.00,Wonderland (eastbound),Blue
+BL,Aquarium,424.02,203.98,428.97,208.93,419.07,199.03,Wonderland (eastbound),Blue
+BL,Maverick,448.06,179.94,453.01,184.89,443.11,174.99,Wonderland (eastbound),Blue
+BL,Airport,463.27,164.73,468.22,169.68,458.32,159.78,Wonderland (eastbound),Blue
+BL,Wood Island,478.47,149.53,483.42,154.48,473.52,144.58,Wonderland (eastbound),Blue
+BL,Orient Heights,493.67,134.33,498.62,139.28,488.72,129.38,Wonderland (eastbound),Blue
+BL,Suffolk Downs,508.87,119.13,513.82,124.08,503.92,114.18,Wonderland (eastbound),Blue
+BL,Beachmont,524.08,103.92,529.03,108.87,519.13,98.97,Wonderland (eastbound),Blue
+BL,Revere Beach,539.28,88.72,544.23,93.67,534.33,83.77,Wonderland (eastbound),Blue
+BL,Wonderland,554.48,73.52,559.43,78.47,549.53,68.57,Wonderland (eastbound),Blue
+RL,Alewife,146.37,173.37,141.42,178.32,151.32,168.42,Ashmont and Braintree (southbound),Red
+RL,Davis,164.75,191.75,159.80,196.70,169.70,186.80,Ashmont and Braintree (southbound),Red
+RL,Porter,183.14,210.14,178.19,215.09,188.09,205.19,Ashmont and Braintree (southbound),Red
+RL,Harvard,201.52,228.52,196.57,233.47,206.47,223.57,Ashmont and Braintree (southbound),Red
+RL,Central,219.91,246.91,214.96,251.86,224.86,241.96,Ashmont and Braintree (southbound),Red
+RL,Kendall/MIT,250.00,266.00,250.00,273.00,250.00,259.00,Ashmont and Braintree (southbound),Red
+RL,Charles/MGH,282.00,266.00,282.00,273.00,282.00,259.00,Ashmont and Braintree (southbound),Red
+RL,Park Street,308.00,266.00,308.00,273.00,308.00,259.00,Ashmont and Braintree (southbound),Red
+RL,Downtown Crossing,392.00,266.00,392.00,273.00,392.00,259.00,Ashmont and Braintree (southbound),Red
+RL,South Station,436.00,266.00,436.00,273.00,436.00,259.00,Ashmont and Braintree (southbound),Red
+RL,Broadway,470.31,277.31,465.36,282.26,475.26,272.36,Ashmont and Braintree (southbound),Red
+RL,Andrew,484.46,291.46,479.51,296.41,489.41,286.51,Ashmont and Braintree (southbound),Red
+RL,JFK/UMass,498.60,305.60,493.65,310.55,503.55,300.65,Ashmont and Braintree (southbound),Red
+RL,North Quincy,522.29,329.29,517.34,334.24,527.24,324.34,Braintree (southbound),Red Braintree
+RL,Wollaston,536.43,343.43,531.48,348.38,541.38,338.48,Braintree (southbound),Red Braintree
+RL,Quincy Center,550.57,357.57,545.62,362.52,555.52,352.62,Braintree (southbound),Red Braintree
+RL,Quincy Adams,557.64,377.64,550.64,377.64,564.64,377.64,Braintree (southbound),Red Braintree
+RL,Braintree,557.64,397.64,550.64,397.64,564.64,397.64,Braintree (southbound),Red Braintree
+RL,Savin Hill,498.60,325.60,491.60,325.60,505.60,325.60,Ashmont (southbound),Red Ashmont
+RL,Fields Corner,498.60,345.60,491.60,345.60,505.60,345.60,Ashmont (southbound),Red Ashmont
+RL,Shawmut,498.60,365.60,491.60,365.60,505.60,365.60,Ashmont (southbound),Red Ashmont
+RL,Ashmont,498.60,385.60,491.60,385.60,505.60,385.60,Ashmont (southbound),Red Ashmont
+M,Ashmont,478.60,385.60,478.60,378.60,478.60,392.60,Mattapan (outbound),Mattapan
+M,Cedar Grove,457.60,385.60,457.60,378.60,457.60,392.60,Mattapan (outbound),Mattapan
+M,Butler,436.60,385.60,436.60,378.60,436.60,392.60,Mattapan (outbound),Mattapan
+M,Milton,415.60,385.60,415.60,378.60,415.60,392.60,Mattapan (outbound),Mattapan
+M,Central Ave,394.60,385.60,394.60,378.60,394.60,392.60,Mattapan (outbound),Mattapan
+M,Valley Rd,373.60,385.60,373.60,378.60,373.60,392.60,Mattapan (outbound),Mattapan
+M,Capen St,352.60,385.60,352.60,378.60,352.60,392.60,Mattapan (outbound),Mattapan
+M,Mattapan,331.60,385.60,331.60,378.60,331.60,392.60,Mattapan (outbound),Mattapan

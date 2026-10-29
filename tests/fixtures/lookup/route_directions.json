@@ -1,0 +1,82 @@
+{
+ "Red": [
+  [
+   "South",
+   "Ashmont/Braintree"
+  ],
+  [
+   "North",
+   "Alewife"
+  ]
+ ],
+ "Mattapan": [
+  [
+   "Outbound",
+   "Mattapan"
+  ],
+  [
+   "Inbound",
+   "Ashmont"
+  ]
+ ],
+ "Orange": [
+  [
+   "South",
+   "Forest Hills"
+  ],
+  [
+   "North",
+   "Oak Grove"
+  ]
+ ],
+ "Green-B": [
+  [
+   "West",
+   "Boston College"
+  ],
+  [
+   "East",
+   "Government Center"
+  ]
+ ],
+ "Green-C": [
+  [
+   "West",
+   "Cleveland Circle"
+  ],
+  [
+   "East",
+   "Government Center"
+  ]
+ ],
+ "Green-D": [
+  [
+   "West",
+   "Riverside"
+  ],
+  [
+   "East",
+   "Union Square"
+  ]
+ ],
+ "Green-E": [
+  [
+   "West",
+   "Heath Street"
+  ],
+  [
+   "East",
+   "Medford/Tufts"
+  ]
+ ],
+ "Blue": [
+  [
+   "West",
+   "Bowdoin"
+  ],
+  [
+   "East",
+   "Wonderland"
+  ]
+ ]
+}

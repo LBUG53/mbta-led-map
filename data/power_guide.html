@@ -1,0 +1,426 @@
+<!doctype html>
+<title>MBTA Map Wiring</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Template for tools/power_guide.py, which puts the lights in below and writes data/power_guide.html. -->
+<style>
+/* Layout: a bench guide. Step list on the left, one step at a time on the right, the circuit redrawn for each step. */
+:root {
+  --bg: #eef1f4; --card: #ffffff; --fg: #14181d; --muted: #59636e; --line: #d3d9e0; --soft: #e4e9ee;
+  --v5: #d22f27; --gnd: #23272c; --accent: #0b5cd6; --warn: #b45309; --warn-bg: #fff4e2; --ok: #157347;
+  --o1: #1d4ed8; --o2: #c2410c; --o3: #00763a;
+  --display: "Archivo Narrow", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #12161b; --card: #1b2128; --fg: #e8edf2; --muted: #9aa6b2; --line: #2e3742; --soft: #242c35;
+  --v5: #ff5a4f; --gnd: #c9d2dc; --accent: #6aa5ff; --warn: #f0a24a; --warn-bg: #2c2216; --ok: #4cc38a;
+  --o1: #6d93ff; --o2: #ff8a4c; --o3: #3fc47e; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #12161b; --card: #1b2128; --fg: #e8edf2; --muted: #9aa6b2; --line: #2e3742; --soft: #242c35;
+  --v5: #ff5a4f; --gnd: #c9d2dc; --accent: #6aa5ff; --warn: #f0a24a; --warn-bg: #2c2216; --ok: #4cc38a;
+  --o1: #6d93ff; --o2: #ff8a4c; --o3: #3fc47e; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 17px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 48px }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 20px }
+header { display: grid; gap: 6px }
+h1 { font-family: var(--display); font-weight: 700; font-size: 2.1rem; line-height: 1.1; margin: 0; letter-spacing: .01em; text-wrap: balance }
+.lede { color: var(--muted); margin: 0; max-width: 70ch }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: .9rem; color: var(--muted); margin-top: 4px }
+.legend span { display: inline-flex; align-items: center; gap: 7px }
+.sw { width: 26px; height: 0; border-top: 4px solid; border-radius: 2px; display: inline-block }
+.main { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 20px; align-items: start }
+nav.steps { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px }
+nav.steps ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px }
+nav.steps button { width: 100%; text-align: left; display: grid; grid-template-columns: 30px 1fr; gap: 8px; align-items: center;
+  background: none; border: 0; border-radius: 7px; padding: 7px 8px; color: var(--fg); font: inherit; font-size: .95rem; cursor: pointer }
+nav.steps button:hover { background: var(--soft) }
+nav.steps button[aria-current="step"] { background: var(--soft); font-weight: 700 }
+nav.steps .n { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center;
+  font-family: var(--mono); font-size: .78rem; color: var(--muted); font-variant-numeric: tabular-nums }
+nav.steps button[aria-current="step"] .n { border-color: var(--accent); color: var(--accent) }
+nav.steps .done .n { background: var(--ok); border-color: var(--ok); color: var(--card) }
+.progress { font-size: .85rem; color: var(--muted); padding: 6px 8px 2px }
+article { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; gap: 18px; min-width: 0 }
+.eyebrow { font-family: var(--mono); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent) }
+h2 { font-family: var(--display); font-weight: 700; font-size: 1.75rem; line-height: 1.15; margin: 2px 0 0; text-wrap: balance }
+.why { color: var(--muted); margin: 0; max-width: 68ch }
+figure { margin: 0; display: grid; gap: 6px; min-width: 0 }
+.fig { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--card) }
+.fig svg { display: block; width: 100%; min-width: 620px; height: auto }
+.fig.map svg { min-width: 0; max-width: 560px; margin: 0 auto }
+figcaption { font-size: .88rem; color: var(--muted) }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start }
+.cols.one { grid-template-columns: minmax(0, 1fr) }
+h3 { font-family: var(--display); font-size: 1.15rem; margin: 0 0 6px; font-weight: 700; letter-spacing: .02em }
+ol.do { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; max-width: 68ch }
+ol.do li::marker { font-family: var(--mono); color: var(--muted); font-size: .9em }
+.checks { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none }
+.checks label { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; cursor: pointer; padding: 6px 8px; border-radius: 7px }
+.checks label:hover { background: var(--soft) }
+.checks input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--ok) }
+.note { background: var(--warn-bg); border-left: 4px solid var(--warn); padding: 10px 14px; border-radius: 0 8px 8px 0; max-width: 72ch }
+.note b { color: var(--warn) }
+table.ports { border-collapse: collapse; width: 100%; font-size: .95rem }
+.tablewrap { overflow-x: auto }
+table.ports th, table.ports td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); vertical-align: top }
+table.ports th { font-family: var(--mono); font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 500 }
+td.p { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap }
+.tag { font-family: var(--mono); font-size: .8rem; padding: 1px 6px; border-radius: 4px; border: 1px solid; white-space: nowrap }
+.tag.r { color: var(--v5) } .tag.k { color: var(--gnd) }
+.navbtns { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 16px }
+.btn { font: inherit; font-weight: 700; padding: 10px 18px; border-radius: 8px; border: 1.5px solid var(--line); background: var(--card); color: var(--fg); cursor: pointer }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--card) }
+.btn:disabled { opacity: .4; cursor: default }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px }
+/* circuit */
+svg text { font-family: var(--body); fill: var(--fg) }
+svg .mono { font-family: var(--mono) }
+svg .muted { fill: var(--muted) }
+svg .lbl { paint-order: stroke; stroke: var(--soft); stroke-width: 5px; stroke-linejoin: round }
+.box { fill: var(--card); stroke: var(--line); stroke-width: 1.5 }
+.box.focus { stroke: var(--accent); stroke-width: 3 }
+.nut { fill: var(--soft); stroke: var(--muted); stroke-width: 1.5 }
+.nut.focus { stroke: var(--accent); stroke-width: 3 }
+.port { fill: var(--card); stroke: var(--muted); stroke-width: 1.2 }
+.halo { fill: none; stroke: var(--card); stroke-linecap: round; stroke-linejoin: round }
+.wire { fill: none; stroke-linecap: round; stroke-linejoin: round; transition: opacity .25s }
+.wire.r { stroke: var(--v5) } .wire.k { stroke: var(--gnd) }
+.later { opacity: .13 }
+.now { animation: flow 1s linear infinite; stroke-dasharray: 14 7 }
+@keyframes flow { to { stroke-dashoffset: -21 } }
+@media (prefers-reduced-motion: reduce) { .now { animation: none } }
+.data { fill: none; stroke-width: 2.5; stroke-dasharray: 2 9; stroke-linecap: round }
+@media (max-width: 860px) {
+  .main { grid-template-columns: minmax(0, 1fr) }
+  nav.steps { position: static }
+  nav.steps ol { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) }
+  .cols { grid-template-columns: minmax(0, 1fr) }
+  article { padding: 16px }
+  h1 { font-size: 1.7rem }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>MBTA map wiring, step by step</h1>
+    <p class="lede">Power for the sign, the two boards and the three light chains, from one 5 V supply through four lever nuts. Nothing is soldered. The supply stays unplugged until the last step.</p>
+    <div class="legend">
+      <span><i class="sw" style="border-color:var(--v5)"></i>+5 V wire (red)</span>
+      <span><i class="sw" style="border-color:var(--gnd)"></i>ground wire (black)</span>
+      <span><i class="sw" style="border-color:var(--o1);border-top-style:dotted"></i>output 1 · Green B/C/D</span>
+      <span><i class="sw" style="border-color:var(--o2);border-top-style:dotted"></i>output 2 · Orange + north Green/E</span>
+      <span><i class="sw" style="border-color:var(--o3);border-top-style:dotted"></i>output 3 · Red, Mattapan, Blue</span>
+    </div>
+  </header>
+  <div class="main">
+    <nav class="steps" aria-label="Steps"><ol id="steplist"></ol><div class="progress" id="progress"></div></nav>
+    <article id="step" aria-live="polite"></article>
+  </div>
+</div>
+
+<script>
+const PTS = {"1": [[471.6, 546.0], [471.6, 526.0], [471.6, 506.0], [471.6, 486.0], [471.6, 466.0], [471.6, 446.0], [471.6, 426.0], [471.6, 406.0], [471.6, 386.0], [471.6, 366.0], [465.7, 352.0], [451.5, 337.8], [437.4, 323.7], [417.6, 301.0], [395.6, 301.0], [369.6, 301.0], [347.6, 301.0], [325.6, 301.0], [325.6, 287.0], [347.6, 287.0], [369.6, 287.0], [395.6, 287.0], [428.2, 273.5], [443.1, 258.6], [457.9, 243.8], [472.8, 228.9], [487.6, 214.1], [502.5, 199.2], [548.6, 172.0], [562.6, 192.0], [562.6, 212.0], [562.6, 232.0], [562.6, 252.0], [562.6, 272.0], [562.6, 292.0], [562.6, 312.0], [562.6, 332.0], [562.6, 352.0], [548.6, 352.0], [548.6, 332.0], [548.6, 312.0], [548.6, 292.0], [548.6, 272.0], [548.6, 252.0], [548.6, 232.0], [548.6, 212.0], [548.6, 192.0], [562.6, 172.0], [512.4, 209.2], [497.5, 224.0], [482.7, 238.8], [467.8, 253.7], [453.0, 268.5], [438.1, 283.4], [457.6, 287.0], [477.6, 287.0], [514.6, 311.1], [538.6, 370.0], [538.6, 390.0], [538.6, 410.0], [538.6, 430.0], [538.6, 450.0], [538.6, 470.0], [538.6, 490.0], [538.6, 510.0], [538.6, 530.0], [538.6, 550.0], [524.6, 550.0], [524.6, 530.0], [524.6, 510.0], [524.6, 490.0], [524.6, 470.0], [524.6, 450.0], [524.6, 430.0], [524.6, 410.0], [524.6, 390.0], [524.6, 370.0], [504.7, 320.9], [477.6, 301.0], [457.6, 301.0], [417.6, 287.0], [447.3, 313.8], [461.4, 327.9], [475.6, 342.1], [485.6, 366.0], [485.6, 386.0], [485.6, 406.0], [485.6, 426.0], [485.6, 446.0], [485.6, 466.0], [485.6, 486.0], [485.6, 506.0], [485.6, 526.0], [485.6, 546.0]], "2": [[377.9, 409.2], [363.8, 395.1], [349.7, 380.9], [335.5, 366.8], [321.4, 352.7], [307.2, 338.5], [293.1, 324.4], [278.9, 310.2], [264.8, 296.1], [250.7, 281.9], [224.6, 242.0], [224.6, 218.0], [224.6, 194.0], [224.6, 170.0], [224.6, 150.0], [224.6, 130.0], [224.6, 110.0], [224.6, 90.0], [224.6, 70.0], [224.6, 50.0], [238.6, 50.0], [238.6, 70.0], [238.6, 90.0], [238.6, 110.0], [238.6, 130.0], [238.6, 150.0], [238.6, 170.0], [238.6, 194.0], [238.6, 218.0], [238.6, 242.0], [264.6, 242.0], [264.6, 218.0], [264.6, 194.0], [264.6, 170.0], [264.6, 150.0], [264.6, 130.0], [276.6, 104.2], [290.7, 90.0], [304.8, 75.9], [319.0, 61.7], [333.1, 47.6], [343.0, 57.5], [328.9, 71.6], [314.7, 85.8], [300.6, 99.9], [286.5, 114.0], [311.6, 117.0], [311.6, 131.0], [278.6, 130.0], [278.6, 150.0], [278.6, 170.0], [278.6, 194.0], [278.6, 218.0], [278.6, 242.0], [260.6, 272.1], [274.7, 286.2], [288.8, 300.3], [303.0, 314.5], [317.1, 328.6], [331.3, 342.8], [345.4, 356.9], [359.5, 371.1], [373.7, 385.2], [456.6, 411.0], [442.6, 386.0], [434.0, 368.2], [419.8, 354.1], [405.7, 340.0], [391.5, 325.8], [401.4, 315.9], [415.6, 330.1], [429.7, 344.2], [443.9, 358.4], [456.6, 386.0], [456.6, 431.0], [456.6, 451.0], [456.6, 471.0], [456.6, 491.0], [456.6, 511.0], [442.6, 511.0], [442.6, 491.0], [442.6, 471.0], [442.6, 451.0], [442.6, 431.0], [442.6, 411.0], [387.8, 399.3]], "3": [[278.0, 392.6], [257.0, 392.6], [236.0, 392.6], [215.0, 392.6], [194.0, 392.6], [173.0, 392.6], [152.0, 392.6], [131.0, 392.6], [118.0, 385.6], [104.0, 365.6], [104.0, 345.6], [104.0, 325.6], [106.1, 300.6], [92.3, 334.2], [78.1, 348.4], [64.0, 362.5], [59.0, 377.6], [59.0, 397.6], [45.0, 397.6], [45.0, 377.6], [54.1, 352.6], [68.2, 338.5], [82.4, 324.3], [120.2, 286.5], [134.3, 272.4], [173.6, 259.0], [217.6, 259.0], [301.6, 259.0], [327.6, 259.0], [321.6, 237.0], [295.6, 237.0], [211.6, 237.0], [180.6, 208.9], [156.6, 184.9], [141.4, 169.7], [126.2, 154.5], [111.0, 139.3], [95.8, 124.1], [80.6, 108.9], [65.4, 93.7], [50.2, 78.5], [60.1, 68.6], [75.3, 83.8], [90.5, 99.0], [105.7, 114.2], [120.9, 129.4], [136.1, 144.6], [151.3, 159.8], [166.5, 175.0], [190.5, 199.0], [211.6, 223.0], [295.6, 223.0], [321.6, 223.0], [359.6, 259.0], [384.7, 242.0], [403.1, 223.6], [421.5, 205.2], [439.9, 186.8], [458.3, 168.4], [468.2, 178.3], [449.8, 196.7], [431.4, 215.1], [413.0, 233.5], [394.6, 251.9], [359.6, 273.0], [327.6, 273.0], [301.6, 273.0], [217.6, 273.0], [173.6, 273.0], [144.2, 282.3], [130.1, 296.4], [116.0, 310.6], [118.0, 325.6], [118.0, 345.6], [118.0, 365.6], [104.0, 385.6], [131.0, 378.6], [152.0, 378.6], [173.0, 378.6], [194.0, 378.6], [215.0, 378.6], [236.0, 378.6], [257.0, 378.6], [278.0, 378.6]]};
+// Output colors match the printed wiring sheet (1 blue, 2 orange, 3 green), not the line colors.
+const STORE = "mbta-wiring-guide-v1";
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(STORE) || "{}") || {}; } catch (e) { saved = {}; }
+function save() { try { localStorage.setItem(STORE, JSON.stringify(saved)); } catch (e) {} }
+saved.checks = saved.checks || {};
+
+// ---------- the circuit, as drawn data ----------
+const MAIN_X = 150, FAR_X = 600, NUT_W = 330, TOP_Y = 40, BOT_Y = 476, NUT_H = 44;
+const port = (x0, i) => x0 + 33 + 66 * i;
+const DEV = {
+  jack:   { x: 20,  w: 108, label: ["5 V 10 A supply", "→ barrel-jack", "adapter"] },
+  sign:   { x: 158, w: 124, label: ["LED sign", "power cable"] },
+  portal: { x: 298, w: 96,  label: ["USB-C", "adapter →", "Matrix Portal"] },
+  spark:  { x: 410, w: 124, label: ["Sparkle Motion", "via barrel", "pigtail"] },
+};
+const DEV_Y = 226, DEV_H = 108;
+const ENDS = [ { x: 690, y: 252, o: 1 }, { x: 790, y: 280, o: 2 }, { x: 890, y: 308, o: 3 } ];
+// each wire: step it is added in, polarity, gauge, path points
+function wiresFor() {
+  const W = [];
+  const up = (px, dx, mid) => [[px, TOP_Y + NUT_H], [px, mid], [dx, mid], [dx, DEV_Y]];
+  const dn = (px, dx, mid) => [[px, BOT_Y], [px, mid], [dx, mid], [dx, DEV_Y + DEV_H]];
+  W.push({ s: 3, c: "r", g: 16, p: up(port(MAIN_X, 0), 58, 120) });
+  W.push({ s: 3, c: "k", g: 16, p: dn(port(MAIN_X, 0), 90, 420) });
+  W.push({ s: 4, c: "r", g: 16, p: [[port(MAIN_X, 1), TOP_Y], [port(MAIN_X, 1), 18], [port(FAR_X, 0), 18], [port(FAR_X, 0), TOP_Y]] });
+  W.push({ s: 4, c: "k", g: 16, p: [[port(MAIN_X, 1), BOT_Y + NUT_H], [port(MAIN_X, 1), 542], [port(FAR_X, 0), 542], [port(FAR_X, 0), BOT_Y + NUT_H]] });
+  W.push({ s: 5, c: "r", g: 20, p: up(port(MAIN_X, 2), 205, 140) });
+  W.push({ s: 5, c: "k", g: 20, p: dn(port(MAIN_X, 2), 235, 400) });
+  W.push({ s: 6, c: "r", g: 20, p: up(port(MAIN_X, 3), 330, 160) });
+  W.push({ s: 6, c: "k", g: 20, p: dn(port(MAIN_X, 3), 360, 380) });
+  W.push({ s: 7, c: "r", g: 20, p: up(port(MAIN_X, 4), 455, 180) });
+  W.push({ s: 7, c: "k", g: 20, p: dn(port(MAIN_X, 4), 488, 360) });
+  ENDS.forEach((e, i) => {
+    W.push({ s: 8, c: "r", g: 20, p: [[port(FAR_X, i + 1), TOP_Y + NUT_H], [port(FAR_X, i + 1), 150 + 20 * i], [e.x - 8, 150 + 20 * i], [e.x - 8, e.y - 10]] });
+    W.push({ s: 8, c: "k", g: 20, p: [[port(FAR_X, i + 1), BOT_Y], [port(FAR_X, i + 1), 420 - 20 * i], [e.x + 8, 420 - 20 * i], [e.x + 8, e.y + 10]] });
+  });
+  return W;
+}
+const WIRES = wiresFor();
+const d = pts => "M" + pts.map(p => p.join(" ")).join(" L");
+
+function nut(x0, y, name, rail, focus) {
+  let s = `<rect class="nut${focus ? " focus" : ""}" x="${x0}" y="${y}" width="${NUT_W}" height="${NUT_H}" rx="8"/>`;
+  for (let i = 0; i < 5; i++) {
+    s += `<circle class="port" cx="${port(x0, i)}" cy="${y + NUT_H / 2}" r="13"/>` +
+         `<text class="mono" x="${port(x0, i)}" y="${y + NUT_H / 2 + 5}" font-size="14" text-anchor="middle">${i + 1}</text>`;
+  }
+  const ly = rail === "r" ? y - 8 : y + NUT_H + 20;
+  const fill = rail === "r" ? "var(--v5)" : "var(--gnd)";
+  s += `<text x="${x0 + NUT_W + 6}" y="${y + NUT_H / 2 + 5}" font-size="13" font-weight="700" style="fill:${fill}">${name}</text>`;
+  return s;
+}
+
+function circuit(st) {
+  const focus = st.focus || [];
+  let s = `<svg viewBox="0 0 1000 560" role="img" aria-label="Wiring diagram for this step">`;
+  // strings: Sparkle outputs to their far ends
+  const OC = ["var(--o1)", "var(--o2)", "var(--o3)"];
+  ENDS.forEach((e, i) => {
+    const sx = DEV.spark.x + DEV.spark.w, mid = (sx + e.x) / 2;
+    s += `<path class="data" style="stroke:${OC[i]}" d="M${sx} ${e.y} L${e.x - 14} ${e.y}"/>`;
+    s += `<rect x="${mid - 9}" y="${e.y - 6}" width="18" height="12" rx="2" style="fill:var(--card);stroke:${OC[i]};stroke-width:1.5"/>`;
+    s += `<circle cx="${e.x}" cy="${e.y}" r="9" style="fill:var(--card);stroke:${OC[i]};stroke-width:2.5"/>`;
+    s += `<text x="${sx + 8}" y="${e.y - 7}" font-size="11.5" style="fill:${OC[i]}" font-weight="700">output ${e.o}</text>`;
+  });
+  s += `<text x="${DEV.spark.x + DEV.spark.w + 8}" y="345" font-size="11.5" class="muted">string 1 ▭ string 2 → spare pixels → far end ◯</text>`;
+  // devices
+  for (const k in DEV) {
+    const v = DEV[k];
+    s += `<rect class="box${focus.includes(k) ? " focus" : ""}" x="${v.x}" y="${DEV_Y}" width="${v.w}" height="${DEV_H}" rx="8"/>`;
+    v.label.forEach((t, j) => s += `<text x="${v.x + v.w / 2}" y="${DEV_Y + 36 + j * 19}" font-size="${j ? 13 : 14}" ${j ? 'class="muted"' : 'font-weight="700"'} text-anchor="middle">${t}</text>`);
+  }
+  // wires (halo first so crossings read as one wire over another)
+  WIRES.forEach(w => {
+    const cls = w.s < st.n ? "" : w.s === st.n ? " now" : " later";
+    const width = w.g === 16 ? 6 : 3.5;
+    if (!cls.includes("later")) s += `<path class="halo" stroke-width="${width + 5}" d="${d(w.p)}"/>`;
+    s += `<path class="wire ${w.c}${cls}" stroke-width="${width}" d="${d(w.p)}"/>`;
+  });
+  s += `<text x="66" y="112" font-size="12" class="mono" style="fill:var(--v5)">16 AWG</text>`;
+  // nuts on top of wire ends
+  s += nut(MAIN_X, TOP_Y, "+5 V MAIN", "r", focus.includes("nuts"));
+  s += nut(FAR_X, TOP_Y, "+5 V FAR", "r", focus.includes("nuts"));
+  s += nut(MAIN_X, BOT_Y, "GND MAIN", "k", focus.includes("nuts"));
+  s += nut(FAR_X, BOT_Y, "GND FAR", "k", focus.includes("nuts"));
+  if (st.probe) {
+    s += `<g><circle cx="${port(MAIN_X, 2)}" cy="${TOP_Y + NUT_H / 2}" r="19" fill="none" style="stroke:var(--accent)" stroke-width="3"/>` +
+         `<circle cx="${port(MAIN_X, 2)}" cy="${BOT_Y + NUT_H / 2}" r="19" fill="none" style="stroke:var(--accent)" stroke-width="3"/>` +
+         `<text x="${port(MAIN_X, 2) + 26}" y="${(TOP_Y + BOT_Y) / 2 + 76}" font-size="13" font-weight="700" style="fill:var(--accent)">meter probes</text></g>`;
+  }
+  return s + `</svg>`;
+}
+
+// ---------- the back of the panel ----------
+function panelMap(st) {
+  const OC = { 1: "var(--o1)", 2: "var(--o2)", 3: "var(--o3)" };
+  let s = `<svg viewBox="-10 -10 630 650" role="img" aria-label="Back of the panel, where the parts go">`;
+  s += `<rect x="0" y="0" width="609.6" height="609.6" rx="3" style="fill:var(--soft);stroke:var(--muted)" stroke-width="2"/>`;
+  s += `<rect x="20" y="20" width="569.6" height="569.6" fill="none" style="stroke:var(--line)" stroke-width="1.5" stroke-dasharray="6 5"/>`;
+  s += `<rect x="31.7" y="419.3" width="318" height="158" rx="2" style="fill:var(--card);stroke:var(--muted)" stroke-width="1.5"/>`;
+  s += `<text x="190" y="492" font-size="15" font-weight="700" text-anchor="middle">LED sign (from behind)</text>`;
+  s += `<text x="190" y="512" font-size="12.5" class="muted" text-anchor="middle">input socket on this edge, beside the Matrix Portal</text>`;
+  for (const o in PTS) PTS[o].forEach(p => s += `<circle cx="${p[0]}" cy="${p[1]}" r="2.6" style="fill:${OC[o]}"/>`);
+  // where each chain starts and ends (they come back to where they started)
+  // each chain starts and ends at about the same place: it goes out along its lines and comes back
+  const ends = Object.keys(PTS).map((o) => [+o, PTS[o][0][0], PTS[o][0][1], PTS[o][0][0], PTS[o][0][1] - 18, "output " + o]);
+  ends.forEach(([o, x, y, lx, ly, t]) => {
+    const hi = st.ends;
+    s += `<circle cx="${x}" cy="${y}" r="${hi ? 13 : 10}" style="fill:var(--card);stroke:${OC[o]}" stroke-width="${hi ? 3.5 : 2.5}"/>`;
+    s += `<text class="lbl" x="${lx}" y="${ly}" font-size="14" font-weight="700" text-anchor="middle" style="fill:${OC[o]}">${t}</text>`;
+  });
+  // parts
+  const part = (x, y, w, h, t, hi) => `<rect x="${x - w / 2}" y="${y - h / 2}" width="${w}" height="${h}" rx="3" style="fill:var(--card);stroke:${hi ? "var(--accent)" : "var(--muted)"}" stroke-width="${hi ? 3 : 1.5}"/>` +
+    `<text x="${x}" y="${y + 4}" font-size="12" text-anchor="middle" font-weight="700">${t}</text>`;
+  s += part(408.6, 563, 82.8, 37, "Sparkle Motion", st.parts);
+  // the ribbon from the Matrix Portal's cradle to the sign's input socket
+  s += `<path d="M351 485 H337.7" style="stroke:var(--muted)" stroke-width="9" stroke-linecap="round" opacity=".7"/>`;
+  s += part(382.6, 485, 63.5, 44.5, "Matrix Portal", st.parts);
+  s += part(416.6, 527, 30, 27, "", st.parts);
+  s += `<line x1="401.6" x2="431.6" y1="527" y2="527" style="stroke:var(--muted)" stroke-width="1"/>`;
+  s += part(380.6, 534.5, 26, 12, "", st.parts);
+  s += `<text class="lbl" x="452" y="531" font-size="12.5" font-weight="700">2 nuts</text>`;
+  s += `<text class="lbl" x="355" y="552" font-size="12" font-weight="700" text-anchor="middle">jack</text>`;
+  s += `<text x="305" y="632" font-size="13" class="muted" text-anchor="middle">Back view, panel face down. Dots are the lights, colored by output. Dashed: inside of the frame.</text>`;
+  return s + `</svg>`;
+}
+
+function leverNut() {
+  return `<svg viewBox="0 0 520 170" role="img" aria-label="Using a lever nut" style="min-width:0">
+    <rect x="300" y="50" width="190" height="70" rx="10" class="nut"/>
+    <rect x="300" y="50" width="190" height="16" rx="6" style="fill:var(--muted)" opacity=".35"/>
+    <path d="M318 50 L330 14 L350 14 L344 50 Z" style="fill:var(--accent)" opacity=".85"/>
+    <text x="356" y="26" font-size="13" font-weight="700" style="fill:var(--accent)">1. lever up</text>
+    <circle cx="331" cy="92" r="11" class="port"/>
+    <path d="M40 92 H220" stroke-width="9" stroke-linecap="round" style="stroke:var(--v5)"/>
+    <path d="M220 92 H322" stroke-width="3.5" stroke-linecap="round" style="stroke:var(--warn)"/>
+    <path d="M220 112 V122 M322 112 V122 M220 117 H322" style="stroke:var(--muted)" stroke-width="1.5"/>
+    <text x="271" y="142" font-size="13" text-anchor="middle" class="mono">11 mm bare copper</text>
+    <text x="40" y="74" font-size="13" font-weight="700">2. push in until it stops</text>
+    <text x="300" y="152" font-size="13" font-weight="700">3. lever down, then tug</text>
+  </svg>`;
+}
+
+// ---------- the steps ----------
+const STEPS = [
+  { t: "Before you start", n: 99, focus: [], map: true,
+    why: "Here is the whole job at once. Each later step adds one pair of wires and redraws the circuit with those wires moving. Nothing gets glued tonight; lay things where the map shows and fix them later.",
+    do: ["Unplug the 5 V supply from the wall. It stays unplugged until step 10.",
+         "Unplug the Matrix Portal's USB cable from the laptop. Once wired it runs from the supply, and it must never be fed from both at once.",
+         "Lay the panel face down on something soft."],
+    checks: ["4 lever nuts (5-port), labelled with tape: +5 MAIN, GND MAIN, +5 FAR, GND FAR",
+             "16 AWG wire, red and black, about 1 m of each",
+             "20 AWG wire, red and black, about 2 m of each",
+             "Barrel-jack to screw-terminal adapter, USB-C screw-terminal adapter, barrel-plug pigtail",
+             "Wire stripper or flush cutters, small flat screwdriver, multimeter"] },
+  { t: "How a lever nut works", n: 1, focus: ["nuts"], lever: true,
+    why: "Every port in a lever nut is joined inside, so all five wires in one nut are the same connection. The +5 V nuts carry power; the GND nuts carry it back. A wire in the wrong nut swaps + and −, which is the one mistake that kills boards, so red goes only in a +5 V nut and black only in a GND nut.",
+    do: ["Strip 11 mm of insulation off the wire end. The side of the nut has a strip-length mark.",
+         "If the wire is stranded, twist the strands tight so none stick out.",
+         "Lift a lever, push the bare end in until it stops, close the lever.",
+         "Tug the wire. It should not move. No copper should show outside the nut."],
+    strip: true,
+    checks: ["I know which nut is which (labels on)", "Practised one wire in a spare nut"] },
+  { t: "Lay out the parts", n: 2, focus: [], map: true, parts: true,
+    why: "The four nuts and the barrel-jack adapter sit together in the gap between the sign and the Sparkle Motion, seen from behind. The far ends of all three light chains come back near there too, because each chain goes out along its lines and returns.",
+    do: ["Set the Sparkle Motion on its spot below the sign, right of it from behind, outputs facing up, toward the top of the panel.",
+         "The Matrix Portal sits on its printed cradle just beside the sign, joined to the sign's input socket by a short ribbon cable. The two MAIN nuts go just above the Sparkle Motion, the barrel-jack adapter beside them, toward the sign.",
+         "Find the far end of each chain: follow each output's second string past its last lit pixel to the loose end. The circles on the map show roughly where each chain starts and ends.",
+         "Don't glue anything yet. A dab of tape holds parts while you wire."],
+    checks: ["Sparkle Motion in place, outputs up", "Nuts and adapter in place", "Found the far end of output 1, 2 and 3"] },
+  { t: "The trunk: supply to the main nuts", n: 3, focus: ["jack", "nuts"],
+    why: "These two wires carry the current for everything, so they are the thick 16 AWG ones.",
+    do: ["Cut red and black 16 AWG long enough to reach from the barrel-jack adapter to the main nuts with a little slack.",
+         "Red: adapter's + terminal → +5 MAIN, port 1. Black: adapter's − terminal → GND MAIN, port 1.",
+         "Tighten the adapter's screws firmly and tug both wires.",
+         "Leave the supply's plug out of the adapter for now."],
+    ports: [["+5 MAIN", "1", "trunk from the barrel-jack adapter's +", "r"], ["GND MAIN", "1", "trunk from the adapter's −", "k"]],
+    checks: ["Red trunk: adapter + → +5 MAIN 1", "Black trunk: adapter − → GND MAIN 1"] },
+  { t: "Jumpers to the far nuts (optional)", n: 4, focus: ["nuts"],
+    why: "Skip this for now: only needed if the far end of a chain looks dim in the test after power-on. A nut has only five ports, so each rail is two nuts joined by a short piece of the thick wire. After this, the FAR nuts are the same connection as the MAIN ones.",
+    do: ["Cut two short pieces of 16 AWG, one red, one black.",
+         "Red: +5 MAIN port 2 → +5 FAR port 1.",
+         "Black: GND MAIN port 2 → GND FAR port 1."],
+    ports: [["+5 MAIN", "2", "jumper to +5 FAR 1", "r"], ["+5 FAR", "1", "jumper from +5 MAIN 2", "r"], ["GND MAIN", "2", "jumper to GND FAR 1", "k"], ["GND FAR", "1", "jumper from GND MAIN 2", "k"]],
+    checks: ["Red jumper in", "Black jumper in"] },
+  { t: "The LED sign's power", n: 5, focus: ["sign", "nuts"],
+    why: "The sign takes its power from its own cable, not from the Matrix Portal. Tonight's red flicker was this cable unplugged.",
+    do: ["Find the sign's power cable: a 4-pin plug on the back of the sign with red and black wires.",
+         "If the wires end in metal forks, cut the forks off and strip 11 mm.",
+         "If there are two red and two black wires, twist the two reds together and the two blacks together; each pair goes into one port.",
+         "Red → +5 MAIN port 3. Black → GND MAIN port 3. Check the 4-pin plug is pushed fully into the sign."],
+    ports: [["+5 MAIN", "3", "sign power cable, red", "r"], ["GND MAIN", "3", "sign power cable, black", "k"]],
+    checks: ["Sign red → +5 MAIN 3", "Sign black → GND MAIN 3", "4-pin plug seated on the sign"] },
+  { t: "The Matrix Portal", n: 6, focus: ["portal", "nuts"],
+    why: "The Matrix Portal is powered through its USB-C port. The screw-terminal adapter turns two wires into a USB-C plug.",
+    do: ["Cut red and black 20 AWG to reach from the main nuts to the Matrix Portal on its cradle beside the sign.",
+         "Red → the adapter's + terminal (may be labelled VBUS or 5V). Black → its − terminal (GND).",
+         "Other ends: red → +5 MAIN port 4, black → GND MAIN port 4.",
+         "Plug the adapter into the Matrix Portal. The laptop cable stays out."],
+    ports: [["+5 MAIN", "4", "USB-C adapter +", "r"], ["GND MAIN", "4", "USB-C adapter −", "k"]],
+    checks: ["Adapter + → +5 MAIN 4", "Adapter − → GND MAIN 4", "Adapter plugged into the Matrix Portal", "Laptop cable unplugged"] },
+  { t: "The Sparkle Motion", n: 7, focus: ["spark", "nuts"],
+    why: "The Sparkle Motion takes power through a barrel plug, and passes it on to the three light chains through its output terminals. So the chains' starts need nothing extra.",
+    do: ["The barrel-plug pigtail has two wires. One is marked: a stripe, writing, or red. That is usually +. You will confirm it with the meter in step 9.",
+         "Marked (+) wire → +5 MAIN port 5. Other (−) wire → GND MAIN port 5.",
+         "Do not plug the barrel into the Sparkle Motion yet.",
+         "The three strings stay as they are on the Sparkle Motion's outputs: terminal 1 Green B/C/D, 2 Orange and north Green/E, 3 Red, Mattapan and Blue."],
+    ports: [["+5 MAIN", "5", "barrel pigtail +", "r"], ["GND MAIN", "5", "barrel pigtail −", "k"]],
+    checks: ["Pigtail + → +5 MAIN 5", "Pigtail − → GND MAIN 5", "Barrel NOT yet in the Sparkle Motion"] },
+  { t: "Far ends of the chains (optional)", n: 8, focus: ["nuts"], map: true, ends: true,
+    why: "Skip this for now and just tape off each chain's loose end pair. At the map's low brightness the far ends very likely look fine: after power-on, light every pixel white in WLED and compare each chain's first and last pixels. If they do look dim or pinkish: Each chain is two strings, about 100 pixels on 8 m of thin wire. Fed from one end only, the last pixels can go dim and pinkish. Feeding the far end too keeps them even.",
+    do: ["At the loose end of each chain's second string there is usually a separate pair of wires besides the plug: red (+) and white or blue (−). Use that pair. If there's only a 3-pin plug, leave the far end for now: power it from a spare 3-pin plug's red and white wires, or skip it.",
+         "Leave the data wire (often green) and the end plug unconnected. Tape them up.",
+         "Output 1's end: red → +5 FAR port 2, white → GND FAR port 2.",
+         "Output 2's end: red → +5 FAR port 3, white → GND FAR port 3.",
+         "Output 3's end: red → +5 FAR port 4, white → GND FAR port 4.",
+         "If a string's own wires are too short, extend them with 20 AWG in a spare nut port pair. Port 5 stays spare."],
+    ports: [["+5 FAR", "2", "output 1 far end, red", "r"], ["GND FAR", "2", "output 1 far end, white/blue", "k"], ["+5 FAR", "3", "output 2 far end, red", "r"], ["GND FAR", "3", "output 2 far end, white/blue", "k"], ["+5 FAR", "4", "output 3 far end, red", "r"], ["GND FAR", "4", "output 3 far end, white/blue", "k"]],
+    checks: ["Output 1 far end in", "Output 2 far end in", "Output 3 far end in", "Data wires and end plugs taped off"] },
+  { t: "Check before power", n: 9, focus: ["nuts"], probe: true,
+    why: "Two minutes with the meter catches the mistakes that would break something. Do them in this order.",
+    do: ["Look: every red wire is in a +5 V nut, every black/white/− wire in a GND nut. No bare copper showing anywhere.",
+         "Supply unplugged. Meter on resistance (Ω). One probe in any +5 V nut's wire, the other in any GND nut's wire. A reading that stays at 0 Ω means a short: stop and find it. A reading that starts low and climbs is fine (that's the boards' capacitors).",
+         "Plug the supply into the wall and into the barrel-jack adapter. Meter on DC volts. Red probe inside the barrel plug's centre hole, black probe on its outer metal: it must read about +5 V. If it reads −5 V, the pigtail's two wires are swapped: unplug and swap them at the nut.",
+         "Measure across the far nuts too: about +5 V.",
+         "Unplug the supply again."],
+    checks: ["Every red in a +5 V nut", "No short between the rails", "Barrel plug centre reads +5 V", "Far nuts read +5 V", "Supply unplugged again"] },
+  { t: "Power on", n: 10, focus: ["jack", "sign", "portal", "spark"],
+    why: "If the checks passed, this is the easy part.",
+    do: ["Push the barrel plug into the Sparkle Motion.",
+         "Plug the supply into the barrel-jack adapter.",
+         "Watch: the sign shows LOADING and its address within a few seconds, then departures. The map lights up within about a minute.",
+         "Feel the nuts and the adapter after a few minutes: barely warm at most. Hot means a loose connection; unplug and re-seat it.",
+         "Next: set WLED's current limit (3000 to 4000 mA) and check the pixels one by one against the wiring sheet."],
+    checks: ["Sign shows LOADING then departures", "Map lights come on", "Nothing hot after five minutes", "WLED current limit set"] },
+];
+
+function renderList() {
+  const ol = document.getElementById("steplist");
+  ol.innerHTML = "";
+  let doneCount = 0;
+  STEPS.forEach((st, i) => {
+    const done = st.checks.every((_, j) => saved.checks[i + ":" + j]);
+    if (done) doneCount++;
+    const li = document.createElement("li");
+    li.className = done ? "done" : "";
+    li.innerHTML = `<button type="button" id="go${i}" ${i === cur ? 'aria-current="step"' : ""}><span class="n">${done ? "✓" : i}</span><span>${st.t}</span></button>`;
+    li.querySelector("button").addEventListener("click", () => go(i));
+    ol.appendChild(li);
+  });
+  document.getElementById("progress").textContent = `${doneCount} of ${STEPS.length} steps ticked off`;
+}
+
+function renderStep() {
+  const st = STEPS[cur];
+  const a = document.getElementById("step");
+  const portsTable = st.ports ? `<div><h3>Ports</h3><div class="tablewrap"><table class="ports"><thead><tr><th>Nut</th><th>Port</th><th>Wire</th></tr></thead><tbody>${
+      st.ports.map(r => `<tr><td><span class="tag ${r[3]}">${r[0]}</span></td><td class="p">${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</tbody></table></div></div>` : "";
+  const figs = [];
+  if (cur > 0 || true) figs.push(`<figure><div class="fig">${circuit(st)}</div><figcaption>${
+      cur === 0 ? "The finished circuit. Two nuts per rail, joined by jumpers; the sign, the Matrix Portal and the Sparkle Motion on the main nuts; the far end of each light chain on the far nuts." :
+      "Moving wires are this step's. Solid wires are done. Faded ones come later."}</figcaption></figure>`);
+  if (st.lever) figs.push(`<figure><div class="fig map">${leverNut()}</div></figure>`);
+  if (st.map) figs.push(`<figure><div class="fig map">${panelMap(st)}</div><figcaption>Proposed spots, measured from the build files. Test-fit before gluing anything.</figcaption></figure>`);
+  a.innerHTML = `
+    <div><div class="eyebrow">Step ${cur} of ${STEPS.length - 1}</div><h2>${st.t}</h2></div>
+    <p class="why">${st.why}</p>
+    ${figs.join("")}
+    <div class="cols${st.ports ? "" : " one"}">
+      <div><h3>Do this</h3><ol class="do">${st.do.map(x => `<li>${x}</li>`).join("")}</ol></div>
+      ${portsTable}
+    </div>
+    ${st.strip ? `<div class="note"><b>Which wires do you strip?</b> Almost always the wire from your rolls: cut a piece to length and strip both ends. Of the parts you already have, strip only (1) the sign's power cable, after cutting off its metal forks, and (2) a string-end power pair or pigtail wire that doesn't already have bare copper on it. Never cut or strip the pixel strings' 3-pin plugs or their data wires.</div>` : ""}
+    ${cur === 9 ? `<div class="note"><b>Stop if anything reads wrong.</b> A short or a reversed reading is easy to fix now and expensive to fix after power-on.</div>` : ""}
+    <div><h3>Tick off</h3><ul class="checks">${st.checks.map((c, j) => {
+        const id = `c${cur}_${j}`;
+        return `<li><label for="${id}"><input type="checkbox" id="${id}" data-k="${cur}:${j}" ${saved.checks[cur + ":" + j] ? "checked" : ""}><span>${c}</span></label></li>`;
+      }).join("")}</ul></div>
+    <div class="navbtns">
+      <button class="btn" id="prev" type="button" ${cur === 0 ? "disabled" : ""}>← Back</button>
+      <button class="btn primary" id="next" type="button" ${cur === STEPS.length - 1 ? "disabled" : ""}>Next step →</button>
+    </div>`;
+  a.querySelectorAll("input[type=checkbox]").forEach(cb => cb.addEventListener("change", () => {
+    if (cb.checked) saved.checks[cb.dataset.k] = 1; else delete saved.checks[cb.dataset.k];
+    save(); renderList();
+  }));
+  document.getElementById("prev").addEventListener("click", () => go(cur - 1));
+  document.getElementById("next").addEventListener("click", () => go(cur + 1));
+}
+
+let cur = Math.min(Math.max(+saved.step || 0, 0), STEPS.length - 1);
+function go(i) {
+  cur = Math.min(Math.max(i, 0), STEPS.length - 1);
+  saved.step = cur; save();
+  renderList(); renderStep();
+  const art = document.getElementById("step");
+  if (art.getBoundingClientRect().top < 0) art.scrollIntoView({ block: "start" });
+}
+go(cur);
+</script>

@@ -1,0 +1,78 @@
+# Example settings: copy to config.yaml (which is gitignored) and change the stops to yours (tools/find_stops.py).
+# The MBTA API key is read from .env (MBTA_API_KEY), never from here.
+
+poll_seconds: 25             # vehicles and predictions (the board fetches one thing per ticker hold)
+
+map:
+  routes: [Red, Mattapan, Orange, Blue, Green-B, Green-C, Green-D, Green-E]
+  print_outline: false       # simulator: start with the print that has the thin outline round the sign window
+  brightness: 0.06           # 0 to 1, the brightness set in WLED (15 of 255); the simulator copies it
+  colors:                    # LED colors per line, chosen on the real pixels (ink colors washed out to pink and yellow)
+    RL: "#FF0000"
+    M: "#FF0000"
+    OL: "#FF3C00"
+    BL: "#0000FF"
+    GL: "#00FF00"
+
+sign:
+  rows:                      # top to bottom; the sign shows the first two
+    - label: "77"
+      route: "77"
+      stop_id: "23151"         # Mass Ave @ Porter Red Line Sta
+      direction_id: 0          # Outbound, toward Arlington Heights
+      color: "#FFB020"
+    - label: "RL"
+      route: "Red"
+      stop_id: "place-alfcl"   # Alewife
+      direction_id: 0          # South, toward Ashmont/Braintree (inbound)
+      color: "#FF0000"         # pure red: any green turns it orange at low brightness
+      walk_minutes: 5          # only trains leaving at least this long from now (your walk to the station)
+  brightness: 0.05           # 0 to 1; the firmware scales colors (the panel has no brightness control)
+  bit_depth: 5               # color bits per channel the panel is driven at (6 flickered)
+  rotation: 0               # 180 if the panel is mounted upside down
+  alert_min_severity: 3      # MBTA severity 0-10; alerts naming your own stops always show
+
+ticker:                      # the sign's rotating bottom row
+  clock: true                # day and time, e.g. FRI 9:26
+  weather: true              # current temperature and conditions, and today's high and low
+  rain: true                 # RAIN 3PM (the hour it becomes likely), only when it's likely
+  rain_threshold: 50         # percent chance that counts as likely
+  latitude: 42.36            # for the weather: downtown Boston here, so use your own
+  longitude: -71.06
+  sox: true                  # each team shows only on its game days
+  bruins: true
+  patriots: true
+  alerts: true               # MBTA alerts for the sign's routes
+  hold_seconds: 5            # how long each item stays up
+
+night:                       # night mode: dimmer and calmer
+  enabled: true
+  start: "23:00"             # Boston time
+  end: "7:00"
+  sign_brightness: 0.03      # the sign at night (day: sign.brightness)
+  map_level: 0.5             # map colors x this at night
+  hold_seconds: 10           # the ticker shows only the time and the weather, swapping without sliding
+  poll_seconds: 60           # predictions and vehicles at night
+
+music:                       # music mode: WLED's sound-reactive effects on the map, from the Sparkle Motion's microphone
+  effects:                   # [name, number] from WLED's list (http://<wled_ip>/json/effects); the first is the default
+    - [Lines, 156, lines]      # "lines": every line runs it by itself, in its own color (156 = Gravcenter)
+    - [Gravcenter, 156]
+    - [Puddlepeak, 144]
+    - [Ripple Peak, 148]
+    - [Juggles, 130]
+    - [Freqwave, 137]
+    - [Noisemeter, 136]
+
+ride:                        # tell the board from a phone which train or bus you're on (docs/BUILD.md, step 12)
+  feed: mbta-ride            # the Adafruit IO feed the phones post to; AIO_USERNAME and AIO_KEY go in settings.toml
+  buses:                     # bus routes a ride can be on, and their stops by the names the messages use
+    "77":
+      Harvard: [place-harsq]
+      Porter: ["23151"]          # Mass Ave @ Porter Red Line Sta (outbound)
+      Arlington Heights: ["7922"]    # the busway at the end of the route
+
+hardware:
+  wled_ip: "TODO"            # fixed IP of the Sparkle Motion; the board sends the map there once it's set
+  ddp_resend_seconds: 1
+  outputs: [100, 100, 100]   # LEDs on each Sparkle Motion output, as set in WLED (data/wled_settings.md)

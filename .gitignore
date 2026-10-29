@@ -1,0 +1,26 @@
+# Secrets and personal settings: never commit these.
+.env
+config.yaml
+firmware/settings.toml
+
+# Made by the tools from your own settings (firmware/data.json holds your stops and your WLED address).
+firmware/data.json
+cache/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# 3D printing: models and sliced files are made by the scripts in hardware/.
+hardware/*.stl
+hardware/*.gcode
+hardware/*_preview.svg
+
+# Owner-only material (kept on this computer)
+CLAUDE.local.md
+private/
+archive/
+backups/
+.claude/settings.local.json
+.claude/launch.json

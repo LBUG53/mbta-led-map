@@ -1,0 +1,181 @@
+<!doctype html>
+<title>MBTA Pixel Placer</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Template for tools/pixel_placer.py, which puts the plan in below and writes data/pixel_placer.html. -->
+<style>
+/* Layout: one pixel at a time. Big number and station on top, the hole on a zoomed back view, the whole panel beside it. */
+:root {
+  --bg: #eef1f4; --card: #ffffff; --fg: #14181d; --muted: #59636e; --line: #d3d9e0; --soft: #e4e9ee; --hole: #b9c2cc;
+  --accent: #0b5cd6; --warn: #b45309; --warn-bg: #fff4e2; --ok: #157347;
+  --o1: #1d4ed8; --o2: #c2410c; --o3: #00763a;
+  --display: "Archivo Narrow", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #12161b; --card: #1b2128; --fg: #e8edf2; --muted: #9aa6b2; --line: #2e3742; --soft: #242c35; --hole: #4a5560;
+  --accent: #6aa5ff; --warn: #f0a24a; --warn-bg: #2c2216; --ok: #4cc38a;
+  --o1: #6d93ff; --o2: #ff8a4c; --o3: #3fc47e; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #12161b; --card: #1b2128; --fg: #e8edf2; --muted: #9aa6b2; --line: #2e3742; --soft: #242c35; --hole: #4a5560;
+  --accent: #6aa5ff; --warn: #f0a24a; --warn-bg: #2c2216; --ok: #4cc38a;
+  --o1: #6d93ff; --o2: #ff8a4c; --o3: #3fc47e; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 17px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 16px 40px }
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 16px }
+header { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: end; justify-content: space-between }
+h1 { font-family: var(--display); font-size: 1.9rem; line-height: 1.1; margin: 0; text-wrap: balance }
+.sub { color: var(--muted); margin: 2px 0 0; max-width: 64ch; font-size: .95rem }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap }
+.tab { font: inherit; font-weight: 700; font-size: .95rem; padding: 8px 14px; border-radius: 8px; border: 2px solid var(--line); background: var(--card); color: var(--fg); cursor: pointer; display: grid; text-align: left; line-height: 1.2 }
+.tab small { font-weight: 400; color: var(--muted); font-size: .78rem }
+.tab[aria-pressed="true"] { border-color: var(--oc) }
+.grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 16px; align-items: start }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 14px; min-width: 0 }
+.now { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 18px; align-items: center }
+.big { font-family: var(--mono); font-weight: 600; font-size: 4.6rem; line-height: 1; color: var(--oc); font-variant-numeric: tabular-nums; grid-row: span 2 }
+.station { font-family: var(--display); font-weight: 700; font-size: 1.9rem; line-height: 1.1; text-wrap: balance }
+.meta { color: var(--muted); font-size: .95rem }
+.of { font-family: var(--mono); font-size: .85rem; color: var(--muted); letter-spacing: .04em; text-transform: uppercase }
+.note { background: var(--warn-bg); border-left: 4px solid var(--warn); padding: 10px 14px; border-radius: 0 8px 8px 0 }
+.note b { color: var(--warn) }
+.zoom svg, .full svg { display: block; width: 100%; height: auto; border-radius: 10px; background: var(--soft) }
+.controls { display: grid; grid-template-columns: 1fr 1.6fr; gap: 10px }
+.btn { font: inherit; font-weight: 700; font-size: 1.05rem; padding: 14px 16px; border-radius: 10px; border: 2px solid var(--line); background: var(--card); color: var(--fg); cursor: pointer }
+.btn.primary { background: var(--oc); border-color: var(--oc); color: var(--card) }
+.btn:disabled { opacity: .4; cursor: default }
+.jump { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: .9rem; color: var(--muted) }
+.jump input { font: inherit; width: 5.5em; padding: 6px 8px; border-radius: 7px; border: 1.5px solid var(--line); background: var(--card); color: var(--fg); font-family: var(--mono) }
+.bar { height: 8px; background: var(--soft); border-radius: 4px; overflow: hidden }
+.bar i { display: block; height: 100%; background: var(--oc); width: 0 }
+.upnext { font-size: .92rem; color: var(--muted); display: grid; gap: 2px }
+.upnext b { color: var(--fg); font-family: var(--mono) }
+.tips { display: grid; gap: 6px; padding-left: 1.2em; margin: 0; font-size: .95rem }
+h2 { font-family: var(--display); font-size: 1.15rem; margin: 0; letter-spacing: .02em }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px }
+svg text { font-family: var(--body); fill: var(--fg) }
+.pulse { animation: pulse 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center }
+@keyframes pulse { 50% { transform: scale(1.35); opacity: .55 } }
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none } }
+@media (max-width: 820px) { .grid { grid-template-columns: minmax(0, 1fr) } .big { font-size: 3.6rem } .station { font-size: 1.55rem } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Pixel placer</h1>
+      <p class="sub">One pixel at a time, in string order. Panel face down, flipped sideways like a book page: the map's top is still at the top, and the sign is at the bottom left.</p>
+    </div>
+    <div class="tabs" id="tabs"></div>
+  </header>
+  <div class="grid">
+    <section class="card" id="cur" aria-live="polite"></section>
+    <section class="card">
+      <div class="full" id="full"></div>
+      <h2>Before you start each output</h2>
+      <ol class="tips">
+        <li>Count along the string and put a bit of tape on pixel 0, 10, 20, 30 and 40, writing the number on it. Do the same on the second string: 50, 60, 70 and so on. Miscounting by one is what shifted the last attempt.</li>
+        <li>Pixel 0 is the one nearest the plug that goes into the Sparkle Motion.</li>
+        <li>The number on the tile plate beside each hole should match the big number here. Use it as a check, not as the guide.</li>
+        <li>At a SKIP, leave that pixel out of the map and push it into a printed cup. The next number goes in the next hole.</li>
+      </ol>
+    </section>
+  </div>
+</div>
+
+<script>
+const D = {"rows": [[1, 0, "Riverside", "GL", "B", 472.0, 546.0], [1, 1, "Woodland", "GL", "B", 472.0, 526.0], [1, 2, "Waban", "GL", "B", 472.0, 506.0], [1, 3, "Eliot", "GL", "B", 472.0, 486.0], [1, 4, "Newton Highlands", "GL", "B", 472.0, 466.0], [1, 5, "Newton Centre", "GL", "B", 472.0, 446.0], [1, 6, "Chestnut Hill", "GL", "B", 472.0, 426.0], [1, 7, "Reservoir", "GL", "B", 472.0, 406.0], [1, 8, "Beaconsfield", "GL", "B", 472.0, 386.0], [1, 9, "Brookline Hills", "GL", "B", 472.0, 366.0], [1, 10, "Brookline Village", "GL", "B", 466.1, 352.0], [1, 11, "Longwood", "GL", "B", 451.9, 337.8], [1, 12, "Fenway", "GL", "B", 437.8, 323.7], [1, 13, "Kenmore", "GL", "B", 418.0, 301.0], [1, 14, "Hynes Convention Ctr", "GL", "B", 396.0, 301.0], [1, 15, "Copley", "GL", "B", 370.0, 301.0], [1, 16, "Arlington", "GL", "B", 348.0, 301.0], [1, 17, "Boylston", "GL", "B", 326.0, 301.0], [1, 18, "Boylston", "GL", "A", 326.0, 287.0], [1, 19, "Arlington", "GL", "A", 348.0, 287.0], [1, 20, "Copley", "GL", "A", 370.0, 287.0], [1, 21, "Hynes Convention Ctr", "GL", "A", 396.0, 287.0], [1, 22, "Blandford St", "GL", "A", 428.6, 273.5], [1, 23, "BU East", "GL", "A", 443.5, 258.6], [1, 24, "BU Central", "GL", "A", 458.3, 243.8], [1, 25, "Amory St", "GL", "A", 473.1, 228.9], [1, 26, "Babcock St", "GL", "A", 488.0, 214.1], [1, 27, "Packard's Corner", "GL", "A", 502.9, 199.2], [1, 28, "Harvard Ave", "GL", "B", 549.0, 172.0], [1, 29, "Griggs St", "GL", "A", 563.0, 192.0], [1, 30, "Allston St", "GL", "A", 563.0, 212.0], [1, 31, "Warren St", "GL", "A", 563.0, 232.0], [1, 32, "Washington St", "GL", "A", 563.0, 252.0], [1, 33, "Sutherland Rd", "GL", "A", 563.0, 272.0], [1, 34, "Chiswick Rd", "GL", "A", 563.0, 292.0], [1, 35, "Chestnut Hill Ave", "GL", "A", 563.0, 312.0], [1, 36, "South St", "GL", "A", 563.0, 332.0], [1, 37, "Boston College", "GL", "A", 563.0, 352.0], [1, 38, "Boston College", "GL", "B", 549.0, 352.0], [1, 39, "South St", "GL", "B", 549.0, 332.0], [1, 40, "Chestnut Hill Ave", "GL", "B", 549.0, 312.0], [1, 41, "Chiswick Rd", "GL", "B", 549.0, 292.0], [1, 42, "Sutherland Rd", "GL", "B", 549.0, 272.0], [1, 43, "Washington St", "GL", "B", 549.0, 252.0], [1, 44, "Warren St", "GL", "B", 549.0, 232.0], [1, 45, "Allston St", "GL", "B", 549.0, 212.0], [1, 46, "Griggs St", "GL", "B", 549.0, 192.0], [1, 47, "Harvard Ave", "GL", "A", 563.0, 172.0], [1, 48, "Packard's Corner", "GL", "B", 512.8, 209.2], [1, 49, "Babcock St", "GL", "B", 497.9, 224.0], [1, 50, "Amory St", "GL", "B", 483.1, 238.8], [1, 51, "BU Central", "GL", "B", 468.2, 253.7], [1, 52, "BU East", "GL", "B", 453.4, 268.5], [1, 53, "Blandford St", "GL", "B", 438.5, 283.4], [1, 54, "St. Mary's St", "GL", "A", 458.0, 287.0], [1, 55, "Hawes St", "GL", "A", 478.0, 287.0], [1, 56, "Kent St", "GL", "A", 515.0, 311.1], [1, 57, "St. Paul St", "GL", "A", 539.0, 370.0], [1, 58, "Coolidge Corner", "GL", "A", 539.0, 390.0], [1, 59, "Summit Ave", "GL", "A", 539.0, 410.0], [1, 60, "Brandon Hall", "GL", "A", 539.0, 430.0], [1, 61, "Fairbanks St", "GL", "A", 539.0, 450.0], [1, 62, "Washington Sq", "GL", "A", 539.0, 470.0], [1, 63, "Tappan St", "GL", "A", 539.0, 490.0], [1, 64, "Dean Rd", "GL", "A", 539.0, 510.0], [1, 65, "Englewood Ave", "GL", "A", 539.0, 530.0], [1, 66, "Cleveland Circle", "GL", "A", 539.0, 550.0], [1, 67, "Cleveland Circle", "GL", "B", 525.0, 550.0], [1, 68, "Englewood Ave", "GL", "B", 525.0, 530.0], [1, 69, "Dean Rd", "GL", "B", 525.0, 510.0], [1, 70, "Tappan St", "GL", "B", 525.0, 490.0], [1, 71, "Washington Sq", "GL", "B", 525.0, 470.0], [1, 72, "Fairbanks St", "GL", "B", 525.0, 450.0], [1, 73, "Brandon Hall", "GL", "B", 525.0, 430.0], [1, 74, "Summit Ave", "GL", "B", 525.0, 410.0], [1, 75, "Coolidge Corner", "GL", "B", 525.0, 390.0], [1, 76, "St. Paul St", "GL", "B", 525.0, 370.0], [1, 77, "Kent St", "GL", "B", 505.1, 320.9], [1, 78, "Hawes St", "GL", "B", 478.0, 301.0], [1, 79, "St. Mary's St", "GL", "B", 458.0, 301.0], [1, 80, "Kenmore", "GL", "A", 418.0, 287.0], [1, 81, "Fenway", "GL", "A", 447.7, 313.8], [1, 82, "Longwood", "GL", "A", 461.8, 327.9], [1, 83, "Brookline Village", "GL", "A", 476.0, 342.1], [1, 84, "Brookline Hills", "GL", "A", 486.0, 366.0], [1, 85, "Beaconsfield", "GL", "A", 486.0, 386.0], [1, 86, "Reservoir", "GL", "A", 486.0, 406.0], [1, 87, "Chestnut Hill", "GL", "A", 486.0, 426.0], [1, 88, "Newton Centre", "GL", "A", 486.0, 446.0], [1, 89, "Newton Highlands", "GL", "A", 486.0, 466.0], [1, 90, "Eliot", "GL", "A", 486.0, 486.0], [1, 91, "Waban", "GL", "A", 486.0, 506.0], [1, 92, "Woodland", "GL", "A", 486.0, 526.0], [1, 93, "Riverside", "GL", "A", 486.0, 546.0], [2, 0, "Forest Hills", "OL", "B", 378.3, 409.2], [2, 1, "Green St", "OL", "B", 364.2, 395.1], [2, 2, "Stony Brook", "OL", "B", 350.1, 380.9], [2, 3, "Jackson Sq", "OL", "B", 335.9, 366.8], [2, 4, "Roxbury Crossing", "OL", "B", 321.8, 352.7], [2, 5, "Ruggles", "OL", "B", 307.6, 338.5], [2, 6, "Mass. Ave", "OL", "B", 293.5, 324.4], [2, 7, "Back Bay", "OL", "B", 279.3, 310.2], [2, 8, "Tufts Medical Ctr", "OL", "B", 265.2, 296.1], [2, 9, "Chinatown", "OL", "B", 251.1, 281.9], [2, 10, "Downtown Crossing", "OL", "B", 225.0, 242.0], [2, 11, "State", "OL", "B", 225.0, 218.0], [2, 12, "Haymarket", "OL", "B", 225.0, 194.0], [2, 13, "North Station", "OL", "B", 225.0, 170.0], [2, 14, "Community College", "OL", "B", 225.0, 150.0], [2, 15, "Sullivan Sq", "OL", "B", 225.0, 130.0], [2, 16, "Assembly", "OL", "B", 225.0, 110.0], [2, 17, "Wellington", "OL", "B", 225.0, 90.0], [2, 18, "Malden Center", "OL", "B", 225.0, 70.0], [2, 19, "Oak Grove", "OL", "B", 225.0, 50.0], [2, 20, "Oak Grove", "OL", "A", 239.0, 50.0], [2, 21, "Malden Center", "OL", "A", 239.0, 70.0], [2, 22, "Wellington", "OL", "A", 239.0, 90.0], [2, 23, "Assembly", "OL", "A", 239.0, 110.0], [2, 24, "Sullivan Sq", "OL", "A", 239.0, 130.0], [2, 25, "Community College", "OL", "A", 239.0, 150.0], [2, 26, "North Station", "OL", "A", 239.0, 170.0], [2, 27, "Haymarket", "OL", "A", 239.0, 194.0], [2, 28, "State", "OL", "A", 239.0, 218.0], [2, 29, "Downtown Crossing", "OL", "A", 239.0, 242.0], [2, 30, "Park Street", "GL", "B", 265.0, 242.0], [2, 31, "Gov't Center", "GL", "B", 265.0, 218.0], [2, 32, "Haymarket", "GL", "B", 265.0, 194.0], [2, 33, "North Station", "GL", "B", 265.0, 170.0], [2, 34, "Science Park/West End", "GL", "B", 265.0, 150.0], [2, 35, "Lechmere", "GL", "B", 265.0, 130.0], [2, 36, "East Somerville", "GL", "B", 276.9, 104.2], [2, 37, "Gilman Sq", "GL", "B", 291.1, 90.0], [2, 38, "Magoun Sq", "GL", "B", 305.2, 75.9], [2, 39, "Ball Sq", "GL", "B", 319.4, 61.7], [2, 40, "Medford/Tufts", "GL", "B", 333.5, 47.6], [2, 41, "Medford/Tufts", "GL", "A", 343.4, 57.5], [2, 42, "Ball Sq", "GL", "A", 329.3, 71.6], [2, 43, "Magoun Sq", "GL", "A", 315.1, 85.8], [2, 44, "Gilman Sq", "GL", "A", 301.0, 99.9], [2, 45, "East Somerville", "GL", "A", 286.9, 114.0], [2, 46, "Union Sq", "GL", "B", 312.0, 117.0], [2, 47, "Union Sq", "GL", "A", 312.0, 131.0], [2, 48, "Lechmere", "GL", "A", 279.0, 130.0], [2, 49, "Science Park/West End", "GL", "A", 279.0, 150.0], [2, 50, "North Station", "GL", "A", 279.0, 170.0], [2, 51, "Haymarket", "GL", "A", 279.0, 194.0], [2, 52, "Gov't Center", "GL", "A", 279.0, 218.0], [2, 53, "Park Street", "GL", "A", 279.0, 242.0], [2, 54, "Chinatown", "OL", "A", 260.9, 272.1], [2, 55, "Tufts Medical Ctr", "OL", "A", 275.1, 286.2], [2, 56, "Back Bay", "OL", "A", 289.2, 300.3], [2, 57, "Mass. Ave", "OL", "A", 303.4, 314.5], [2, 58, "Ruggles", "OL", "A", 317.5, 328.6], [2, 59, "Roxbury Crossing", "OL", "A", 331.7, 342.8], [2, 60, "Jackson Sq", "OL", "A", 345.8, 356.9], [2, 61, "Stony Brook", "OL", "A", 359.9, 371.1], [2, 62, "Green St", "OL", "A", 374.1, 385.2], [2, 63, null, null, "SKIP", null, null], [2, 64, "Brigham Circle", "GL", "A", 457.0, 411.0], [2, 65, "Longwood Medical Area", "GL", "B", 443.0, 386.0], [2, 66, "Museum of Fine Arts", "GL", "B", 434.4, 368.2], [2, 67, "Northeastern", "GL", "B", 420.2, 354.1], [2, 68, "Symphony", "GL", "B", 406.1, 340.0], [2, 69, "Prudential", "GL", "B", 391.9, 325.8], [2, 70, "Prudential", "GL", "A", 401.8, 315.9], [2, 71, "Symphony", "GL", "A", 416.0, 330.1], [2, 72, "Northeastern", "GL", "A", 430.1, 344.2], [2, 73, "Museum of Fine Arts", "GL", "A", 444.2, 358.4], [2, 74, "Longwood Medical Area", "GL", "A", 457.0, 386.0], [2, 75, "Fenwood Rd", "GL", "A", 457.0, 431.0], [2, 76, "Mission Park", "GL", "A", 457.0, 451.0], [2, 77, "Riverway", "GL", "A", 457.0, 471.0], [2, 78, "Back of the Hill", "GL", "A", 457.0, 491.0], [2, 79, "Heath St", "GL", "A", 457.0, 511.0], [2, 80, "Heath St", "GL", "B", 443.0, 511.0], [2, 81, "Back of the Hill", "GL", "B", 443.0, 491.0], [2, 82, "Riverway", "GL", "B", 443.0, 471.0], [2, 83, "Mission Park", "GL", "B", 443.0, 451.0], [2, 84, "Fenwood Rd", "GL", "B", 443.0, 431.0], [2, 85, "Brigham Circle", "GL", "B", 443.0, 411.0], [2, 86, "Forest Hills", "OL", "A", 388.2, 399.3], [3, 0, "Mattapan", "M", "B", 278.4, 392.6], [3, 1, "Capen St", "M", "B", 257.4, 392.6], [3, 2, "Valley Rd", "M", "B", 236.4, 392.6], [3, 3, "Central Ave", "M", "B", 215.4, 392.6], [3, 4, "Milton", "M", "B", 194.4, 392.6], [3, 5, "Butler", "M", "B", 173.4, 392.6], [3, 6, "Cedar Grove", "M", "B", 152.4, 392.6], [3, 7, "Ashmont", "M", "B", 131.4, 392.6], [3, 8, "Ashmont", "RL", "A", 118.4, 385.6], [3, 9, "Shawmut", "RL", "B", 104.4, 365.6], [3, 10, "Fields Corner", "RL", "B", 104.4, 345.6], [3, 11, "Savin Hill", "RL", "B", 104.4, 325.6], [3, 12, "JFK/UMass", "RL", "B", 106.4, 300.6], [3, 13, "North Quincy", "RL", "A", 92.7, 334.2], [3, 14, "Wollaston", "RL", "A", 78.5, 348.4], [3, 15, "Quincy Center", "RL", "A", 64.4, 362.5], [3, 16, "Quincy Adams", "RL", "A", 59.4, 377.6], [3, 17, "Braintree", "RL", "A", 59.4, 397.6], [3, 18, "Braintree", "RL", "B", 45.4, 397.6], [3, 19, "Quincy Adams", "RL", "B", 45.4, 377.6], [3, 20, "Quincy Center", "RL", "B", 54.5, 352.6], [3, 21, "Wollaston", "RL", "B", 68.6, 338.5], [3, 22, "North Quincy", "RL", "B", 82.8, 324.3], [3, 23, "Andrew", "RL", "B", 120.6, 286.5], [3, 24, "Broadway", "RL", "B", 134.7, 272.4], [3, 25, "South Station", "RL", "B", 174.0, 259.0], [3, 26, "Downtown Crossing", "RL", "B", 218.0, 259.0], [3, 27, null, null, "SKIP", null, null], [3, 28, "Park Street", "RL", "B", 302.0, 259.0], [3, 29, "Charles/MGH", "RL", "B", 328.0, 259.0], [3, 30, "Bowdoin", "BL", "A", 322.0, 237.0], [3, 31, "Gov't Center", "BL", "A", 296.0, 237.0], [3, 32, null, null, "SKIP", null, null], [3, 33, "State", "BL", "A", 212.0, 237.0], [3, 34, "Aquarium", "BL", "A", 181.0, 208.9], [3, 35, "Maverick", "BL", "A", 157.0, 184.9], [3, 36, "Airport", "BL", "A", 141.8, 169.7], [3, 37, "Wood Island", "BL", "A", 126.6, 154.5], [3, 38, "Orient Heights", "BL", "A", 111.4, 139.3], [3, 39, "Suffolk Downs", "BL", "A", 96.2, 124.1], [3, 40, "Beachmont", "BL", "A", 81.0, 108.9], [3, 41, "Revere Beach", "BL", "A", 65.8, 93.7], [3, 42, "Wonderland", "BL", "A", 50.6, 78.5], [3, 43, "Wonderland", "BL", "B", 60.5, 68.6], [3, 44, "Revere Beach", "BL", "B", 75.7, 83.8], [3, 45, "Beachmont", "BL", "B", 90.9, 99.0], [3, 46, "Suffolk Downs", "BL", "B", 106.1, 114.2], [3, 47, "Orient Heights", "BL", "B", 121.3, 129.4], [3, 48, "Wood Island", "BL", "B", 136.5, 144.6], [3, 49, "Airport", "BL", "B", 151.7, 159.8], [3, 50, "Maverick", "BL", "B", 166.9, 175.0], [3, 51, "Aquarium", "BL", "B", 190.9, 199.0], [3, 52, "State", "BL", "B", 212.0, 223.0], [3, 53, null, null, "SKIP", null, null], [3, 54, "Gov't Center", "BL", "B", 296.0, 223.0], [3, 55, "Bowdoin", "BL", "B", 322.0, 223.0], [3, 56, "Kendall/MIT", "RL", "B", 360.0, 259.0], [3, 57, "Central", "RL", "B", 385.1, 242.0], [3, 58, "Harvard", "RL", "B", 403.5, 223.6], [3, 59, "Porter", "RL", "B", 421.9, 205.2], [3, 60, "Davis", "RL", "B", 440.3, 186.8], [3, 61, "Alewife", "RL", "B", 458.7, 168.4], [3, 62, "Alewife", "RL", "A", 468.6, 178.3], [3, 63, "Davis", "RL", "A", 450.2, 196.7], [3, 64, "Porter", "RL", "A", 431.8, 215.1], [3, 65, "Harvard", "RL", "A", 413.4, 233.5], [3, 66, "Central", "RL", "A", 395.0, 251.9], [3, 67, "Kendall/MIT", "RL", "A", 360.0, 273.0], [3, 68, "Charles/MGH", "RL", "A", 328.0, 273.0], [3, 69, "Park Street", "RL", "A", 302.0, 273.0], [3, 70, null, null, "SKIP", null, null], [3, 71, "Downtown Crossing", "RL", "A", 218.0, 273.0], [3, 72, "South Station", "RL", "A", 174.0, 273.0], [3, 73, "Broadway", "RL", "A", 144.6, 282.3], [3, 74, "Andrew", "RL", "A", 130.5, 296.4], [3, 75, "JFK/UMass", "RL", "A", 116.4, 310.6], [3, 76, "Savin Hill", "RL", "A", 118.4, 325.6], [3, 77, "Fields Corner", "RL", "A", 118.4, 345.6], [3, 78, "Shawmut", "RL", "A", 118.4, 365.6], [3, 79, "Ashmont", "RL", "B", 104.4, 385.6], [3, 80, "Ashmont", "M", "A", 131.4, 378.6], [3, 81, "Cedar Grove", "M", "A", 152.4, 378.6], [3, 82, "Butler", "M", "A", 173.4, 378.6], [3, 83, "Milton", "M", "A", 194.4, 378.6], [3, 84, "Central Ave", "M", "A", 215.4, 378.6], [3, 85, "Valley Rd", "M", "A", 236.4, 378.6], [3, 86, "Capen St", "M", "A", 257.4, 378.6], [3, 87, "Mattapan", "M", "A", 278.4, 378.6]], "holes": [[239.0, 50.0], [225.0, 50.0], [239.0, 70.0], [225.0, 70.0], [239.0, 90.0], [225.0, 90.0], [239.0, 110.0], [225.0, 110.0], [239.0, 130.0], [225.0, 130.0], [239.0, 150.0], [225.0, 150.0], [239.0, 170.0], [225.0, 170.0], [239.0, 194.0], [225.0, 194.0], [239.0, 218.0], [225.0, 218.0], [239.0, 242.0], [225.0, 242.0], [260.9, 272.1], [251.1, 281.9], [275.1, 286.2], [265.2, 296.1], [289.2, 300.3], [279.3, 310.2], [303.4, 314.5], [293.5, 324.4], [317.5, 328.6], [307.6, 338.5], [331.7, 342.8], [321.8, 352.7], [345.8, 356.9], [335.9, 366.8], [359.9, 371.1], [350.1, 380.9], [374.1, 385.2], [364.2, 395.1], [388.2, 399.3], [378.3, 409.2], [343.4, 57.5], [333.5, 47.6], [329.3, 71.6], [319.4, 61.7], [315.1, 85.8], [305.2, 75.9], [301.0, 99.9], [291.1, 90.0], [286.9, 114.0], [276.9, 104.2], [279.0, 130.0], [265.0, 130.0], [279.0, 150.0], [265.0, 150.0], [279.0, 170.0], [265.0, 170.0], [279.0, 194.0], [265.0, 194.0], [279.0, 218.0], [265.0, 218.0], [279.0, 242.0], [265.0, 242.0], [326.0, 287.0], [326.0, 301.0], [348.0, 287.0], [348.0, 301.0], [370.0, 287.0], [370.0, 301.0], [396.0, 287.0], [396.0, 301.0], [418.0, 287.0], [418.0, 301.0], [458.0, 287.0], [458.0, 301.0], [478.0, 287.0], [478.0, 301.0], [515.0, 311.1], [505.1, 320.9], [539.0, 370.0], [525.0, 370.0], [539.0, 390.0], [525.0, 390.0], [539.0, 410.0], [525.0, 410.0], [539.0, 430.0], [525.0, 430.0], [539.0, 450.0], [525.0, 450.0], [539.0, 470.0], [525.0, 470.0], [539.0, 490.0], [525.0, 490.0], [539.0, 510.0], [525.0, 510.0], [539.0, 530.0], [525.0, 530.0], [539.0, 550.0], [525.0, 550.0], [312.0, 131.0], [312.0, 117.0], [428.6, 273.5], [438.5, 283.4], [443.5, 258.6], [453.4, 268.5], [458.3, 243.8], [468.2, 253.7], [473.1, 228.9], [483.1, 238.8], [488.0, 214.1], [497.9, 224.0], [502.9, 199.2], [512.8, 209.2], [563.0, 172.0], [549.0, 172.0], [563.0, 192.0], [549.0, 192.0], [563.0, 212.0], [549.0, 212.0], [563.0, 232.0], [549.0, 232.0], [563.0, 252.0], [549.0, 252.0], [563.0, 272.0], [549.0, 272.0], [563.0, 292.0], [549.0, 292.0], [563.0, 312.0], [549.0, 312.0], [563.0, 332.0], [549.0, 332.0], [563.0, 352.0], [549.0, 352.0], [447.7, 313.8], [437.8, 323.7], [461.8, 327.9], [451.9, 337.8], [476.0, 342.1], [466.1, 352.0], [486.0, 366.0], [472.0, 366.0], [486.0, 386.0], [472.0, 386.0], [486.0, 406.0], [472.0, 406.0], [486.0, 426.0], [472.0, 426.0], [486.0, 446.0], [472.0, 446.0], [486.0, 466.0], [472.0, 466.0], [486.0, 486.0], [472.0, 486.0], [486.0, 506.0], [472.0, 506.0], [486.0, 526.0], [472.0, 526.0], [486.0, 546.0], [472.0, 546.0], [401.8, 315.9], [391.9, 325.8], [416.0, 330.1], [406.1, 340.0], [430.1, 344.2], [420.2, 354.1], [444.2, 358.4], [434.4, 368.2], [457.0, 386.0], [443.0, 386.0], [457.0, 411.0], [443.0, 411.0], [457.0, 431.0], [443.0, 431.0], [457.0, 451.0], [443.0, 451.0], [457.0, 471.0], [443.0, 471.0], [457.0, 491.0], [443.0, 491.0], [457.0, 511.0], [443.0, 511.0], [322.0, 237.0], [322.0, 223.0], [296.0, 237.0], [296.0, 223.0], [212.0, 237.0], [212.0, 223.0], [181.0, 208.9], [190.9, 199.0], [157.0, 184.9], [166.9, 175.0], [141.8, 169.7], [151.7, 159.8], [126.6, 154.5], [136.5, 144.6], [111.4, 139.3], [121.3, 129.4], [96.2, 124.1], [106.1, 114.2], [81.0, 108.9], [90.9, 99.0], [65.8, 93.7], [75.7, 83.8], [50.6, 78.5], [60.5, 68.6], [468.6, 178.3], [458.7, 168.4], [450.2, 196.7], [440.3, 186.8], [431.8, 215.1], [421.9, 205.2], [413.4, 233.5], [403.5, 223.6], [395.0, 251.9], [385.1, 242.0], [360.0, 273.0], [360.0, 259.0], [328.0, 273.0], [328.0, 259.0], [302.0, 273.0], [302.0, 259.0], [218.0, 273.0], [218.0, 259.0], [174.0, 273.0], [174.0, 259.0], [144.6, 282.3], [134.7, 272.4], [130.5, 296.4], [120.6, 286.5], [116.4, 310.6], [106.4, 300.6], [92.7, 334.2], [82.8, 324.3], [78.5, 348.4], [68.6, 338.5], [64.4, 362.5], [54.5, 352.6], [59.4, 377.6], [45.4, 377.6], [59.4, 397.6], [45.4, 397.6], [118.4, 325.6], [104.4, 325.6], [118.4, 345.6], [104.4, 345.6], [118.4, 365.6], [104.4, 365.6], [118.4, 385.6], [104.4, 385.6], [131.4, 378.6], [131.4, 392.6], [152.4, 378.6], [152.4, 392.6], [173.4, 378.6], [173.4, 392.6], [194.4, 378.6], [194.4, 392.6], [215.4, 378.6], [215.4, 392.6], [236.4, 378.6], [236.4, 392.6], [257.4, 378.6], [257.4, 392.6], [278.4, 378.6], [278.4, 392.6]], "names": [["Oak Grove", 232.0, 50.0], ["Malden Center", 232.0, 70.0], ["Wellington", 232.0, 90.0], ["Assembly", 232.0, 110.0], ["Sullivan Sq", 232.0, 130.0], ["Community College", 232.0, 150.0], ["North Station", 232.0, 170.0], ["Haymarket", 232.0, 194.0], ["State", 232.0, 218.0], ["Downtown Crossing", 232.0, 242.0], ["Chinatown", 256.0, 277.0], ["Tufts Medical Ctr", 270.1, 291.1], ["Back Bay", 284.3, 305.3], ["Mass. Ave", 298.4, 319.4], ["Ruggles", 312.6, 333.6], ["Roxbury Crossing", 326.7, 347.7], ["Jackson Sq", 340.9, 361.9], ["Stony Brook", 355.0, 376.0], ["Green St", 369.1, 390.1], ["Forest Hills", 383.3, 404.3], ["Medford/Tufts", 338.5, 52.5], ["Ball Sq", 324.3, 66.7], ["Magoun Sq", 310.2, 80.8], ["Gilman Sq", 296.0, 95.0], ["East Somerville", 281.9, 109.1], ["Lechmere", 272.0, 130.0], ["Science Park/West End", 272.0, 150.0], ["North Station", 272.0, 170.0], ["Haymarket", 272.0, 194.0], ["Gov't Center", 272.0, 218.0], ["Park Street", 272.0, 242.0], ["Boylston", 326.0, 294.0], ["Arlington", 348.0, 294.0], ["Copley", 370.0, 294.0], ["Hynes Convention Ctr", 396.0, 294.0], ["Kenmore", 418.0, 294.0], ["St. Mary's St", 458.0, 294.0], ["Hawes St", 478.0, 294.0], ["Kent St", 510.0, 316.0], ["St. Paul St", 532.0, 370.0], ["Coolidge Corner", 532.0, 390.0], ["Summit Ave", 532.0, 410.0], ["Brandon Hall", 532.0, 430.0], ["Fairbanks St", 532.0, 450.0], ["Washington Sq", 532.0, 470.0], ["Tappan St", 532.0, 490.0], ["Dean Rd", 532.0, 510.0], ["Englewood Ave", 532.0, 530.0], ["Cleveland Circle", 532.0, 550.0], ["Union Sq", 312.0, 124.0], ["Blandford St", 433.6, 278.4], ["BU East", 448.4, 263.6], ["BU Central", 463.2, 248.8], ["Amory St", 478.1, 233.9], ["Babcock St", 492.9, 219.1], ["Packard's Corner", 507.8, 204.2], ["Harvard Ave", 556.0, 172.0], ["Griggs St", 556.0, 192.0], ["Allston St", 556.0, 212.0], ["Warren St", 556.0, 232.0], ["Washington St", 556.0, 252.0], ["Sutherland Rd", 556.0, 272.0], ["Chiswick Rd", 556.0, 292.0], ["Chestnut Hill Ave", 556.0, 312.0], ["South St", 556.0, 332.0], ["Boston College", 556.0, 352.0], ["Fenway", 442.8, 318.8], ["Longwood", 456.9, 332.9], ["Brookline Village", 471.0, 347.0], ["Brookline Hills", 479.0, 366.0], ["Beaconsfield", 479.0, 386.0], ["Reservoir", 479.0, 406.0], ["Chestnut Hill", 479.0, 426.0], ["Newton Centre", 479.0, 446.0], ["Newton Highlands", 479.0, 466.0], ["Eliot", 479.0, 486.0], ["Waban", 479.0, 506.0], ["Woodland", 479.0, 526.0], ["Riverside", 479.0, 546.0], ["Prudential", 396.9, 320.9], ["Symphony", 411.0, 335.0], ["Northeastern", 425.1, 349.1], ["Museum of Fine Arts", 439.3, 363.3], ["Longwood Medical Area", 450.0, 386.0], ["Brigham Circle", 450.0, 411.0], ["Fenwood Rd", 450.0, 431.0], ["Mission Park", 450.0, 451.0], ["Riverway", 450.0, 471.0], ["Back of the Hill", 450.0, 491.0], ["Heath St", 450.0, 511.0], ["Bowdoin", 322.0, 230.0], ["Gov't Center", 296.0, 230.0], ["State", 212.0, 230.0], ["Aquarium", 186.0, 204.0], ["Maverick", 161.9, 179.9], ["Airport", 146.7, 164.7], ["Wood Island", 131.5, 149.5], ["Orient Heights", 116.3, 134.3], ["Suffolk Downs", 101.1, 119.1], ["Beachmont", 85.9, 103.9], ["Revere Beach", 70.7, 88.7], ["Wonderland", 55.5, 73.5], ["Alewife", 463.6, 173.4], ["Davis", 445.2, 191.8], ["Porter", 426.9, 210.1], ["Harvard", 408.5, 228.5], ["Central", 390.1, 246.9], ["Kendall/MIT", 360.0, 266.0], ["Charles/MGH", 328.0, 266.0], ["Park Street", 302.0, 266.0], ["Downtown Crossing", 218.0, 266.0], ["South Station", 174.0, 266.0], ["Broadway", 139.7, 277.3], ["Andrew", 125.5, 291.5], ["JFK/UMass", 111.4, 305.6], ["North Quincy", 87.7, 329.3], ["Wollaston", 73.6, 343.4], ["Quincy Center", 59.4, 357.6], ["Quincy Adams", 52.4, 377.6], ["Braintree", 52.4, 397.6], ["Savin Hill", 111.4, 325.6], ["Fields Corner", 111.4, 345.6], ["Shawmut", 111.4, 365.6], ["Ashmont", 111.4, 385.6], ["Ashmont", 131.4, 385.6], ["Cedar Grove", 152.4, 385.6], ["Butler", 173.4, 385.6], ["Milton", 194.4, 385.6], ["Central Ave", 215.4, 385.6], ["Valley Rd", 236.4, 385.6], ["Capen St", 257.4, 385.6], ["Mattapan", 278.4, 385.6]]};
+const LINE = { RL: "Red Line", M: "Mattapan", OL: "Orange Line", BL: "Blue Line", GL: "Green Line" };
+const OUT = { 1: "Green B, C, D", 2: "Orange + north Green, E", 3: "Red, Mattapan, Blue" };
+const OC = { 1: "var(--o1)", 2: "var(--o2)", 3: "var(--o3)" };
+const KEY = "mbta-pixel-placer-v1";
+let st = { out: 1, at: { 1: 0, 2: 0, 3: 0 } };
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && s.at) st = s; } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+const chain = o => D.rows.filter(r => r[0] === o);
+
+function tabs() {
+  const t = document.getElementById("tabs");
+  t.innerHTML = [1, 2, 3].map(o => `<button class="tab" type="button" id="tab${o}" style="--oc:${OC[o]}" aria-pressed="${st.out === o}">Output ${o}<small>${OUT[o]}</small></button>`).join("");
+  [1, 2, 3].forEach(o => document.getElementById("tab" + o).addEventListener("click", () => { st.out = o; save(); draw(); }));
+}
+
+function mapSvg(c, i, box, zoom) {
+  const [x0, y0, w, h] = box;
+  const k = w / 610;                                   // scale for strokes and text
+  let s = `<svg viewBox="${x0} ${y0} ${w} ${h}" role="img" aria-label="${zoom ? "Close-up of the hole" : "Whole panel from behind"}">`;
+  s += `<rect x="0" y="0" width="609.6" height="609.6" fill="none" style="stroke:var(--muted)" stroke-width="${2.5 * k}"/>`;
+  s += `<rect x="31.7" y="419.3" width="318" height="158" rx="2" style="fill:var(--card);stroke:var(--muted)" stroke-width="${1.5 * k}"/>`;
+  if (!zoom) s += `<text x="190" y="503" font-size="17" text-anchor="middle" font-weight="700" style="fill:var(--muted)">sign</text>`;
+  D.holes.forEach(p => s += `<circle cx="${p[0]}" cy="${p[1]}" r="${zoom ? 2.4 : 2.6}" style="fill:var(--hole)"/>`);
+  // what's placed already, and the wire's path
+  const placed = c.slice(0, i).filter(r => r[5] !== null);
+  if (placed.length > 1) s += `<polyline points="${placed.map(r => r[5] + "," + r[6]).join(" ")}" fill="none" style="stroke:${OC[st.out]}" stroke-width="${(zoom ? 0.7 : 1.4)}" opacity=".45"/>`;
+  placed.forEach(r => s += `<circle cx="${r[5]}" cy="${r[6]}" r="${zoom ? 2.6 : 3}" style="fill:${OC[st.out]}"/>`);
+  if (zoom) {
+    D.names.forEach(n => { if (n[1] > x0 - 20 && n[1] < x0 + w + 20 && n[2] > y0 - 10 && n[2] < y0 + h + 10)
+      s += `<text x="${n[1]}" y="${n[2] - 8}" font-size="3.6" text-anchor="middle" style="fill:var(--muted)">${n[0]}</text>`; });
+    placed.forEach(r => s += `<text x="${r[5]}" y="${r[6] + 1.1}" font-size="2.6" text-anchor="middle" font-weight="700" style="fill:var(--card)">${r[1]}</text>`);
+  }
+  const r = c[i], nxt = c.slice(i + 1).find(q => q[5] !== null);
+  if (nxt && zoom) s += `<circle cx="${nxt[5]}" cy="${nxt[6]}" r="4" fill="none" style="stroke:${OC[st.out]}" stroke-width=".6" stroke-dasharray="1.2 1"/>`;
+  if (r && r[5] !== null) {
+    s += `<circle class="pulse" cx="${r[5]}" cy="${r[6]}" r="${zoom ? 5.5 : 9}" fill="none" style="stroke:${OC[st.out]}" stroke-width="${zoom ? 1.3 : 3}"/>`;
+    s += `<circle cx="${r[5]}" cy="${r[6]}" r="${zoom ? 3 : 4}" style="fill:${OC[st.out]}"/>`;
+  }
+  return s + `</svg>`;
+}
+
+function draw() {
+  tabs();
+  const o = st.out, c = chain(o);
+  let i = Math.min(Math.max(st.at[o] || 0, 0), c.length);
+  st.at[o] = i;
+  document.documentElement.style.setProperty("--oc", OC[o]);
+  const el = document.getElementById("cur");
+  if (i >= c.length) {
+    el.innerHTML = `<div class="of">Output ${o} · done</div><div class="station">All ${c.length} pixels of output ${o} placed.</div>
+      <p class="meta">Spare pixels after the last one stay dark; tuck them away.</p>
+      <div class="controls"><button class="btn" id="prev" type="button">← Back</button><button class="btn primary" id="restart" type="button">Start this output again</button></div>`;
+    document.getElementById("prev").onclick = () => step(-1);
+    document.getElementById("restart").onclick = () => { st.at[o] = 0; save(); draw(); };
+    document.getElementById("full").innerHTML = mapSvg(c, c.length, [-6, -6, 622, 622], false);
+    return;
+  }
+  const r = c[i];
+  const skip = r[5] === null;
+  const real = c.slice(0, i).filter(q => q[5] !== null);
+  const last = real[real.length - 1];
+  const target = skip ? last || c.find(q => q[5] !== null) : r;
+  const Z = 120, zb = [target[5] - Z / 2, target[6] - Z / 2, Z, Z];
+  const upcoming = c.slice(i + 1, i + 4).map(q => `<span><b>${q[1]}</b> ${q[5] === null ? "SKIP (into a cup)" : q[2] + " · " + LINE[q[3]] + " · light " + q[4]}</span>`).join("");
+  el.innerHTML = `
+    <div class="of">Output ${o} · pixel ${i} of ${c.length - 1} · string ${i < 50 ? 1 : 2}</div>
+    <div class="bar"><i style="width:${(100 * i / c.length).toFixed(1)}%"></i></div>
+    <div class="now"><div class="big">${r[1]}</div>
+      <div class="station">${skip ? "SKIP" : r[2]}</div>
+      <div class="meta">${skip ? "Leave this pixel out of the map. Push it into a printed cup." : LINE[r[3]] + " · light " + r[4]}</div></div>
+    ${i === 50 ? `<div class="note"><b>New string.</b> Plug the second string into the end of the first. Its first pixel is number 50.</div>` : ""}
+    ${skip ? `<div class="note"><b>No hole for this one.</b> The wire jumps further than one pixel's lead here, so this pixel hangs between the two holes, in a cup.</div>` : ""}
+    <div class="zoom">${mapSvg(c, i, zb, true)}</div>
+    <div class="controls">
+      <button class="btn" id="prev" type="button" ${i === 0 ? "disabled" : ""}>← Back</button>
+      <button class="btn primary" id="next" type="button">${skip ? "Parked it, next →" : "Placed it, next →"}</button>
+    </div>
+    <div class="upnext">${upcoming ? "Then: " + upcoming : ""}</div>
+    <div class="jump"><label for="jumpto">Go to pixel</label><input id="jumpto" type="number" min="0" max="${c.length - 1}" inputmode="numeric" value="${i}"><button class="btn" id="go" type="button" style="padding:6px 12px;font-size:.9rem">Go</button></div>`;
+  document.getElementById("prev").onclick = () => step(-1);
+  document.getElementById("next").onclick = () => step(1);
+  document.getElementById("go").onclick = () => { const v = +document.getElementById("jumpto").value; if (v >= 0 && v < c.length) { st.at[o] = v; save(); draw(); } };
+  document.getElementById("full").innerHTML = mapSvg(c, i, [-6, -6, 622, 622], false);
+}
+function step(d) { st.at[st.out] = (st.at[st.out] || 0) + d; save(); draw(); }
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "INPUT") return;
+  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); step(1); }
+  if (e.key === "ArrowLeft") step(-1);
+});
+draw();
+</script>

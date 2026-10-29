@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map preview</title>
+<style>
+  html, body { margin: 0; height: 100%; }
+  body { background: #2a2826; color: #e8e4de; font: 13px/1.4 system-ui, sans-serif; display: flex; height: 100vh; }
+  #view { flex: 1; overflow: auto; display: flex; padding: 20px; }
+  #map { margin: auto; flex: none; width: min(calc(100vh - 40px), calc(100vw - 290px)); aspect-ratio: 1;
+         box-shadow: 0 12px 30px rgba(0,0,0,.5); }
+  #map svg { width: 100%; height: 100%; display: block; }
+  #panel { width: 250px; flex: none; background: #1b1a19; border-left: 1px solid #3a3734; padding: 16px; overflow-y: auto; }
+  h1 { font-size: 15px; margin: 0 0 10px; }
+  label { display: flex; gap: 6px; align-items: center; margin: 8px 0; }
+  p { color: #9a948b; margin: 10px 0; }
+  #hover { white-space: pre-line; color: #e8e4de; min-height: 4em; }
+</style>
+</head>
+<body>
+<div id="view"><div id="map"></div></div>
+<aside id="panel">
+  <h1>Map preview</h1>
+  <label><input id="guides" type="checkbox"> Show every light's hole</label>
+  <label><input id="glows" type="checkbox" checked> Show a dozen lights lit</label>
+  <label><input id="outline" type="checkbox"> Outline around the sign window</label>
+  <label><input id="zoom" type="checkbox"> Zoom 2.5x</label>
+  <p>Stage 3: the whole print. Tick the outline box to see the version with a thin line around the sign window.</p>
+  <p id="hover">Hover a station or light.</p>
+  <p><a href="/map/validation_report.md" style="color:#ffb020">Validation report</a></p>
+</aside>
+<script>
+const $ = (id) => document.getElementById(id);
+const COLORS = { RL: "#ff3b2f", M: "#ff3b2f", OL: "#ff9a1a", BL: "#3b7bff", GL: "#1fd36a" };
+
+async function load() {
+  const name = $("outline").checked ? "print_with_outline.svg" : "print_no_outline.svg";
+  const [svgText, csv] = await Promise.all([fetch("/map/" + name).then((r) => r.text()),
+                                             fetch("/map/stations.csv").then((r) => r.text())]);
+  $("map").innerHTML = svgText;
+  const svg = $("map").querySelector("svg");
+  svg.removeAttribute("width"); svg.removeAttribute("height");
+  const rows = csv.trim().split("\n").slice(1).map((l) => l.split(","));
+  // A dozen lights, spread over the lines, as small tight glows.
+  const picks = rows.filter((_, i) => i % 11 === 3).slice(0, 12);
+  const ns = "http://www.w3.org/2000/svg";
+  const g = document.createElementNS(ns, "g");
+  g.id = "preview-glows";
+  // The holes are drawn here, not in the print, so a print shop can never print them by mistake.
+  const holes = document.createElementNS(ns, "g");
+  holes.id = "preview-holes";
+  holes.innerHTML = rows.map((r) => [[r[4], r[5]], [r[6], r[7]]].map(([x, y]) =>
+    `<circle cx="${x}" cy="${y}" r="3.175" fill="none" stroke="#C03" stroke-width="0.4"/>`).join("")).join("");
+  svg.appendChild(holes);
+  let defs = "";
+  picks.forEach((r, i) => {
+    const [line, , , , ax, ay, bx, by] = r;
+    const [x, y] = i % 2 ? [bx, by] : [ax, ay];
+    defs += `<radialGradient id="glow${i}"><stop offset="0" stop-color="#fff" stop-opacity=".95"/>` +
+      `<stop offset=".45" stop-color="${COLORS[line]}" stop-opacity=".85"/>` +
+      `<stop offset="1" stop-color="${COLORS[line]}" stop-opacity="0"/></radialGradient>`;
+    g.innerHTML += `<circle cx="${x}" cy="${y}" r="6.5" fill="url(#glow${i})"/>`;
+  });
+  svg.insertAdjacentHTML("afterbegin", "<defs>" + defs + "</defs>");
+  svg.appendChild(g);
+  apply();
+  svg.addEventListener("mousemove", (e) => {
+    const t = e.target.querySelector && e.target.querySelector("title");
+    const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+    const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    $("hover").textContent = (t ? t.textContent + "\n" : "") + `x ${p.x.toFixed(1)} mm, y ${p.y.toFixed(1)} mm`;
+  });
+}
+
+function apply() {
+  const svg = $("map").querySelector("svg");
+  if (!svg) return;
+  svg.querySelector("#preview-holes").setAttribute("display", $("guides").checked ? "inline" : "none");
+  svg.querySelector("#preview-glows").setAttribute("display", $("glows").checked ? "inline" : "none");
+  $("map").style.width = $("zoom").checked ? "250vh" : "";
+}
+["guides", "glows", "zoom"].forEach((id) => $(id).addEventListener("input", apply));
+$("outline").addEventListener("input", load);
+load();
+</script>
+</body>
+</html>

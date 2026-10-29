@@ -1,0 +1,7 @@
+# Copy to the CIRCUITPY drive as settings.toml and fill in. Keep this file off GitHub.
+CIRCUITPY_WIFI_SSID = "your 2.4 GHz network name"
+CIRCUITPY_WIFI_PASSWORD = "your wifi password"
+MBTA_API_KEY = "your MBTA V3 API key"
+# Optional: a code the phone remote asks for once. Leave it out and the remote needs no code (it still
+# ignores requests from other websites).
+REMOTE_TOKEN = "a few random letters and numbers"

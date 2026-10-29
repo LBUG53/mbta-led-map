@@ -1,0 +1,26 @@
+# The sizes of this build's physical parts, as measured (docs/MEASURE.md says how to measure each).
+# The templates, the drill guide, the tiles and the printed parts read their sizes from here, so a
+# different panel, sign, pixel or printer is a change here and a rerun of the scripts:
+#   python tools/printables.py, and the scripts in hardware/ (docs/MAKE_IT_YOURS.md).
+# Settings for the display itself (stops, colors, teams) are in config.yaml.
+
+panel:                       # the cradled wood artist's panel
+  size: 609.6                # outside, mm, square (24 in)
+  frame_wall: 20.0           # how wide the frame's walls are behind the face; the map fits walls up to 38.1
+  depth: 41.3                # front of the face to the back of the frame (1 5/8 in): the stand feet's channel
+  hole: 6.35                 # the drill for the light holes (1/4 in)
+
+sign:                        # the 64 x 32 LED panel
+  width: 317.5               # mm; it sits behind its window in the bottom right corner of the map
+  height: 158.75
+  edge: 32.35                # from the right and bottom edges of the print to the sign: the frame wall plus 12 mm
+  window_inset: 1.0          # the cut window is this much smaller than the sign on each side
+  thickness: 15.0            # face to back at the edge: the height of the brackets' tabs
+
+pixels:                      # the 12 mm WS2811 bullet pixels
+  bore: 13.0                 # the tiles' holes for them: 12.0 to 12.6 gripped too tight
+  collar_depth: 15.0         # how much of each pixel a collar holds (9.5 was too short)
+  wire_spacing: 80           # wire between two pixels, mm; the wiring plan keeps every hop 8 mm shorter
+
+printer:
+  bed: [400, 400]            # mm; the two big tiles need all of it (an Anycubic Kobra Max)

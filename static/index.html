@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MBTA LED Simulator</title>
+<style>
+  :root {
+    --wall: #2a2826; --panel: #1b1a19; --text: #e8e4de; --muted: #9a948b;
+    --line: #3a3734; --accent: #ffb020;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--wall); color: var(--text); font: 13px/1.4 system-ui, sans-serif;
+         display: flex; height: 100vh; overflow: hidden; }
+  #viewport { flex: 1; overflow: auto; display: flex; padding: 24px; }
+  /* The 610 x 610 mm cradled panel: the print covers the whole face, no frame */
+  #frame { margin: auto; background: #0d0d0d; box-shadow: 0 18px 40px rgba(0,0,0,.55); }
+  #stage { position: relative; aspect-ratio: 1; }
+  #stage > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #light { image-rendering: auto; }
+  #print { mix-blend-mode: multiply; pointer-events: none; }
+  #markers { pointer-events: none; }
+  /* The sign sits in the print's sign-window-cut rectangle (placed by app.js) */
+  #stage > #sign { inset: auto; pointer-events: none; }
+  #panel { width: 300px; flex: none; background: var(--panel); border-left: 1px solid var(--line);
+           padding: 16px; overflow-y: auto; }
+  h1 { font-size: 15px; margin: 0 0 2px; }
+  .sub { color: var(--muted); margin: 0 0 14px; }
+  fieldset { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 12px; padding: 8px 10px 10px; }
+  legend { color: var(--muted); padding: 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+  label.row { display: grid; grid-template-columns: 1fr 44px; gap: 2px 8px; align-items: center; margin: 6px 0; }
+  label.row input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); }
+  label.row output { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+  label.check { display: flex; gap: 6px; align-items: center; margin: 6px 0; }
+  select { width: 100%; background: #111; color: var(--text); border: 1px solid var(--line); border-radius: 4px; padding: 4px; }
+  label.row input[type=text], label.row select { grid-column: 1 / -1; }
+  input[type=text] { width: 100%; box-sizing: border-box; background: #111; color: var(--text); border: 1px solid var(--line); border-radius: 4px; padding: 4px; }
+  .seg + .seg, .row + .seg { margin-top: 4px; }
+  .seg { display: flex; gap: 4px; }
+  .seg button { flex: 1; background: #111; color: var(--text); border: 1px solid var(--line); border-radius: 4px;
+                padding: 4px 0; cursor: pointer; }
+  .seg button.on { border-color: var(--accent); color: var(--accent); }
+  #hover { min-height: 5.6em; font-variant-numeric: tabular-nums; white-space: pre-line; color: var(--muted); }
+  #hover b { color: var(--text); }
+  .hint { color: var(--muted); font-size: 12px; margin: 4px 0 0; }
+  .rider { display: flex; gap: 6px; align-items: center; justify-content: space-between; margin: 0 0 6px; font-size: 13px; }
+  .rider button { background: #111; color: var(--text); border: 1px solid var(--line); border-radius: 4px; padding: 3px 10px;
+                  cursor: pointer; }
+  #status { color: var(--muted); font-size: 12px; }
+  #status.err { color: #ff7a6a; }
+  #debug { width: 560px; flex: none; background: #151413; border-left: 1px solid var(--line);
+           overflow-y: auto; padding: 12px 14px; font-size: 12px; }
+  #debug[hidden] { display: none; }
+  .dbg-head { display: flex; justify-content: space-between; align-items: center; }
+  h2 { font-size: 14px; margin: 0; }
+  #debug table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-variant-numeric: tabular-nums; }
+  #debug th { text-align: left; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--line); padding: 3px 4px;
+              position: sticky; top: -12px; background: #151413; }
+  #debug td { padding: 3px 4px; border-bottom: 1px solid #22201e; vertical-align: top; }
+  #ledTable tbody tr:hover { background: #24221f; }
+  .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: -1px; margin-right: 4px;
+        border: 1px solid #444; }
+  .st-2 { color: #e0b0ff; font-weight: 600; } .st-1 { color: #fff; font-weight: 600; }
+  .st-0 { color: #6d675f; }
+  .warn { color: #ffb020; }
+  .veh { color: var(--muted); white-space: nowrap; }
+  #unmapped { color: var(--muted); }
+  #signDebug { margin: 8px 0 4px; color: var(--muted); }
+  #signDebug b { color: var(--text); }
+</style>
+</head>
+<body>
+<div id="viewport">
+  <div id="frame">
+    <div id="stage">
+      <canvas id="light"></canvas>
+      <img id="print" src="/print.svg" alt="Transit map print">
+      <svg id="markers" viewBox="0 0 610 610"></svg>
+      <canvas id="sign"></canvas>
+    </div>
+  </div>
+</div>
+
+<section id="debug" hidden>
+  <div class="dbg-head">
+    <h2>Debug</h2>
+    <label class="check"><input id="dbgLit" type="checkbox" checked> Only lit lights</label>
+  </div>
+  <div id="signDebug"></div>
+  <div id="unmapped"></div>
+  <table id="ledTable"><thead><tr>
+    <th>Out</th><th>#</th><th>Light</th><th>State</th><th>Vehicles</th><th>Module RGB</th><th>WLED out</th>
+  </tr></thead><tbody></tbody></table>
+</section>
+
+<aside id="panel">
+  <h1>MBTA LED map simulator</h1>
+  <p class="sub" id="status">Loading…</p>
+
+  <fieldset>
+    <legend>Data</legend>
+    <select id="scene" aria-label="Data source">
+      <option value="live" selected>Live vehicles</option>
+      <option value="moving">Sample: moving trains (simulated)</option>
+      <option value="typical">Sample: typical moment</option>
+      <option value="all_stopped">Sample: every light, train stopped (full)</option>
+      <option value="idle">Sample: no trains</option>
+    </select>
+    <label class="check"><input id="night" type="checkbox"> Night mode (11 PM to 7 AM)</label>
+    <p class="hint">Live and sample data both run the board's own code for the sign.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Modes (the phone remote's commands)</legend>
+    <div class="seg" id="modes">
+      <button data-mode="transit" class="on">Transit</button><button data-mode="game">Game night</button><button data-mode="bruins">Bruins</button><button data-mode="music">Music</button><button data-mode="off">Off</button>
+    </div>
+    <p class="hint" id="modeState">These go to the board the page is showing (live or sample).</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Costume, and the sign's alignment rings</legend>
+    <label class="check"><input id="costume" type="checkbox"> Costume mode</label>
+    <label class="check"><input id="align" type="checkbox"> Alignment rings on the sign</label>
+    <p class="hint">Sample trains along every line, sample departures on the sign, and HAPPY HALLOWEEN going by. It runs on top of Transit mode.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Rides: I'm on the train</legend>
+    <div id="rideList"></div>
+    <label class="row">Your name <input id="rideName" type="text" maxlength="8" value="Alex"></label>
+    <label class="row">Line <select id="rideLine"></select></label>
+    <label class="row">Getting on at <select id="rideFrom"></select></label>
+    <label class="row">Getting off at <select id="rideTo"></select></label>
+    <div class="seg"><button id="rideSend">Start ride</button><button id="rideDone">End ride</button></div>
+    <p class="hint">Your train turns purple on the map, and your name and arrival time go on the sign. Choose a new train and
+      start again to change trains; several people can ride at once. On live data the train is the real one; on a sample
+      scene it is a made-up train that runs about seven minutes.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Message, timer, find a station</legend>
+    <label class="row">Message <input id="msgText" type="text" value="DINNER AT 7"></label>
+    <div class="seg"><button id="msgSend">Show message</button><button id="msgClear">Clear</button></div>
+    <div class="seg"><button id="timer60">Timer 1 min</button><button id="timerStop">Stop timer</button></div>
+    <label class="row">Find a station <select id="findWhich"></select></label>
+    <div class="seg"><button id="findGo">Blink it</button></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Lighting (config map:)</legend>
+    <p class="hint">Two lights per station, one for each direction; a train lights the one on its right-hand side.
+      A train standing at a station: full line color. A train between stations, or no train: off.
+      A train one of us is riding (a ride message): purple.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>WLED output</legend>
+    <label class="row">Brightness cap <output id="o_bri"></output>
+      <input id="brightness" type="range" min="0.05" max="1" step="0.01"></label>
+    <label class="check"><input id="gamma" type="checkbox"> Gamma-correct realtime data</label>
+    <p class="hint">WLED leaves DDP data uncorrected by default. Turn this on to see what happens to dim levels if you enable it.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>View</legend>
+    <div class="seg" id="zoom">
+      <button data-z="1" class="on">Fit</button><button data-z="2">2×</button><button data-z="4">4×</button><button data-z="actual" title="1 mm on the print = 1 mm on screen (approximately; depends on your display scaling)">Actual size</button>
+    </div>
+    <label class="check"><input id="outline" type="checkbox"> Print with the outline round the sign</label>
+    <label class="check"><input id="showMarkers" type="checkbox"> Show the holes and the wiring order</label>
+    <label class="check"><input id="showDebug" type="checkbox"> Debug view</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Pointer</legend>
+    <div id="hover">Hover a light.</div>
+  </fieldset>
+</aside>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

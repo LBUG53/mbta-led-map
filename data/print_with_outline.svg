@@ -1,0 +1,463 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="610mm" height="610mm" viewBox="0 0 610 610">
+<g id="background">
+<rect width="610" height="610" fill="#F4F0E6"/>
+</g>
+<g id="water" fill="#D9E2F2">
+<polygon points="439.40,219.40 439.46,220.63 439.62,221.81 439.90,222.94 440.28,224.03 440.78,225.08 441.39,226.08 442.11,227.03 442.94,227.94 447.88,232.88 448.38,233.42 448.81,233.99 449.17,234.59 449.47,235.22 449.70,235.87 449.87,236.55 449.97,237.26 450.00,238.00 450.00,271.50 450.02,271.85 450.09,272.16 450.21,272.41 450.38,272.62 450.59,272.79 450.84,272.91 451.15,272.98 451.50,273.00 454.50,273.00 454.85,272.98 455.16,272.91 455.41,272.79 455.62,272.62 455.79,272.41 455.91,272.16 455.98,271.85 456.00,271.50 456.00,238.00 456.05,237.30 456.19,236.69 456.42,236.17 456.75,235.75 457.17,235.42 457.69,235.19 458.30,235.05 459.00,235.00 496.00,235.00 497.23,235.06 498.41,235.22 499.54,235.50 500.63,235.88 501.68,236.38 502.68,236.99 503.63,237.71 504.54,238.54 511.46,245.46 512.29,246.37 513.01,247.32 513.62,248.32 514.12,249.37 514.50,250.46 514.78,251.59 514.94,252.77 515.00,254.00 515.00,295.30 515.08,296.47 515.31,297.49 515.70,298.34 516.25,299.05 516.95,299.59 517.81,299.99 518.83,300.22 520.00,300.30 529.58,300.30 530.81,300.35 531.99,300.52 533.13,300.80 534.22,301.18 535.26,301.68 536.26,302.29 537.21,303.00 538.12,303.83 576.15,341.86 577.05,342.69 578.01,343.41 579.00,344.02 580.05,344.51 581.14,344.90 582.27,345.18 583.46,345.34 584.68,345.40 610.00,345.40 611.17,345.32 612.19,345.09 613.05,344.69 613.75,344.15 614.30,343.44 614.69,342.59 614.92,341.57 615.00,340.40 615.00,36.38 614.94,35.27 614.78,34.42 614.50,33.84 614.12,33.52 613.62,33.47 613.01,33.69 612.29,34.17 611.46,34.92 503.21,143.18 502.43,144.06 501.88,144.95 501.55,145.83 501.44,146.71 501.55,147.60 501.88,148.48 502.43,149.36 503.21,150.25 551.43,198.47 551.88,198.98 552.19,199.49 552.38,199.99 552.45,200.50 552.38,201.01 552.19,201.51 551.88,202.02 551.43,202.53 550.98,202.97 550.46,203.45 549.92,203.86 549.35,204.21 548.75,204.49 548.12,204.72 547.47,204.87 546.80,204.97 546.09,205.00 442.65,205.00 442.34,205.01 442.04,205.06 441.75,205.13 441.48,205.22 441.21,205.35 440.96,205.50 440.72,205.68 440.49,205.89 440.29,206.09 440.08,206.32 439.90,206.56 439.75,206.81 439.62,207.08 439.53,207.35 439.46,207.64 439.41,207.94 439.40,208.25"/>
+<polygon points="-8.00,100.75 -5.90,100.75 -3.80,100.75 -1.70,100.75 0.40,100.75 2.50,100.75 4.60,100.75 6.70,100.75 8.80,100.75 10.90,100.75 13.00,100.75 15.10,100.75 17.20,100.75 19.30,100.75 21.40,100.75 23.43,100.75 25.70,100.85 27.80,101.14 29.80,101.63 31.72,102.31 33.55,103.18 35.29,104.27 36.96,105.57 38.60,107.14 39.93,108.55 41.31,110.02 42.68,111.49 44.04,112.97 45.40,114.45 46.75,115.94 48.10,117.44 49.44,118.94 50.78,120.44 52.12,121.94 53.45,123.45 54.79,124.96 56.12,126.46 57.45,127.97 58.79,129.48 60.12,130.99 61.46,132.49 62.80,133.99 64.15,135.49 65.49,136.98 66.85,138.47 68.21,139.96 69.57,141.43 70.94,142.91 72.32,144.37 73.70,145.83 75.09,147.28 76.49,148.72 77.90,150.16 79.31,151.59 80.73,153.01 82.15,154.43 83.57,155.85 84.99,157.27 86.41,158.69 87.83,160.11 89.26,161.53 90.68,162.95 92.10,164.38 93.52,165.80 94.94,167.22 96.36,168.64 97.78,170.06 99.20,171.48 100.62,172.90 102.04,174.32 103.46,175.74 104.89,177.16 106.31,178.58 107.73,180.01 109.15,181.43 110.57,182.85 111.99,184.27 113.41,185.69 114.83,187.11 116.25,188.53 117.67,189.95 119.09,191.37 120.52,192.79 121.94,194.21 123.36,195.64 124.78,197.06 126.20,198.48 127.62,199.90 129.04,201.32 130.46,202.74 131.88,204.16 133.30,205.58 134.72,207.00 136.14,208.42 137.57,209.84 138.99,211.26 140.41,212.69 141.83,214.11 143.25,215.53 144.67,216.95 146.09,218.37 147.51,219.79 148.93,221.21 150.35,222.63 151.77,224.05 153.20,225.47 154.62,226.89 156.04,228.32 157.46,229.74 158.88,231.16 160.30,232.58 161.73,233.99 163.17,235.39 164.62,236.78 166.07,238.17 167.54,239.55 169.00,240.92 170.48,242.29 171.96,243.65 173.45,245.01 174.94,246.36 176.43,247.71 177.93,249.05 179.44,250.39 180.94,251.72 182.45,253.06 183.96,254.39 185.46,255.72 186.97,257.06 188.48,258.39 189.99,259.73 191.49,261.07 192.99,262.41 194.49,263.76 195.98,265.10 197.46,266.46 198.95,267.82 200.42,269.19 201.89,270.56 203.35,271.94 204.81,273.32 206.26,274.72 207.70,276.12 209.13,277.53 210.56,278.94 211.45,279.54 212.50,279.75 213.55,279.54 214.44,278.94 215.04,278.05 215.25,277.00 215.04,275.95 214.44,275.06 213.03,273.63 211.62,272.20 210.22,270.76 208.82,269.31 207.44,267.85 206.06,266.39 204.69,264.92 203.32,263.45 201.96,261.96 200.60,260.48 199.26,258.99 197.91,257.49 196.57,255.99 195.23,254.49 193.89,252.98 192.56,251.47 191.22,249.96 189.89,248.46 188.56,246.95 187.22,245.44 185.89,243.94 184.55,242.43 183.21,240.93 181.86,239.44 180.51,237.95 179.15,236.46 177.79,234.98 176.42,233.50 175.05,232.04 173.67,230.57 172.28,229.12 170.89,227.67 169.49,226.23 168.08,224.80 166.66,223.38 165.24,221.96 163.82,220.54 162.39,219.12 160.97,217.70 159.55,216.27 158.13,214.85 156.71,213.43 155.29,212.01 153.87,210.59 152.45,209.17 151.03,207.75 149.61,206.33 148.19,204.91 146.76,203.49 145.34,202.07 143.92,200.64 142.50,199.22 141.08,197.80 139.66,196.38 138.24,194.96 136.82,193.54 135.40,192.12 133.98,190.70 132.56,189.28 131.14,187.86 129.71,186.44 128.29,185.02 126.87,183.59 125.45,182.17 124.03,180.75 122.61,179.33 121.19,177.91 119.77,176.49 118.35,175.07 116.93,173.65 115.51,172.23 114.08,170.81 112.66,169.39 111.24,167.96 109.82,166.54 108.40,165.12 106.98,163.70 105.56,162.28 104.14,160.86 102.72,159.44 101.30,158.02 99.88,156.60 98.45,155.18 97.03,153.76 95.61,152.33 94.19,150.91 92.77,149.49 91.35,148.07 89.93,146.65 88.51,145.23 87.09,143.81 85.66,142.40 84.22,140.99 82.78,139.59 81.33,138.20 79.87,136.82 78.41,135.44 76.93,134.07 75.46,132.71 73.97,131.35 72.48,129.99 70.99,128.65 69.49,127.30 67.99,125.96 66.49,124.62 64.98,123.29 63.47,121.95 61.96,120.62 60.46,119.29 58.95,117.95 57.44,116.62 55.94,115.28 54.44,113.94 52.94,112.60 51.44,111.25 49.95,109.90 48.47,108.54 46.99,107.18 45.52,105.81 44.05,104.43 42.54,103.00 40.55,101.25 38.41,99.68 36.17,98.34 33.82,97.23 31.37,96.36 28.83,95.74 26.21,95.37 23.57,95.25 21.40,95.25 19.30,95.25 17.20,95.25 15.10,95.25 13.00,95.25 10.90,95.25 8.80,95.25 6.70,95.25 4.60,95.25 2.50,95.25 0.40,95.25 -1.70,95.25 -3.80,95.25 -5.90,95.25 -8.00,95.25 -9.05,95.46 -9.94,96.06 -10.54,96.95 -10.75,98.00 -10.54,99.05 -9.94,99.94 -9.05,100.54"/>
+<polygon points="206.56,274.94 208.47,276.88 210.42,278.83 211.38,279.72 212.45,280.53 213.57,281.22 214.76,281.79 216.00,282.23 217.29,282.55 218.61,282.73 219.91,282.80 221.96,282.81 223.96,282.81 225.96,282.82 227.96,282.83 229.97,282.84 231.97,282.84 233.97,282.85 235.97,282.86 237.98,282.86 239.98,282.87 241.98,282.88 243.98,282.89 245.99,282.89 247.99,282.90 249.99,282.91 251.99,282.91 254.00,282.92 256.00,282.93 258.09,282.93 260.29,282.79 262.43,282.30 264.39,281.41 266.09,280.09 267.42,278.40 268.32,276.44 268.82,274.30 268.98,272.10 268.99,270.00 269.00,268.00 269.00,266.00 269.01,264.00 269.02,262.00 269.02,260.00 269.03,258.00 269.04,256.00 269.05,254.00 269.05,252.00 269.06,250.00 269.07,248.00 269.07,246.00 269.08,244.00 269.09,242.00 269.10,240.00 269.10,238.00 269.11,236.00 269.12,234.00 269.12,232.00 269.13,230.00 269.14,228.00 269.15,226.00 269.15,224.00 269.16,222.00 269.17,220.00 269.17,218.00 269.18,216.00 269.19,214.00 269.20,212.00 269.20,210.00 269.21,208.00 269.22,206.00 269.22,204.00 269.23,202.00 269.24,200.00 269.25,198.00 269.25,196.00 269.26,194.00 269.27,192.00 269.27,190.00 269.28,188.00 269.29,186.00 269.30,184.00 269.30,182.00 269.31,180.00 269.32,178.00 269.32,176.00 269.33,174.00 269.34,172.00 269.35,170.00 269.35,168.00 269.36,166.00 269.37,164.00 269.37,162.00 269.38,160.00 269.39,158.00 269.40,156.00 269.40,154.00 269.41,152.00 269.41,150.12 269.55,148.14 269.88,146.71 270.36,145.68 270.94,144.94 271.68,144.37 272.72,143.91 274.15,143.59 276.12,143.47 278.00,143.48 280.00,143.49 282.00,143.50 284.00,143.50 286.00,143.51 288.00,143.52 290.00,143.52 292.00,143.53 294.00,143.54 296.00,143.55 298.00,143.55 300.00,143.56 302.00,143.57 304.00,143.57 306.00,143.58 308.00,143.59 310.00,143.60 312.00,143.60 314.00,143.61 316.00,143.62 318.00,143.62 320.00,143.63 322.00,143.64 324.00,143.65 326.00,143.65 328.00,143.66 330.00,143.67 332.00,143.67 334.00,143.68 336.00,143.69 337.91,143.69 340.12,143.80 342.12,144.09 344.03,144.56 345.84,145.21 347.58,146.05 349.25,147.08 350.86,148.30 352.48,149.80 353.87,151.20 355.33,152.67 356.79,154.14 358.31,155.68 360.31,157.51 362.51,159.17 364.83,160.60 367.27,161.77 369.82,162.68 372.46,163.33 375.19,163.73 377.91,163.86 380.05,163.87 382.11,163.88 384.16,163.88 386.21,163.89 388.26,163.90 390.32,163.90 392.37,163.91 394.42,163.92 396.47,163.93 398.53,163.93 400.58,163.94 402.63,163.95 404.68,163.96 406.74,163.96 408.79,163.97 410.84,163.98 412.89,163.99 414.95,163.99 417.00,164.00 418.53,163.70 419.83,162.83 420.70,161.53 421.00,160.00 420.70,158.47 419.83,157.17 418.53,156.30 417.00,156.00 414.95,156.01 412.89,156.01 410.84,156.02 408.79,156.03 406.74,156.04 404.68,156.04 402.63,156.05 400.58,156.06 398.53,156.07 396.47,156.07 394.42,156.08 392.37,156.09 390.32,156.10 388.26,156.10 386.21,156.11 384.16,156.12 382.11,156.12 380.05,156.13 378.09,156.14 375.90,156.05 373.90,155.78 372.01,155.33 370.20,154.70 368.46,153.88 366.79,152.87 365.17,151.66 363.54,150.18 362.14,148.79 360.67,147.33 359.20,145.87 357.67,144.35 355.66,142.53 353.46,140.88 351.13,139.47 348.70,138.32 346.15,137.43 343.51,136.79 340.79,136.42 338.09,136.31 336.00,136.31 334.00,136.32 332.00,136.33 330.00,136.33 328.00,136.34 326.00,136.35 324.00,136.35 322.00,136.36 320.00,136.37 318.00,136.38 316.00,136.38 314.00,136.39 312.00,136.40 310.00,136.40 308.00,136.41 306.00,136.42 304.00,136.43 302.00,136.43 300.00,136.44 298.00,136.45 296.00,136.45 294.00,136.46 292.00,136.47 290.00,136.48 288.00,136.48 286.00,136.49 284.00,136.50 282.00,136.50 280.00,136.51 278.00,136.52 275.88,136.53 273.17,136.72 270.53,137.34 268.13,138.45 266.06,140.06 264.46,142.14 263.37,144.54 262.77,147.17 262.59,149.88 262.59,152.00 262.60,154.00 262.60,156.00 262.61,158.00 262.62,160.00 262.63,162.00 262.63,164.00 262.64,166.00 262.65,168.00 262.65,170.00 262.66,172.00 262.67,174.00 262.68,176.00 262.68,178.00 262.69,180.00 262.70,182.00 262.70,184.00 262.71,186.00 262.72,188.00 262.73,190.00 262.73,192.00 262.74,194.00 262.75,196.00 262.75,198.00 262.76,200.00 262.77,202.00 262.78,204.00 262.78,206.00 262.79,208.00 262.80,210.00 262.80,212.00 262.81,214.00 262.82,216.00 262.83,218.00 262.83,220.00 262.84,222.00 262.85,224.00 262.85,226.00 262.86,228.00 262.87,230.00 262.88,232.00 262.88,234.00 262.89,236.00 262.90,238.00 262.90,240.00 262.91,242.00 262.92,244.00 262.93,246.00 262.93,248.00 262.94,250.00 262.95,252.00 262.95,254.00 262.96,256.00 262.97,258.00 262.98,260.00 262.98,262.00 262.99,264.00 263.00,266.00 263.00,268.00 263.01,270.00 263.02,271.90 262.93,273.45 262.68,274.56 262.33,275.35 261.91,275.91 261.36,276.34 260.57,276.70 259.46,276.96 257.91,277.07 256.00,277.07 254.00,277.08 251.99,277.09 249.99,277.09 247.99,277.10 245.99,277.11 243.98,277.11 241.98,277.12 239.98,277.13 237.98,277.14 235.97,277.14 233.97,277.15 231.97,277.16 229.97,277.16 227.96,277.17 225.96,277.18 223.96,277.19 221.96,277.19 220.00,277.20 219.12,277.17 218.33,277.06 217.59,276.88 216.89,276.64 216.22,276.32 215.57,275.93 214.93,275.46 214.28,274.87 212.38,272.97 210.44,271.06 209.55,270.46 208.50,270.25 207.45,270.46 206.56,271.06 205.96,271.95 205.75,273.00 205.96,274.05"/>
+<polygon points="415.75,160.00 415.75,180.01 415.83,181.72 416.06,183.41 416.46,185.04 417.02,186.61 417.74,188.12 418.61,189.56 419.63,190.91 420.79,192.18 446.56,217.94 447.45,218.54 448.50,218.75 449.55,218.54 450.44,217.94 451.04,217.05 451.25,216.00 451.04,214.95 450.44,214.06 424.69,188.30 423.86,187.40 423.16,186.47 422.58,185.51 422.10,184.51 421.73,183.47 421.47,182.37 421.30,181.22 421.25,179.99 421.25,160.00 421.04,158.95 420.44,158.06 419.55,157.46 418.50,157.25 417.45,157.46 416.56,158.06 415.96,158.95"/>
+<polygon points="420.44,170.94 425.41,165.98 426.51,164.77 427.50,163.47 428.34,162.09 429.03,160.63 429.57,159.12 429.95,157.55 430.18,155.93 430.25,154.28 430.25,109.99 430.07,107.27 429.48,104.76 428.45,102.49 426.94,100.56 425.01,99.05 422.74,98.02 420.23,97.43 417.51,97.25 372.01,97.25 369.80,97.15 367.70,96.86 365.70,96.37 363.78,95.69 361.95,94.82 360.19,93.75 358.50,92.47 356.87,90.98 331.02,65.13 329.25,63.36 327.48,61.59 325.71,59.82 323.94,58.06 322.18,56.29 320.41,54.52 318.64,52.75 316.87,50.98 304.03,38.14 302.53,36.50 301.25,34.81 300.18,33.05 299.31,31.22 298.63,29.30 298.14,27.30 297.85,25.20 297.75,22.99 297.75,-8.00 297.54,-9.05 296.94,-9.94 296.05,-10.54 295.00,-10.75 293.95,-10.54 293.06,-9.94 292.46,-9.05 292.25,-8.00 292.25,23.01 292.37,25.71 292.74,28.33 293.36,30.87 294.23,33.32 295.34,35.66 296.70,37.90 298.30,40.02 300.12,42.01 312.98,54.87 314.75,56.64 316.52,58.41 318.29,60.18 320.06,61.94 321.82,63.71 323.59,65.48 325.36,67.25 327.13,69.02 352.99,94.88 354.98,96.70 357.10,98.30 359.34,99.66 361.68,100.77 364.13,101.64 366.67,102.26 369.29,102.63 371.99,102.75 417.49,102.75 419.45,102.88 421.01,103.23 422.18,103.76 423.06,104.44 423.74,105.32 424.27,106.49 424.62,108.05 424.75,110.01 424.75,154.27 424.70,155.43 424.55,156.52 424.29,157.55 423.95,158.53 423.50,159.47 422.95,160.37 422.29,161.25 421.49,162.12 416.56,167.06 415.96,167.95 415.75,169.00 415.96,170.05 416.56,170.94 417.45,171.54 418.50,171.75 419.55,171.54"/>
+</g>
+<g id="lines" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M378.00 50.00 L378.00 243.89 Q378.00 253.00 371.56 259.44 L226.72 404.28" stroke="#ED8B00"><title>Orange</title></path>
+<path d="M271.53 52.53 L331.56 112.56 Q338.00 119.00 338.00 128.11 L338.00 243.89 Q338.00 253.00 331.56 259.44 L303.44 287.56 Q297.00 294.00 287.89 294.00 L131.11 294.00 Q122.00 294.00 115.56 300.44 L84.44 331.56 Q78.00 338.00 78.00 347.11 L78.00 550.00" stroke="#00843D"><title>Green C</title></path>
+<path d="M298.00 124.00 L338.00 124.00" stroke="#00843D"><title>Green Union Sq</title></path>
+<path d="M192.00 294.00 L63.54 165.54 A5.59 5.59 0 0 0 54.00 169.50 L54.00 352.00" stroke="#00843D"><title>Green B</title></path>
+<path d="M192.00 294.00 L137.44 348.56 Q131.00 355.00 131.00 364.11 L131.00 546.00" stroke="#00843D"><title>Green D</title></path>
+<path d="M240.00 294.00 L166.44 367.56 Q160.00 374.00 160.00 383.11 L160.00 511.00" stroke="#00843D"><title>Green E</title></path>
+<path d="M288.00 230.00 L388.89 230.00 Q398.00 230.00 404.44 223.56 L554.48 73.52" stroke="#003DA5"><title>Blue</title></path>
+<path d="M146.37 173.37 L232.56 259.56 Q239.00 266.00 248.11 266.00 L449.89 266.00 Q459.00 266.00 465.44 272.44 L551.20 358.20 Q557.64 364.64 557.64 373.75 L557.64 397.64" stroke="#DA291C"><title>Red Braintree</title></path>
+<path d="M498.60 305.60 L498.60 385.60" stroke="#DA291C"><title>Red Ashmont</title></path>
+<path d="M478.60 385.60 L331.60 385.60" stroke="#DA291C"><title>Mattapan</title></path>
+</g>
+<g id="stations" fill="#FFFFFF">
+<circle cx="378.00" cy="70.00" r="1.1"><title>OL Malden Center</title></circle>
+<circle cx="378.00" cy="90.00" r="1.1"><title>OL Wellington</title></circle>
+<circle cx="378.00" cy="110.00" r="1.1"><title>OL Assembly</title></circle>
+<circle cx="378.00" cy="130.00" r="1.1"><title>OL Sullivan Sq</title></circle>
+<circle cx="378.00" cy="150.00" r="1.1"><title>OL Community College</title></circle>
+<circle cx="354.00" cy="277.00" r="1.1"><title>OL Chinatown</title></circle>
+<circle cx="339.86" cy="291.14" r="1.1"><title>OL Tufts Medical Ctr</title></circle>
+<circle cx="325.72" cy="305.28" r="1.1"><title>OL Back Bay</title></circle>
+<circle cx="311.57" cy="319.43" r="1.1"><title>OL Mass. Ave</title></circle>
+<circle cx="297.43" cy="333.57" r="1.1"><title>OL Ruggles</title></circle>
+<circle cx="283.29" cy="347.71" r="1.1"><title>OL Roxbury Crossing</title></circle>
+<circle cx="269.15" cy="361.85" r="1.1"><title>OL Jackson Sq</title></circle>
+<circle cx="255.01" cy="375.99" r="1.1"><title>OL Stony Brook</title></circle>
+<circle cx="240.86" cy="390.14" r="1.1"><title>OL Green St</title></circle>
+<circle cx="285.67" cy="66.67" r="1.1"><title>GL Ball Sq</title></circle>
+<circle cx="299.82" cy="80.82" r="1.1"><title>GL Magoun Sq</title></circle>
+<circle cx="313.96" cy="94.96" r="1.1"><title>GL Gilman Sq</title></circle>
+<circle cx="328.10" cy="109.10" r="1.1"><title>GL East Somerville</title></circle>
+<circle cx="338.00" cy="130.00" r="1.1"><title>GL Lechmere</title></circle>
+<circle cx="338.00" cy="150.00" r="1.1"><title>GL Science Park/West End</title></circle>
+<circle cx="284.00" cy="294.00" r="1.1"><title>GL Boylston</title></circle>
+<circle cx="262.00" cy="294.00" r="1.1"><title>GL Arlington</title></circle>
+<circle cx="240.00" cy="294.00" r="1.1"><title>GL Copley</title></circle>
+<circle cx="214.00" cy="294.00" r="1.1"><title>GL Hynes Convention Ctr</title></circle>
+<circle cx="192.00" cy="294.00" r="1.1"><title>GL Kenmore</title></circle>
+<circle cx="152.00" cy="294.00" r="1.1"><title>GL St. Mary's St</title></circle>
+<circle cx="132.00" cy="294.00" r="1.1"><title>GL Hawes St</title></circle>
+<circle cx="100.00" cy="316.00" r="1.1"><title>GL Kent St</title></circle>
+<circle cx="78.00" cy="370.00" r="1.1"><title>GL St. Paul St</title></circle>
+<circle cx="78.00" cy="390.00" r="1.1"><title>GL Coolidge Corner</title></circle>
+<circle cx="78.00" cy="410.00" r="1.1"><title>GL Summit Ave</title></circle>
+<circle cx="78.00" cy="430.00" r="1.1"><title>GL Brandon Hall</title></circle>
+<circle cx="78.00" cy="450.00" r="1.1"><title>GL Fairbanks St</title></circle>
+<circle cx="78.00" cy="470.00" r="1.1"><title>GL Washington Sq</title></circle>
+<circle cx="78.00" cy="490.00" r="1.1"><title>GL Tappan St</title></circle>
+<circle cx="78.00" cy="510.00" r="1.1"><title>GL Dean Rd</title></circle>
+<circle cx="78.00" cy="530.00" r="1.1"><title>GL Englewood Ave</title></circle>
+<circle cx="176.44" cy="278.44" r="1.1"><title>GL Blandford St</title></circle>
+<circle cx="161.59" cy="263.59" r="1.1"><title>GL BU East</title></circle>
+<circle cx="146.75" cy="248.75" r="1.1"><title>GL BU Central</title></circle>
+<circle cx="131.90" cy="233.90" r="1.1"><title>GL Amory St</title></circle>
+<circle cx="117.05" cy="219.05" r="1.1"><title>GL Babcock St</title></circle>
+<circle cx="102.20" cy="204.20" r="1.1"><title>GL Packard's Corner</title></circle>
+<circle cx="54.00" cy="172.00" r="1.1"><title>GL Harvard Ave</title></circle>
+<circle cx="54.00" cy="192.00" r="1.1"><title>GL Griggs St</title></circle>
+<circle cx="54.00" cy="212.00" r="1.1"><title>GL Allston St</title></circle>
+<circle cx="54.00" cy="232.00" r="1.1"><title>GL Warren St</title></circle>
+<circle cx="54.00" cy="252.00" r="1.1"><title>GL Washington St</title></circle>
+<circle cx="54.00" cy="272.00" r="1.1"><title>GL Sutherland Rd</title></circle>
+<circle cx="54.00" cy="292.00" r="1.1"><title>GL Chiswick Rd</title></circle>
+<circle cx="54.00" cy="312.00" r="1.1"><title>GL Chestnut Hill Ave</title></circle>
+<circle cx="54.00" cy="332.00" r="1.1"><title>GL South St</title></circle>
+<circle cx="167.25" cy="318.75" r="1.1"><title>GL Fenway</title></circle>
+<circle cx="153.11" cy="332.89" r="1.1"><title>GL Longwood</title></circle>
+<circle cx="138.97" cy="347.03" r="1.1"><title>GL Brookline Village</title></circle>
+<circle cx="131.00" cy="366.00" r="1.1"><title>GL Brookline Hills</title></circle>
+<circle cx="131.00" cy="386.00" r="1.1"><title>GL Beaconsfield</title></circle>
+<circle cx="131.00" cy="406.00" r="1.1"><title>GL Reservoir</title></circle>
+<circle cx="131.00" cy="426.00" r="1.1"><title>GL Chestnut Hill</title></circle>
+<circle cx="131.00" cy="446.00" r="1.1"><title>GL Newton Centre</title></circle>
+<circle cx="131.00" cy="466.00" r="1.1"><title>GL Newton Highlands</title></circle>
+<circle cx="131.00" cy="486.00" r="1.1"><title>GL Eliot</title></circle>
+<circle cx="131.00" cy="506.00" r="1.1"><title>GL Waban</title></circle>
+<circle cx="131.00" cy="526.00" r="1.1"><title>GL Woodland</title></circle>
+<circle cx="213.13" cy="320.87" r="1.1"><title>GL Prudential</title></circle>
+<circle cx="198.99" cy="335.01" r="1.1"><title>GL Symphony</title></circle>
+<circle cx="184.85" cy="349.15" r="1.1"><title>GL Northeastern</title></circle>
+<circle cx="170.70" cy="363.30" r="1.1"><title>GL Museum of Fine Arts</title></circle>
+<circle cx="160.00" cy="386.00" r="1.1"><title>GL Longwood Medical Area</title></circle>
+<circle cx="160.00" cy="411.00" r="1.1"><title>GL Brigham Circle</title></circle>
+<circle cx="160.00" cy="431.00" r="1.1"><title>GL Fenwood Rd</title></circle>
+<circle cx="160.00" cy="451.00" r="1.1"><title>GL Mission Park</title></circle>
+<circle cx="160.00" cy="471.00" r="1.1"><title>GL Riverway</title></circle>
+<circle cx="160.00" cy="491.00" r="1.1"><title>GL Back of the Hill</title></circle>
+<circle cx="424.02" cy="203.98" r="1.1"><title>BL Aquarium</title></circle>
+<circle cx="448.06" cy="179.94" r="1.1"><title>BL Maverick</title></circle>
+<circle cx="463.27" cy="164.73" r="1.1"><title>BL Airport</title></circle>
+<circle cx="478.47" cy="149.53" r="1.1"><title>BL Wood Island</title></circle>
+<circle cx="493.67" cy="134.33" r="1.1"><title>BL Orient Heights</title></circle>
+<circle cx="508.87" cy="119.13" r="1.1"><title>BL Suffolk Downs</title></circle>
+<circle cx="524.08" cy="103.92" r="1.1"><title>BL Beachmont</title></circle>
+<circle cx="539.28" cy="88.72" r="1.1"><title>BL Revere Beach</title></circle>
+<circle cx="164.75" cy="191.75" r="1.1"><title>RL Davis</title></circle>
+<circle cx="183.14" cy="210.14" r="1.1"><title>RL Porter</title></circle>
+<circle cx="201.52" cy="228.52" r="1.1"><title>RL Harvard</title></circle>
+<circle cx="219.91" cy="246.91" r="1.1"><title>RL Central</title></circle>
+<circle cx="250.00" cy="266.00" r="1.1"><title>RL Kendall/MIT</title></circle>
+<circle cx="282.00" cy="266.00" r="1.1"><title>RL Charles/MGH</title></circle>
+<circle cx="436.00" cy="266.00" r="1.1"><title>RL South Station</title></circle>
+<circle cx="470.31" cy="277.31" r="1.1"><title>RL Broadway</title></circle>
+<circle cx="484.46" cy="291.46" r="1.1"><title>RL Andrew</title></circle>
+<circle cx="498.60" cy="305.60" r="1.1"><title>RL JFK/UMass</title></circle>
+<circle cx="522.29" cy="329.29" r="1.1"><title>RL North Quincy</title></circle>
+<circle cx="536.43" cy="343.43" r="1.1"><title>RL Wollaston</title></circle>
+<circle cx="550.57" cy="357.57" r="1.1"><title>RL Quincy Center</title></circle>
+<circle cx="557.64" cy="377.64" r="1.1"><title>RL Quincy Adams</title></circle>
+<circle cx="498.60" cy="325.60" r="1.1"><title>RL Savin Hill</title></circle>
+<circle cx="498.60" cy="345.60" r="1.1"><title>RL Fields Corner</title></circle>
+<circle cx="498.60" cy="365.60" r="1.1"><title>RL Shawmut</title></circle>
+<circle cx="457.60" cy="385.60" r="1.1"><title>M Cedar Grove</title></circle>
+<circle cx="436.60" cy="385.60" r="1.1"><title>M Butler</title></circle>
+<circle cx="415.60" cy="385.60" r="1.1"><title>M Milton</title></circle>
+<circle cx="394.60" cy="385.60" r="1.1"><title>M Central Ave</title></circle>
+<circle cx="373.60" cy="385.60" r="1.1"><title>M Valley Rd</title></circle>
+<circle cx="352.60" cy="385.60" r="1.1"><title>M Capen St</title></circle>
+</g>
+<g id="interchanges" stroke-linecap="round">
+<line x1="378.00" y1="170.00" x2="338.00" y2="170.00" stroke="#212322" stroke-width="3.6"/>
+<line x1="378.00" y1="170.00" x2="338.00" y2="170.00" stroke="#FFFFFF" stroke-width="1.6"/>
+<line x1="378.00" y1="194.00" x2="338.00" y2="194.00" stroke="#212322" stroke-width="3.6"/>
+<line x1="378.00" y1="194.00" x2="338.00" y2="194.00" stroke="#FFFFFF" stroke-width="1.6"/>
+<line x1="378.00" y1="218.00" x2="398.00" y2="230.00" stroke="#212322" stroke-width="3.6"/>
+<line x1="378.00" y1="218.00" x2="398.00" y2="230.00" stroke="#FFFFFF" stroke-width="1.6"/>
+<line x1="378.00" y1="242.00" x2="392.00" y2="266.00" stroke="#212322" stroke-width="3.6"/>
+<line x1="378.00" y1="242.00" x2="392.00" y2="266.00" stroke="#FFFFFF" stroke-width="1.6"/>
+<line x1="338.00" y1="218.00" x2="314.00" y2="230.00" stroke="#212322" stroke-width="3.6"/>
+<line x1="338.00" y1="218.00" x2="314.00" y2="230.00" stroke="#FFFFFF" stroke-width="1.6"/>
+<line x1="338.00" y1="242.00" x2="308.00" y2="266.00" stroke="#212322" stroke-width="3.6"/>
+<line x1="338.00" y1="242.00" x2="308.00" y2="266.00" stroke="#FFFFFF" stroke-width="1.6"/>
+<line x1="498.60" y1="385.60" x2="478.60" y2="385.60" stroke="#212322" stroke-width="3.6"/>
+<line x1="498.60" y1="385.60" x2="478.60" y2="385.60" stroke="#FFFFFF" stroke-width="1.6"/>
+<circle cx="378.00" cy="170.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>OL North Station</title></circle>
+<circle cx="338.00" cy="170.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>GL North Station</title></circle>
+<circle cx="378.00" cy="194.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>OL Haymarket</title></circle>
+<circle cx="338.00" cy="194.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>GL Haymarket</title></circle>
+<circle cx="378.00" cy="218.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>OL State</title></circle>
+<circle cx="398.00" cy="230.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>BL State</title></circle>
+<circle cx="378.00" cy="242.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>OL Downtown Crossing</title></circle>
+<circle cx="392.00" cy="266.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>RL Downtown Crossing</title></circle>
+<circle cx="338.00" cy="218.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>GL Gov't Center</title></circle>
+<circle cx="314.00" cy="230.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>BL Gov't Center</title></circle>
+<circle cx="338.00" cy="242.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>GL Park Street</title></circle>
+<circle cx="308.00" cy="266.00" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>RL Park Street</title></circle>
+<circle cx="498.60" cy="385.60" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>RL Ashmont</title></circle>
+<circle cx="478.60" cy="385.60" r="2.5" fill="#FFFFFF" stroke="#212322" stroke-width="1"><title>M Ashmont</title></circle>
+</g>
+<g id="termini" fill="#FFFFFF" stroke-width="1.3">
+<circle cx="378.00" cy="50.00" r="2.35" stroke="#ED8B00"><title>OL Oak Grove</title></circle>
+<circle cx="226.72" cy="404.28" r="2.35" stroke="#ED8B00"><title>OL Forest Hills</title></circle>
+<circle cx="271.53" cy="52.53" r="2.35" stroke="#00843D"><title>GL Medford/Tufts</title></circle>
+<circle cx="78.00" cy="550.00" r="2.35" stroke="#00843D"><title>GL Cleveland Circle</title></circle>
+<circle cx="298.00" cy="124.00" r="2.35" stroke="#00843D"><title>GL Union Sq</title></circle>
+<circle cx="54.00" cy="352.00" r="2.35" stroke="#00843D"><title>GL Boston College</title></circle>
+<circle cx="131.00" cy="546.00" r="2.35" stroke="#00843D"><title>GL Riverside</title></circle>
+<circle cx="160.00" cy="511.00" r="2.35" stroke="#00843D"><title>GL Heath St</title></circle>
+<circle cx="288.00" cy="230.00" r="2.35" stroke="#003DA5"><title>BL Bowdoin</title></circle>
+<circle cx="554.48" cy="73.52" r="2.35" stroke="#003DA5"><title>BL Wonderland</title></circle>
+<circle cx="146.37" cy="173.37" r="2.35" stroke="#DA291C"><title>RL Alewife</title></circle>
+<circle cx="557.64" cy="397.64" r="2.35" stroke="#DA291C"><title>RL Braintree</title></circle>
+<circle cx="331.60" cy="385.60" r="2.35" stroke="#DA291C"><title>M Mattapan</title></circle>
+</g>
+<g id="labels-halo" font-family="Arial, Helvetica, sans-serif" font-size="3.5" font-weight="700" fill="#F4F0E6" stroke="#F4F0E6" stroke-width="0.7" stroke-linejoin="round">
+<text x="390.50" y="51.25" text-anchor="start">OAK GROVE</text>
+<text x="390.50" y="71.25" text-anchor="start">Malden Center</text>
+<text x="390.50" y="91.25" text-anchor="start">Wellington</text>
+<text x="390.50" y="111.25" text-anchor="start">Assembly</text>
+<text x="390.50" y="131.25" text-anchor="start">Sullivan Sq</text>
+<text x="390.50" y="151.25" text-anchor="start">Comm College</text>
+<text x="390.50" y="169.13" text-anchor="start" font-size="4">North</text>
+<text x="390.50" y="173.73" text-anchor="start" font-size="4">Station</text>
+<text x="390.50" y="195.43" text-anchor="start" font-size="4">Haymarket</text>
+<text x="410.50" y="231.43" text-anchor="start" font-size="4">State</text>
+<text x="400.00" y="248.90" text-anchor="middle" font-size="4">Downtown</text>
+<text x="400.00" y="253.50" text-anchor="middle" font-size="4">Crossing</text>
+<text x="365.00" y="278.25" text-anchor="start">Chinatown</text>
+<text x="350.86" y="292.40" text-anchor="start">Tufts Medical Ctr</text>
+<text x="336.72" y="306.54" text-anchor="start">Back Bay</text>
+<text x="322.57" y="320.68" text-anchor="start">Mass. Ave</text>
+<text x="308.43" y="334.82" text-anchor="start">Ruggles</text>
+<text x="294.29" y="348.96" text-anchor="start">Roxbury Crossing</text>
+<text x="280.15" y="363.11" text-anchor="start">Jackson Sq</text>
+<text x="266.01" y="377.25" text-anchor="start">Stony Brook</text>
+<text x="251.86" y="391.39" text-anchor="start">Green St</text>
+<text x="237.72" y="405.53" text-anchor="start">FOREST HILLS</text>
+<text x="282.53" y="51.77" text-anchor="start">MEDFORD/</text>
+<text x="282.53" y="55.80" text-anchor="start">TUFTS</text>
+<text x="296.67" y="67.93" text-anchor="start">Ball Sq</text>
+<text x="310.82" y="82.07" text-anchor="start">Magoun Sq</text>
+<text x="324.96" y="96.21" text-anchor="start">Gilman Sq</text>
+<text x="339.10" y="110.35" text-anchor="start">East Somerville</text>
+<text x="325.50" y="131.25" text-anchor="end">Lechmere</text>
+<text x="325.50" y="151.25" text-anchor="end">Science Park/West End</text>
+<text x="314.00" y="217.50" text-anchor="middle" font-size="4">Gov't Center</text>
+<text x="308.00" y="253.50" text-anchor="middle" font-size="4">Park Street</text>
+<text x="284.00" y="309.01" text-anchor="middle">Boylston</text>
+<text x="262.00" y="309.01" text-anchor="middle">Arlington</text>
+<text x="240.00" y="309.01" text-anchor="middle">Copley</text>
+<text x="214.00" y="309.01" text-anchor="middle">Hynes</text>
+<text x="192.00" y="309.01" text-anchor="middle">Kenmore</text>
+<text x="151.50" y="309.01" text-anchor="middle">St. Mary's</text>
+<text x="128.50" y="309.01" text-anchor="middle">Hawes St</text>
+<text x="89.00" y="317.25" text-anchor="end">Kent St</text>
+<text x="65.50" y="371.25" text-anchor="end">St. Paul St</text>
+<text x="65.50" y="391.25" text-anchor="end">Coolidge Corner</text>
+<text x="65.50" y="411.25" text-anchor="end">Summit Ave</text>
+<text x="65.50" y="431.25" text-anchor="end">Brandon Hall</text>
+<text x="65.50" y="451.25" text-anchor="end">Fairbanks St</text>
+<text x="65.50" y="471.25" text-anchor="end">Washington Sq</text>
+<text x="65.50" y="491.25" text-anchor="end">Tappan St</text>
+<text x="65.50" y="511.25" text-anchor="end">Dean Rd</text>
+<text x="65.50" y="531.25" text-anchor="end">Englewood Ave</text>
+<text x="65.50" y="551.25" text-anchor="end">CLEVELAND CIRCLE</text>
+<text x="285.50" y="125.25" text-anchor="end">UNION SQ</text>
+<text x="165.44" y="279.70" text-anchor="end">Blandford St</text>
+<text x="150.59" y="264.85" text-anchor="end">BU East</text>
+<text x="135.75" y="250.00" text-anchor="end">BU Central</text>
+<text x="120.90" y="235.15" text-anchor="end">Amory St</text>
+<text x="106.05" y="220.30" text-anchor="end">Babcock St</text>
+<text x="91.20" y="205.45" text-anchor="end">Packard's Corner</text>
+<text x="41.50" y="173.25" text-anchor="end">Harvard Ave</text>
+<text x="41.50" y="193.25" text-anchor="end">Griggs St</text>
+<text x="41.50" y="213.25" text-anchor="end">Allston St</text>
+<text x="41.50" y="233.25" text-anchor="end">Warren St</text>
+<text x="41.50" y="253.25" text-anchor="end">Washington St</text>
+<text x="41.50" y="273.25" text-anchor="end">Sutherland Rd</text>
+<text x="41.50" y="293.25" text-anchor="end">Chiswick Rd</text>
+<text x="41.50" y="313.25" text-anchor="end">Chestnut Hill Ave</text>
+<text x="41.50" y="333.25" text-anchor="end">South St</text>
+<text x="41.50" y="351.24" text-anchor="end">BOSTON</text>
+<text x="41.50" y="355.27" text-anchor="end">COLLEGE</text>
+<text x="156.25" y="320.00" text-anchor="end">Fenway</text>
+<text x="142.11" y="334.14" text-anchor="end">Longwood</text>
+<text x="127.97" y="348.29" text-anchor="end">Brookline Village</text>
+<text x="118.50" y="367.25" text-anchor="end">Brookline Hills</text>
+<text x="118.50" y="387.25" text-anchor="end">Beaconsfield</text>
+<text x="118.50" y="407.25" text-anchor="end">Reservoir</text>
+<text x="118.50" y="427.25" text-anchor="end">Chestnut Hill</text>
+<text x="118.50" y="447.25" text-anchor="end">Newton Centre</text>
+<text x="118.50" y="465.24" text-anchor="end">Newton</text>
+<text x="118.50" y="469.27" text-anchor="end">Highlands</text>
+<text x="118.50" y="487.25" text-anchor="end">Eliot</text>
+<text x="118.50" y="507.25" text-anchor="end">Waban</text>
+<text x="118.50" y="527.25" text-anchor="end">Woodland</text>
+<text x="118.50" y="547.25" text-anchor="end">RIVERSIDE</text>
+<text x="224.13" y="322.12" text-anchor="start">Prudential</text>
+<text x="209.99" y="336.27" text-anchor="start">Symphony</text>
+<text x="195.85" y="350.41" text-anchor="start">Northeastern</text>
+<text x="181.70" y="364.55" text-anchor="start">Museum of Fine Arts</text>
+<text x="172.50" y="387.25" text-anchor="start">Longwood Medical Area</text>
+<text x="172.50" y="412.25" text-anchor="start">Brigham Circle</text>
+<text x="172.50" y="432.25" text-anchor="start">Fenwood Rd</text>
+<text x="172.50" y="452.25" text-anchor="start">Mission Park</text>
+<text x="172.50" y="472.25" text-anchor="start">Riverway</text>
+<text x="172.50" y="492.25" text-anchor="start">Back of the Hill</text>
+<text x="172.50" y="512.25" text-anchor="start">HEATH ST</text>
+<text x="282.00" y="217.50" text-anchor="middle">BOWDOIN</text>
+<text x="413.02" y="205.23" text-anchor="end">Aquarium</text>
+<text x="438.56" y="181.19" text-anchor="end">Maverick</text>
+<text x="452.27" y="165.99" text-anchor="end">Airport</text>
+<text x="467.47" y="150.78" text-anchor="end">Wood Island</text>
+<text x="482.67" y="135.58" text-anchor="end">Orient Heights</text>
+<text x="497.87" y="120.38" text-anchor="end">Suffolk Downs</text>
+<text x="513.08" y="105.18" text-anchor="end">Beachmont</text>
+<text x="528.28" y="89.97" text-anchor="end">Revere Beach</text>
+<text x="543.48" y="74.77" text-anchor="end">WONDERLAND</text>
+<text x="157.37" y="174.62" text-anchor="start">ALEWIFE</text>
+<text x="175.75" y="193.01" text-anchor="start">Davis</text>
+<text x="194.14" y="211.39" text-anchor="start">Porter</text>
+<text x="212.52" y="229.78" text-anchor="start">Harvard</text>
+<text x="208.91" y="248.16" text-anchor="end">Central</text>
+<text x="250.00" y="253.50" text-anchor="middle">Kendall/MIT</text>
+<text x="282.00" y="253.50" text-anchor="middle">Charles/MGH</text>
+<text x="436.00" y="253.50" text-anchor="middle">South Station</text>
+<text x="459.31" y="278.57" text-anchor="end">Broadway</text>
+<text x="473.46" y="292.71" text-anchor="end">Andrew</text>
+<text x="487.60" y="306.85" text-anchor="end">JFK/UMass</text>
+<text x="533.29" y="330.54" text-anchor="start">North Quincy</text>
+<text x="547.43" y="344.68" text-anchor="start">Wollaston</text>
+<text x="561.57" y="358.82" text-anchor="start">Quincy Center</text>
+<text x="570.14" y="378.89" text-anchor="start">Quincy Adams</text>
+<text x="570.14" y="398.89" text-anchor="start">BRAINTREE</text>
+<text x="486.10" y="326.85" text-anchor="end">Savin Hill</text>
+<text x="486.10" y="346.85" text-anchor="end">Fields Corner</text>
+<text x="486.10" y="366.85" text-anchor="end">Shawmut</text>
+<text x="478.60" y="400.96" text-anchor="middle" font-size="4">ASHMONT</text>
+<text x="457.60" y="373.10" text-anchor="middle">Cedar Grove</text>
+<text x="436.60" y="373.10" text-anchor="middle">Butler</text>
+<text x="415.60" y="373.10" text-anchor="middle">Milton</text>
+<text x="394.60" y="373.10" text-anchor="middle">Central Ave</text>
+<text x="373.60" y="373.10" text-anchor="middle">Valley Rd</text>
+<text x="352.60" y="373.10" text-anchor="middle">Capen St</text>
+<text x="331.60" y="373.10" text-anchor="middle">MATTAPAN</text>
+</g>
+<g id="labels" font-family="Arial, Helvetica, sans-serif" font-size="3.5" font-weight="700" fill="#212322">
+<text x="390.50" y="51.25" text-anchor="start">OAK GROVE</text>
+<text x="390.50" y="71.25" text-anchor="start">Malden Center</text>
+<text x="390.50" y="91.25" text-anchor="start">Wellington</text>
+<text x="390.50" y="111.25" text-anchor="start">Assembly</text>
+<text x="390.50" y="131.25" text-anchor="start">Sullivan Sq</text>
+<text x="390.50" y="151.25" text-anchor="start">Comm College</text>
+<text x="390.50" y="169.13" text-anchor="start" font-size="4">North</text>
+<text x="390.50" y="173.73" text-anchor="start" font-size="4">Station</text>
+<text x="390.50" y="195.43" text-anchor="start" font-size="4">Haymarket</text>
+<text x="410.50" y="231.43" text-anchor="start" font-size="4">State</text>
+<text x="400.00" y="248.90" text-anchor="middle" font-size="4">Downtown</text>
+<text x="400.00" y="253.50" text-anchor="middle" font-size="4">Crossing</text>
+<text x="365.00" y="278.25" text-anchor="start">Chinatown</text>
+<text x="350.86" y="292.40" text-anchor="start">Tufts Medical Ctr</text>
+<text x="336.72" y="306.54" text-anchor="start">Back Bay</text>
+<text x="322.57" y="320.68" text-anchor="start">Mass. Ave</text>
+<text x="308.43" y="334.82" text-anchor="start">Ruggles</text>
+<text x="294.29" y="348.96" text-anchor="start">Roxbury Crossing</text>
+<text x="280.15" y="363.11" text-anchor="start">Jackson Sq</text>
+<text x="266.01" y="377.25" text-anchor="start">Stony Brook</text>
+<text x="251.86" y="391.39" text-anchor="start">Green St</text>
+<text x="237.72" y="405.53" text-anchor="start">FOREST HILLS</text>
+<text x="282.53" y="51.77" text-anchor="start">MEDFORD/</text>
+<text x="282.53" y="55.80" text-anchor="start">TUFTS</text>
+<text x="296.67" y="67.93" text-anchor="start">Ball Sq</text>
+<text x="310.82" y="82.07" text-anchor="start">Magoun Sq</text>
+<text x="324.96" y="96.21" text-anchor="start">Gilman Sq</text>
+<text x="339.10" y="110.35" text-anchor="start">East Somerville</text>
+<text x="325.50" y="131.25" text-anchor="end">Lechmere</text>
+<text x="325.50" y="151.25" text-anchor="end">Science Park/West End</text>
+<text x="314.00" y="217.50" text-anchor="middle" font-size="4">Gov't Center</text>
+<text x="308.00" y="253.50" text-anchor="middle" font-size="4">Park Street</text>
+<text x="284.00" y="309.01" text-anchor="middle">Boylston</text>
+<text x="262.00" y="309.01" text-anchor="middle">Arlington</text>
+<text x="240.00" y="309.01" text-anchor="middle">Copley</text>
+<text x="214.00" y="309.01" text-anchor="middle">Hynes</text>
+<text x="192.00" y="309.01" text-anchor="middle">Kenmore</text>
+<text x="151.50" y="309.01" text-anchor="middle">St. Mary's</text>
+<text x="128.50" y="309.01" text-anchor="middle">Hawes St</text>
+<text x="89.00" y="317.25" text-anchor="end">Kent St</text>
+<text x="65.50" y="371.25" text-anchor="end">St. Paul St</text>
+<text x="65.50" y="391.25" text-anchor="end">Coolidge Corner</text>
+<text x="65.50" y="411.25" text-anchor="end">Summit Ave</text>
+<text x="65.50" y="431.25" text-anchor="end">Brandon Hall</text>
+<text x="65.50" y="451.25" text-anchor="end">Fairbanks St</text>
+<text x="65.50" y="471.25" text-anchor="end">Washington Sq</text>
+<text x="65.50" y="491.25" text-anchor="end">Tappan St</text>
+<text x="65.50" y="511.25" text-anchor="end">Dean Rd</text>
+<text x="65.50" y="531.25" text-anchor="end">Englewood Ave</text>
+<text x="65.50" y="551.25" text-anchor="end">CLEVELAND CIRCLE</text>
+<text x="285.50" y="125.25" text-anchor="end">UNION SQ</text>
+<text x="165.44" y="279.70" text-anchor="end">Blandford St</text>
+<text x="150.59" y="264.85" text-anchor="end">BU East</text>
+<text x="135.75" y="250.00" text-anchor="end">BU Central</text>
+<text x="120.90" y="235.15" text-anchor="end">Amory St</text>
+<text x="106.05" y="220.30" text-anchor="end">Babcock St</text>
+<text x="91.20" y="205.45" text-anchor="end">Packard's Corner</text>
+<text x="41.50" y="173.25" text-anchor="end">Harvard Ave</text>
+<text x="41.50" y="193.25" text-anchor="end">Griggs St</text>
+<text x="41.50" y="213.25" text-anchor="end">Allston St</text>
+<text x="41.50" y="233.25" text-anchor="end">Warren St</text>
+<text x="41.50" y="253.25" text-anchor="end">Washington St</text>
+<text x="41.50" y="273.25" text-anchor="end">Sutherland Rd</text>
+<text x="41.50" y="293.25" text-anchor="end">Chiswick Rd</text>
+<text x="41.50" y="313.25" text-anchor="end">Chestnut Hill Ave</text>
+<text x="41.50" y="333.25" text-anchor="end">South St</text>
+<text x="41.50" y="351.24" text-anchor="end">BOSTON</text>
+<text x="41.50" y="355.27" text-anchor="end">COLLEGE</text>
+<text x="156.25" y="320.00" text-anchor="end">Fenway</text>
+<text x="142.11" y="334.14" text-anchor="end">Longwood</text>
+<text x="127.97" y="348.29" text-anchor="end">Brookline Village</text>
+<text x="118.50" y="367.25" text-anchor="end">Brookline Hills</text>
+<text x="118.50" y="387.25" text-anchor="end">Beaconsfield</text>
+<text x="118.50" y="407.25" text-anchor="end">Reservoir</text>
+<text x="118.50" y="427.25" text-anchor="end">Chestnut Hill</text>
+<text x="118.50" y="447.25" text-anchor="end">Newton Centre</text>
+<text x="118.50" y="465.24" text-anchor="end">Newton</text>
+<text x="118.50" y="469.27" text-anchor="end">Highlands</text>
+<text x="118.50" y="487.25" text-anchor="end">Eliot</text>
+<text x="118.50" y="507.25" text-anchor="end">Waban</text>
+<text x="118.50" y="527.25" text-anchor="end">Woodland</text>
+<text x="118.50" y="547.25" text-anchor="end">RIVERSIDE</text>
+<text x="224.13" y="322.12" text-anchor="start">Prudential</text>
+<text x="209.99" y="336.27" text-anchor="start">Symphony</text>
+<text x="195.85" y="350.41" text-anchor="start">Northeastern</text>
+<text x="181.70" y="364.55" text-anchor="start">Museum of Fine Arts</text>
+<text x="172.50" y="387.25" text-anchor="start">Longwood Medical Area</text>
+<text x="172.50" y="412.25" text-anchor="start">Brigham Circle</text>
+<text x="172.50" y="432.25" text-anchor="start">Fenwood Rd</text>
+<text x="172.50" y="452.25" text-anchor="start">Mission Park</text>
+<text x="172.50" y="472.25" text-anchor="start">Riverway</text>
+<text x="172.50" y="492.25" text-anchor="start">Back of the Hill</text>
+<text x="172.50" y="512.25" text-anchor="start">HEATH ST</text>
+<text x="282.00" y="217.50" text-anchor="middle">BOWDOIN</text>
+<text x="413.02" y="205.23" text-anchor="end">Aquarium</text>
+<text x="438.56" y="181.19" text-anchor="end">Maverick</text>
+<text x="452.27" y="165.99" text-anchor="end">Airport</text>
+<text x="467.47" y="150.78" text-anchor="end">Wood Island</text>
+<text x="482.67" y="135.58" text-anchor="end">Orient Heights</text>
+<text x="497.87" y="120.38" text-anchor="end">Suffolk Downs</text>
+<text x="513.08" y="105.18" text-anchor="end">Beachmont</text>
+<text x="528.28" y="89.97" text-anchor="end">Revere Beach</text>
+<text x="543.48" y="74.77" text-anchor="end">WONDERLAND</text>
+<text x="157.37" y="174.62" text-anchor="start">ALEWIFE</text>
+<text x="175.75" y="193.01" text-anchor="start">Davis</text>
+<text x="194.14" y="211.39" text-anchor="start">Porter</text>
+<text x="212.52" y="229.78" text-anchor="start">Harvard</text>
+<text x="208.91" y="248.16" text-anchor="end">Central</text>
+<text x="250.00" y="253.50" text-anchor="middle">Kendall/MIT</text>
+<text x="282.00" y="253.50" text-anchor="middle">Charles/MGH</text>
+<text x="436.00" y="253.50" text-anchor="middle">South Station</text>
+<text x="459.31" y="278.57" text-anchor="end">Broadway</text>
+<text x="473.46" y="292.71" text-anchor="end">Andrew</text>
+<text x="487.60" y="306.85" text-anchor="end">JFK/UMass</text>
+<text x="533.29" y="330.54" text-anchor="start">North Quincy</text>
+<text x="547.43" y="344.68" text-anchor="start">Wollaston</text>
+<text x="561.57" y="358.82" text-anchor="start">Quincy Center</text>
+<text x="570.14" y="378.89" text-anchor="start">Quincy Adams</text>
+<text x="570.14" y="398.89" text-anchor="start">BRAINTREE</text>
+<text x="486.10" y="326.85" text-anchor="end">Savin Hill</text>
+<text x="486.10" y="346.85" text-anchor="end">Fields Corner</text>
+<text x="486.10" y="366.85" text-anchor="end">Shawmut</text>
+<text x="478.60" y="400.96" text-anchor="middle" font-size="4">ASHMONT</text>
+<text x="457.60" y="373.10" text-anchor="middle">Cedar Grove</text>
+<text x="436.60" y="373.10" text-anchor="middle">Butler</text>
+<text x="415.60" y="373.10" text-anchor="middle">Milton</text>
+<text x="394.60" y="373.10" text-anchor="middle">Central Ave</text>
+<text x="373.60" y="373.10" text-anchor="middle">Valley Rd</text>
+<text x="352.60" y="373.10" text-anchor="middle">Capen St</text>
+<text x="331.60" y="373.10" text-anchor="middle">MATTAPAN</text>
+</g>
+<g id="title" font-family="Arial, Helvetica, sans-serif">
+<g transform="translate(33.35 33.35) scale(0.0500)">
+<path d="M500 44.3c-251.7 0-455.7 204-455.7 455.7s204 455.7 455.7 455.7 455.7-204 455.7-455.7S751.7 44.3 500 44.3z" fill="#FFFFFF"/>
+<path d="M500 0C223.9 0 0 223.9 0 500s223.9 500 500 500 500-223.9 500-500S776.1 0 500 0zm0 955.7c-251.7 0-455.7-204-455.7-455.7S248.3 44.3 500 44.3s455.7 204 455.7 455.7-204 455.7-455.7 455.7z" fill="#212322"/>
+<path d="M184.3 435.1h236.6v389.3h158.2V435.1h236.6V276.9H184.3z" fill="#212322"/>
+</g>
+</g>
+<g id="branch-tags" font-family="Arial, Helvetica, sans-serif" font-size="2.6" font-weight="700" letter-spacing="0.25" fill="#00843D">
+<text x="54.00" y="362.86" text-anchor="middle">B BRANCH</text>
+<text x="78.00" y="560.86" text-anchor="middle">C BRANCH</text>
+<text x="131.00" y="556.86" text-anchor="middle">D BRANCH</text>
+<text x="160.00" y="521.86" text-anchor="middle">E BRANCH</text>
+</g>
+<g id="sign-caption" font-family="Arial, Helvetica, sans-serif">
+<text x="418.90" y="415.55" font-size="8.4" font-weight="700" letter-spacing="0.12em" text-anchor="middle" fill="#212322">DEPARTURES</text>
+</g>
+<g id="credit" font-family="Arial, Helvetica, sans-serif">
+<text x="14.00" y="596.00" font-size="3.4" fill="#6F7070" xml:space="preserve">Lucian Bessmer, 2026  ·  CC BY-NC 4.0  ·  Data source: MassDOT  ·  Not affiliated with the MBTA</text>
+</g>
+<g id="sign-window-cut">
+<rect x="258.15" y="416.90" width="321.50" height="162.75" fill="none" stroke="#A6A7A7" stroke-width="0.5"/>
+<rect x="261.15" y="419.90" width="315.50" height="156.75" fill="#0E0E0E"/>
+</g>
+</svg>

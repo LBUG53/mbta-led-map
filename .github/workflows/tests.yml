@@ -1,0 +1,31 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  windows:
+    # The map's label widths were measured from Arial, which Windows has. This is the job that must pass.
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt -r hardware/requirements.txt
+      - run: python -m unittest discover -s tests -v
+
+  linux:
+    # Label widths come from Liberation Sans here, which is made to match Arial's. Not verified: if this job
+    # fails and the Windows one passes, look at the map's label checks first.
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get install -y fonts-liberation
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt -r hardware/requirements.txt
+      - run: python -m unittest discover -s tests -v
