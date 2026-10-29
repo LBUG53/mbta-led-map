@@ -1,16 +1,6 @@
 # Build guide
 
-From an empty wood panel to a working display. The steps are grouped by topic; the order to do the
-work in, which matters (the print goes on before the pixels, the window is cut before the print),
-is in [CHECKLIST.md](CHECKLIST.md). Before any of it, measure your parts ([MEASURE.md](MEASURE.md)).
-Do step 1 (the simulator) first even if you never build the rest: later steps use files it creates.
-
-Steps marked **[not done for real yet]** describe the plan, not something already proven on the
-finished object. They will be updated as the build goes on. Treat them as a starting point and try
-them on scrap first.
-
-Commands are written as `python ...`. Run them from the top folder of the repository with the
-virtual environment from the README active.
+The steps are grouped by topic and you can see the order of work in [CHECKLIST.md](CHECKLIST.md). 
 
 Contents
 
@@ -30,14 +20,6 @@ Contents
 ---
 
 ## 1. Run the simulator
-
-Follow "Try it in five minutes" in the [README](../README.md). The first start fetches three small
-lookup tables from the MBTA (which platform belongs to which station, and the order of stops on
-each line) and keeps them in `cache/`. The firmware installer in step 3 needs them.
-
-Then make your own settings file. Copy `config.example.yaml` to `config.yaml` and edit the copy;
-`config.yaml` is ignored by git, so your stops and addresses stay on your computer. The sign's two
-rows are the part to change first: [Make it yours](MAKE_IT_YOURS.md) shows how to find your stop IDs.
 
 Things to try on the page:
 
@@ -102,8 +84,7 @@ one status line and one line per data source.
 
 The Sparkle Motion runs WLED, a ready-made firmware for LED strings.
 
-1. Install WLED on the Sparkle Motion (Adafruit's guide for the board walks through it) and join it
-   to your Wi-Fi.
+1. Install WLED on the Sparkle Motion and join it to your Wi-Fi.
 2. In your router, reserve a fixed address for it. Put that address in `config.yaml` as
    `hardware.wled_ip`. While it says `TODO` the Matrix Portal sends nothing to the map.
 3. In WLED, **Config > LED Preferences**, set up three outputs exactly as `data/wled_settings.md`
@@ -136,8 +117,6 @@ round the sign window. Both are 610 x 610 mm.
 - Send it to a print shop full size, no scaling. Matte **polypropylene** stays flat on the wood where
   paper waves with humidity. Some shops want a 300 dpi CMYK JPG instead of the SVG: export one at
   7200 x 7200 pixels (24 in at 300 dpi) from a vector editor.
-- The file names its font (Arial) instead of containing the letter shapes. Ask the shop to
-  **convert the text to outlines**, or do it yourself in a vector editor, so the labels can't shift.
 
 **Before ordering, measure your panel's frame** and put the wall width in `build.yaml` as
 `panel.frame_wall` ([MEASURE.md](MEASURE.md)). Every light must sit over the hollow part of the panel, not
@@ -177,12 +156,9 @@ pip install -r hardware/requirements.txt
 
 ### Holding the sign
 
-**[printed, not fitted yet]** The panel lies face down on the back of the wood, over its window. Six
-printed brackets hold it there, one at each of its M3 threaded inserts (Adafruit's drawing: 7.85 mm in
-from the edges, 152 mm apart along the long sides, 144 mm across). Each bracket has a tab over the
-insert with a slot, so the screw can land 5 to 13 mm in from the panel's edge; a leg down beside the
-panel; and a foot with two prongs underneath that push into a slot in a printed base. The bases are
-glued to the wood (E6000, not hot glue), and the prongs grip by friction. The foot reaches 9 mm out
+The panel lies face down on the back of the wood, over its window. Six printed brackets hold it there, one at each of its M3 threaded inserts (Adafruit's drawing: 7.85 mm in
+from the edges, 152 mm apart along the long sides, 144 mm across). Each bracket has a tab over the insert with a slot, so the screw can land 5 to 13 mm in from the panel's edge; a leg down beside the
+panel; and a foot with two prongs underneath that push into a slot in a printed base. The bases are glued to the wood (E6000, not hot glue), and the prongs grip by friction. The foot reaches 9 mm out
 from the panel and runs 26 mm along its edge.
 
 The tabs overlap the sign by at least 12 mm, since they have to reach the inserts, so a bracket glued
